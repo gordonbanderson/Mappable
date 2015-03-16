@@ -7,9 +7,9 @@ class MapUtil
 	 * @var string The Google Maps API key
 	 */
 	protected static $api_key;
-	
-	
-	
+
+
+
 	/**
 	 * @var int Number of active {@see GoogleMapsAPI} instances (for the HTML ID)
 	 */
@@ -20,8 +20,8 @@ class MapUtil
 	 * @var int The default width of a Google Map
 	 */
 	public static $map_width = '100%';
-	
-	
+
+
 	/**
 	 * @var int The default height of a Google Map
 	 */
@@ -32,25 +32,25 @@ class MapUtil
 
         /** @var int Icon height of the gmarker **/
         public static $iconHeight = 24;
-		
+
 	/**
 	 * @var int Prefix for the div ID of the map
 	 */
 	public static $div_id = "google_map";
-	
-	
+
+
 	/**
 	 * @var boolean Automatic center/zoom for the map
 	 */
 	public static $automatic_center = true;
-	
-	
+
+
 	/**
 	 * @var boolean Show directions fields on the map
 	 */
 	public static $direction_fields = false;
-	
-	
+
+
 	/**
 	 * @var boolean Show the marker fields on the map
 	 */
@@ -73,12 +73,12 @@ class MapUtil
 	public static $info_window_width = 250;
 
 	private static $map_already_rendered = false;
-	
-	
+
+
 	/**
 	 * Set the API key for Google Maps
 	 *
-	 * @param string $key 
+	 * @param string $key
 	 */
 	public static function set_api_key($key) {
 		self::$api_key = $key;
@@ -92,8 +92,8 @@ class MapUtil
 	public static function get_map_already_rendered() {
 		return self::$map_already_rendered;
 	}
-	
-	
+
+
 	/**
 	 * Set the default size of the map
 	 *
@@ -104,7 +104,7 @@ class MapUtil
 		self:: $map_width = $width;
 		self::$map_height = $height;
 	}
-	
+
         /**
           * Set the type of the gmap
           *
@@ -171,7 +171,7 @@ class MapUtil
 		$url = str_replace('https://', '', $url);
 		$parts = explode('/', $url);
 		$host = $parts[0];
-	
+
 		$key = self::$api_key;
 
 		// if an array, get the key by an array keyed by host
@@ -201,10 +201,10 @@ class MapUtil
 	 * @return string
 	 */
 	public static function sanitize($content) {
-		return addslashes(str_replace(array("\n","\r"),array("",""),$content));	
+		return addslashes(str_replace(array("\n","\r", "\t"), '' ,$content));
 	}
-	
-	
+
+
 	/**
 	 * Creates a new {@link GoogleMapsAPI} object loaded with the default settings
 	 * and places all of the items in a {@link SS_List}, e.g. {@link DataList} or {@link ArrayList} on the map
@@ -222,6 +222,6 @@ class MapUtil
 				}
 			}
 		}
-		return $gmap;	
-	}		
+		return $gmap;
+	}
 }
