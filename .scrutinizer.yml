@@ -16,9 +16,7 @@ tools:
         excluded_dirs: [vendor, tests]
 
 checks:
-    php:
-        code_rating: true
-        duplication: true
+    php: true
 
 filter:
     paths: [templates/*, tests/*,code/*]
