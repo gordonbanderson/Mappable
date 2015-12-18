@@ -1,0 +1,19 @@
+Page:
+  RoadMap:
+    Title: Road Map
+    Content: Some text[GoogleMap latitude='13.7402946' longitude='100.5525439' caption="Roads in Central Bangkok" zoom="14" maptype="road"]
+  AerialMap:
+    Title: Aerial Map
+    Content: Some text[GoogleMap latitude='13.815483' longitude='100.5447213' caption="Bang Sue Train Depot, Thailand" zoom="20" maptype="aerial"]
+  HybridMap:
+    Title: Hybrid Map
+    Content: Some text[GoogleMap latitude='13.8309545' longitude='100.5577219' caption="Junction in Bangkok, Thailand" zoom="18" maptype="hybrid"]
+  TerrainMap:
+    Title: Terrain Map
+    Content: Some text[GoogleMap latitude='18.8032393' longitude='98.9166518' caption="Mountains west of Chiang Mai" zoom="14" maptype="terrain"]
+  MapWithNoLatitude:
+    Title: Map With No Latitude
+    Content: Some text[GoogleMap longitude='98.9166518' caption="Mountains west of Chiang Mai" zoom="14" maptype="terrain"]
+  MapWithNoLongitude:
+    Title: Map With No Longitude
+    Content: Some text[GoogleMap latitude='18.8032393' caption="Mountains west of Chiang Mai" zoom="14" maptype="terrain"]
