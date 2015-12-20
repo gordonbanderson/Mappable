@@ -100,6 +100,7 @@ class MapUtil
 	}
 
     /**
+     * FIXME - NOT USED?
       * Set the type of the gmap
       *
       * @param string $mapType (can be 'google.maps.MapTypeId.ROADMAP', 'G_SATELLITE_MAP',
@@ -107,31 +108,32 @@ class MapUtil
       *
       * @return void
       */
-    public function set_map_type($mapType)
-    {
+    public static function set_map_type($mapType) {
         self::$map_type = $mapType;
     }
 
     /**
+     * FIXME - NOT USED?
       * Set the with of the gmap infowindow (on marker clik)
       *
       * @param int $info_window_width GoogleMap info window width
       *
       * @return void
       */
-    public function set_info_window_width($info_window_width)
+    public static function set_info_window_width($info_window_width)
     {
         self::$info_window_width = $info_window_width;
     }
 
     /**
+     * FIXME - NOT USED?
       * Set the center of the gmap (an address)
       *
       * @param string $center GoogleMap  center (an address)
       *
       * @return void
       */
-    public function set_center($center)
+    public static function set_center($center)
     {
         self::$center = $center;
     }
@@ -216,7 +218,8 @@ class MapUtil
 	 * and places all of the items in a {@link SS_List}
 	 * e.g. {@link DataList} or {@link ArrayList} on the map
 	 *
-	 * @param SS_List $set
+	 * @param SS_List list of objects to display on a map
+	 * @param  array $infowindowtemplateparams Optional array of extra parameters to pass to the map info window
 	 * @return MapAPI
 	 */
 	public static function get_map(SS_List $list, $optionalinfowindowtemplatevalues) {
