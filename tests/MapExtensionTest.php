@@ -85,6 +85,20 @@ class MapExtensionTest extends SapphireTest {
 	}
 
 
+	public function testHasGeoMapLayers() {
+		Member::add_extension('MapLayerExtension');
+		$instance = $this->getInstance();
+		$layer = new MapLayer();
+		$layer->Title = 'Ari Administrative Boundary';
+		$layers = new ArrayList();
+		$layers->push($layer);
+		$member->MapLayers = $layers;
+		$this->assertTrue($instance->HasGeo());
+		Member::remove_extension('MapLayerExtension');
+
+	}
+
+
 	public function testHasGeoWest() {
 		$instance = $this->getInstance();
 		$instance->Lon = -20;
