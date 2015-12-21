@@ -39,7 +39,6 @@ class LatLongFieldTest extends SapphireTest {
 		);
 
 		$html = $mapField->FieldHolder();
-		echo $html;
 		$this->assertContains(
 			'<label class="fieldholder-small-label" for="Lat">Latitude</label>',
 			$html
@@ -70,7 +69,6 @@ class LatLongFieldTest extends SapphireTest {
 		);
 
 		$html = $mapField->FieldHolder();
-		echo $html;
 		$this->assertContains(
 			'<label class="fieldholder-small-label" for="Lat">Latitude</label>',
 			$html
@@ -99,7 +97,7 @@ class LatLongFieldTest extends SapphireTest {
 
 
 	public function testGeocode() {
-		$this->markTestAsSkipped('TODO');
+		$this->markTestSkipped('TODO');
 	}
 
 
