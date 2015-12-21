@@ -193,8 +193,7 @@ class MapExtension extends DataExtension implements Mappable {
 				new TextField('Lat', 'Latitude'),
 				new TextField('Lon', 'Longitude'),
 				new TextField('ZoomLevel', 'Zoom')
-				),
-				array('Address')
+				)
 			);
 		}
 		return $this->mapField;
