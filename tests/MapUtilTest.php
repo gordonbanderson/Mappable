@@ -32,7 +32,7 @@ class MapUtilTest extends SapphireTest {
 	}
 
 	public function test_set_map_size() {
-    	MapUtil::set_map_size('890px','24em');
+		MapUtil::set_map_size('890px','24em');
 		$html = $this->htmlForMap();
 		$this->assertContains(' style="width:890px; height: 24em;"', $html);
 	}
@@ -95,25 +95,25 @@ class MapUtilTest extends SapphireTest {
 
 	// These appear to test code that's not used
 	public function test_set_center() {
-    	MapUtil::set_center('Bangkok, Thailand');
+		MapUtil::set_center('Bangkok, Thailand');
 		$html = $this->htmlForMap();
 		echo $html;
 		$this->fail('No evidence of map type changing');
-    }
+	}
 
-     public function test_set_map_type() {
-    	MapUtil::set_map_type('google.maps.MapTypeId.G_PHYSICAL_MAP');
+	 public function test_set_map_type() {
+		MapUtil::set_map_type('google.maps.MapTypeId.G_PHYSICAL_MAP');
 		$html = $this->htmlForMap();
 		echo $html;
 		$this->fail('No evidence of map type changing');
-    }
+	}
 
-     public function test_set_info_window_width()  {
-     	$this->fail('No evidence of set info width being used');
-    }
+	 public function test_set_info_window_width()  {
+	 	$this->fail('No evidence of set info width being used');
+	}
 
-     public function test_set_icon_size() {
+	 public function test_set_icon_size() {
 
-    }
+	}
 
 }
