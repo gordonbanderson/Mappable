@@ -2,7 +2,7 @@
 
 class LatLongField extends FieldGroup {
 
-	static $allowed_actions = array (
+	private static $allowed_actions = array (
 		'geocode'
 	);
 
@@ -16,15 +16,12 @@ class LatLongField extends FieldGroup {
 
 	protected $buttonText;
 
+	private $guidePoints = null;
+
 	private static $ctr = 0;
 
 	public function __construct($children = array(), $addressFields = array(), $buttonText = null) {
-		$id = spl_object_hash($this);
-
 		self::$ctr++;
-		if (self::$ctr == 2) {
-			//asdfsda;
-		}
 
 		if ((sizeof($children) < 2) ||
 			 (!$children[0] instanceof FormField) ||
@@ -66,17 +63,8 @@ class LatLongField extends FieldGroup {
 		Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
 		Requirements::javascript(THIRDPARTY_DIR.'/jquery-livequery/jquery.livequery.js');
 		Requirements::javascript(THIRDPARTY_DIR.'/jquery-metadata/jquery.metadata.js');
-		//Requirements::javascript(MAPPABLE_MODULE_PATH.'/javascript/mapField.js');
-
-		$js = '
-		<script type="text/javascript">
-var latFieldName = "'.$this->latField.'";
-var lonFieldName = "'.$this->longField.'";
-var zoomFieldName = "'.$this->zoomField.'";
-		</script>
-	';
-
 		Requirements::javascript(MAPPABLE_MODULE_PATH.'/javascript/mapField.js');
+
 		$attributes = array(
             'class' => 'editableMap',
             'id' => 'GoogleMap',
@@ -88,7 +76,7 @@ var zoomFieldName = "'.$this->zoomField.'";
 
         Requirements::css('mappable/css/mapField.css');
         $guidePointsJSON = '';
-        if (isset($this->guidePoints)) {
+        if (!empty($this->guidePoints)) {
         	$latlongps = array();
 
 			foreach ($this->guidePoints as $guidepoint) {
@@ -111,13 +99,14 @@ var zoomFieldName = "'.$this->zoomField.'";
 
         $this->FieldList()->push(new LiteralField('locationEditor', $content));
 
-		$content2 = '<div id="mapSearch">
-		 <input name="location_search" id="location_search" size=80/>
-    	<button class="action" id="searchLocationButton">Search Location Name</button>
-      		<div id="mapSearchResults">
-      	</div>
-	    </div>
-	    ';
+		$content2 = <<<HTML
+<div id="mapSearch">
+<input name="location_search" id="location_search" size=80/>
+<button class="action" id="searchLocationButton">Search Location Name</button>
+	<div id="mapSearchResults">
+</div>
+</div>
+HTML;
 
 		$this->FieldList()->push(new LiteralField('mapSearch', $content2));
 
