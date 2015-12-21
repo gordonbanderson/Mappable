@@ -1,107 +1,184 @@
 <?php
 
 class MapAPITest extends SapphireTest {
-	public function testsetKey() {
+
+	public function setUpOnce() {
+		$this->requiredExtensions = array(
+			'Member' => array('MapExtension')
+		);
+		parent::setupOnce();
+	}
+
+	public function testSetKey() {
 
 	}
 
 
-	public function testsetIncludeDownloadJavascript() {
+	public function testSetIncludeDownloadJavascript() {
 
 	}
 
 
-	public function testsetShowInlineMapDivStyle() {
+	public function testSetShowInlineMapDivStyle() {
 
 	}
 
 
-	public function testsetAdditionalCSSClasses() {
+	public function testSetAdditionalCSSClasses() {
+		$map = $this->getMap();
+		$map->setAdditionalCSSClasses('bigMap shadowMap');
+		$html = $map->forTemplate();
+		$expected = 'class="bigMap shadowMap mappable"';
+		$this->assertContains($expected, $html);
+	}
+
+
+	public function testSetMapStyle() {
 
 	}
 
 
-	public function testsetMapStyle() {
+	public function testSetDelayLoadMapFunction() {
 
 	}
 
 
-	public function testsetDelayLoadMapFunction() {
+	public function testSetDivId() {
+		$map = $this->getMap();
+		$map->setDivId('mymapid');
+		$html = $map->forTemplate();
+		$expected = '<div id="mymapid" style=';
+		$this->assertContains($expected, $html);
+	}
+
+
+	public function testSetDirectionDivId() {
 
 	}
 
 
-	public function testsetDivId() {
+	public function testSetSize() {
+		$map = $this->getMap();
+		$map->setSize('432px','1234px');
+		$html = $map->forTemplate();
+		$this->assertContains('style="width:432px; height: 1234px;"', $html);
+	}
+
+
+	public function testSetIconSize() {
 
 	}
 
 
-	public function testsetDirectionDivId() {
+	public function testSetLang() {
+		$map = $this->getMap();
+		$map->setLang('fr');
+		$html = $map->forTemplate();
+		$this->assertContains('style="width:432px; height: 1234px;"', $html);
+	}
+
+
+	public function testSetZoom() {
+		$map = $this->getMap();
+		$map->setZoom(4);
+		$html = $map->forTemplate();
+		$this->assertContains('data-zoom=4', $html);
+		$map->setZoom(12);
+		$html = $map->forTemplate();
+		$this->assertContains('data-zoom=12', $html);
+	}
+
+
+	public function testSetInfoWindowZoom() {
 
 	}
 
 
-	public function testsetSize() {
+	public function testSetEnableWindowZoom() {
 
 	}
 
 
-	public function testsetIconSize() {
+	public function testSetEnableAutomaticCenterZoom() {
+		$map = $this->getMap();
+		$map->setLang('fr');
+		$html = $map->forTemplate();
+		$this->assertContains('style="width:432px; height: 1234px;"', $html);
+	}
+
+
+	public function testSetCenter() {
+		$map = $this->getMap();
+		$map->setIncludeDownloadJavascript(true);
+		$map->setCenter(-23.714,47.149);
+		$html = $map->forTemplate();
+		echo $html;
+		$expected = "data-centre='{\"lat\":023.714,\"lng\":47.149}'";
+		$this->assertContains($expected, $html);
+	}
+
+
+	public function testSetLatLongCenter() {
+		$map = $this->getMap();
+		$map->setIncludeDownloadJavascript(true);
+		$map->setLatLongCenter(-23.714,47.149);
+		$html = $map->forTemplate();
+		echo $html;
+		$expected = "data-centre='{\"lat\":023.714,\"lng\":47.149}'";
+		$this->assertContains($expected, $html);
+	}
+
+
+	public function testSetMapType() {
+		$map = $this->getMap();
+
+		$mapTypes = array(
+			'road' => 'road',
+			'satellite' => 'satellite',
+			'hybrid' => 'hybrid',
+			'terrain' => 'terrain',
+			'google.maps.MapTypeId.ROADMAP' => 'road',
+			'google.maps.MapTypeId.SATELLITE' => 'satellite',
+			'google.maps.MapTypeId.G_HYBRID_MAP' => 'hybrid',
+			'google.maps.MapTypeId.G_PHYSICAL_MAP' => 'terrain',
+			'unrecognised_name' => 'road'
+
+		);
+
+		foreach ($mapTypes as $mapType) {
+			$map->setMapType($mapType);
+			$expected = "data-maptype='".$mapTypes[$mapType]."'";
+			$html = $map->forTemplate();
+			$this->assertContains($expected, $html);
+
+		}
+		echo $html;
+	}
+
+
+	public function testSetAllowFullScreen() {
+		$map = $this->getMap();
+		$map->setAllowFullScreen(false);
+		$html = $map->forTemplate();
+
+		//FIXME this is possibly problematic
+		$this->assertContains("data-allowfullscreen='false'", $html);
+
+		$map->setAllowFullScreen(true);
+		$html = $map->forTemplate();
+		$this->assertContains("data-allowfullscreen='1'", $html);
+	}
+
+
+
+
+
+	public function testSetDisplayDirectionFields() {
 
 	}
 
 
-	public function testsetLang() {
-
-	}
-
-
-	public function testsetZoom() {
-
-	}
-
-
-	public function testsetInfoWindowZoom() {
-
-	}
-
-
-	public function testsetEnableWindowZoom() {
-
-	}
-
-
-	public function testsetEnableAutomaticCenterZoom() {
-
-	}
-
-
-	public function testsetCenter() {
-
-	}
-
-
-	public function testsetMapType() {
-
-	}
-
-
-	public function testsetAllowFullScreen() {
-
-	}
-
-
-	public function testsetLatLongCenter() {
-
-	}
-
-
-	public function testsetDisplayDirectionFields() {
-
-	}
-
-
-	public function testsetDefaultHideMarker() {
+	public function testSetDefaultHideMarker() {
 
 	}
 
@@ -187,6 +264,11 @@ class MapAPITest extends SapphireTest {
 
 	public function testprocessTemplateHTML() {
 
+	}
+
+	private function getMap() {
+		$instance = new Member();
+		return $instance->getRenderableMap();
 	}
 
 }
