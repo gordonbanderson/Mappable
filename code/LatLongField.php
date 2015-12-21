@@ -6,7 +6,6 @@ class LatLongField extends FieldGroup {
 		'geocode'
 	);
 
-	protected $addressFields = array();
 
 	protected $latField;
 
@@ -20,10 +19,10 @@ class LatLongField extends FieldGroup {
 
 	private static $ctr = 0;
 
-	public function __construct($children = array(), $addressFields = array(), $buttonText = null) {
+	public function __construct($children = array(), $buttonText = null) {
 		self::$ctr++;
 
-		if ((sizeof($children) < 2) ||
+		if ((sizeof($children) < 2) || (sizeof($children) > 3) ||
 			 (!$children[0] instanceof FormField) ||
 			 (!$children[1] instanceof FormField)
 		) {
@@ -31,7 +30,6 @@ class LatLongField extends FieldGroup {
 				'objects for Lat/Long values, respectively.', E_USER_ERROR);
 		}
 		parent::__construct($children);
-		$this->addressFields = $addressFields;
 
 		$this->buttonText = $buttonText ? $buttonText : _t('LatLongField.LOOKUP', 'Search');
 		$this->latField = $children[0]->getName();
@@ -51,11 +49,6 @@ class LatLongField extends FieldGroup {
 		}
 
 		$this->name = $name;
-	}
-
-
-	public function hasData() {
-		return true;
 	}
 
 
@@ -133,7 +126,10 @@ HTML;
 	/*
 	Set guidance points for the map being edited.  For example in a photographic set show the map
 	position of some other images so that subsequent photo edits do not start with a map centred
-	on the horizon
+	at the origin
+
+	@var newGuidePoints array of points expressed as associative arrays containing keys latitude
+						and longitude mapping to geographical locations
 	*/
 	public function setGuidePoints($newGuidePoints) {
 		$this->guidePoints = $newGuidePoints;
