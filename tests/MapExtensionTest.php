@@ -167,7 +167,7 @@ class MapExtensionTest extends SapphireTest {
 	}
 
 
-	public function testgetMapField() {
+	public function testGetMapField() {
 		$instance = $this->getInstance();
 		$this->Lat = 37.1;
 		$this->Lon = 28;
