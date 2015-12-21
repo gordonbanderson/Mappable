@@ -103,7 +103,7 @@ class MapAPI extends ViewableData
 	protected $defaultHideMarker = false;
 
 	/** Extra content (marker, etc...) **/
-	//protected $contentMarker = '';
+	protected $contentMarker = '';
 
 	// a list of markers, markers being associative arrays
 	protected $markers = array();
@@ -207,11 +207,11 @@ class MapAPI extends ViewableData
 	 * @param int     $gridSize         grid size
 	 * @param int     $maxZoom 			max zoom to cluster at
 	 *
-	 * @return void
+	 * * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setClusterer($useClusterer, $gridSize=50, $maxZoom=17,
-		$clustererLibraryPath='/mappable/javascript/google/markerclusterer.js') {
+		$clustererLibraryPath = '/mappable/javascript/google/markerclusterer.js') {
 		$this->useClusterer = $useClusterer;
 		$this->gridSize = $gridSize;
 		$this->maxZoom = $maxZoom;
@@ -224,7 +224,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param string  $googleMapId the google div ID
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setDivId($googleMapId) {
@@ -237,7 +237,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param string  $googleMapDirectionId GoogleMap  Direction ID for the HTML DIV
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setDirectionDivId($googleMapDirectionId) {
@@ -252,7 +252,7 @@ class MapAPI extends ViewableData
 	 * @param int     $width  GoogleMap  width
 	 * @param int     $height GoogleMap  height
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setSize($width, $height) {
@@ -268,7 +268,7 @@ class MapAPI extends ViewableData
 	 * @param int     $iconWidth  GoogleMap  marker icon width
 	 * @param int     $iconHeight GoogleMap  marker icon height
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setIconSize($iconWidth, $iconHeight) {
@@ -282,7 +282,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param string  $lang GoogleMap  lang : fr,en,..
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setLang($lang) {
@@ -295,7 +295,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param int $zoom GoogleMap zoom.
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setZoom($zoom) {
@@ -308,7 +308,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param int 	$infoWindowZoom GoogleMap information window zoom.
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setInfoWindowZoom($infoWindowZoom) {
@@ -319,9 +319,9 @@ class MapAPI extends ViewableData
 	/**
 	 * Enable the zoom on the marker when you click on it
 	 *
-	 * @param int     $zoom GoogleMap  zoom.
+	 * @param int $enableWindowZoom info window enabled zoom.
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setEnableWindowZoom($enableWindowZoom) {
@@ -332,9 +332,9 @@ class MapAPI extends ViewableData
 	/**
 	 * Enable theautomatic center/zoom at the gmap load
 	 *
-	 * @param int     $zoom GoogleMap  zoom.
+	 * @param int $enableAutomaticCenterZoom enable automatic centre zoom
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setEnableAutomaticCenterZoom($enableAutomaticCenterZoom) {
@@ -347,7 +347,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param string  $center GoogleMap  center (an address)
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setCenter($center) {
@@ -362,7 +362,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param string  $mapType  Can be one of road,satellite,hybrid or terrain. Defaults to road
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setMapType($mapType) {
@@ -389,6 +389,7 @@ class MapAPI extends ViewableData
 
 	/*
 	Set whether or not to allow the full screen tools
+	@return MapAPI This same object, in order to enable chaining of methods
 	*/
 	public function setAllowFullScreen($allowed) {
 		$this->allowFullScreen = $allowed;
@@ -397,6 +398,8 @@ class MapAPI extends ViewableData
 
 	/**
 	* Set the center of the gmap
+	*
+	* @return MapAPI This same object, in order to enable chaining of methods
 	**/
 	public function setLatLongCenter($center) {
 		$this->latLongCenter = $center;
@@ -408,7 +411,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param boolean $displayDirectionFields display directions or not in the info window
 	 *
-	 * @return void
+	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
 
 	public function setDisplayDirectionFields($displayDirectionFields) {
@@ -536,8 +539,6 @@ class MapAPI extends ViewableData
 		$point = $this->geocoding($address);
 		if ($point!==null) {
 			$this->addMarkerByCoords($point[2], $point[3], $content, $category, $icon);
-		} else {
-			// throw new Exception('Adress not found : '.$address);
 		}
 		return $this;
 	}
@@ -545,7 +546,7 @@ class MapAPI extends ViewableData
 	/**
 	 * Add marker by an array of coord
 	 *
-	 * @param string  $coordtab an array of lat,lng,content
+	 * @param array  $coordtab an array of lat,lng,content
 	 * @param string  $category marker category
 	 * @param string  $icon     an icon url
 	 *
@@ -571,7 +572,7 @@ class MapAPI extends ViewableData
 		$extensionsImplementMappable = false;
 		$extensions = Object::get_extensions(get_class($obj));
 
-		foreach ($extensions as $extension) {
+		foreach (is_array($extensions) as $extension) {
 			$class = new ReflectionClass($extension);
 			if ($class->implementsInterface('Mappable')) {
 				$extensionsImplementMappable = true;
@@ -582,7 +583,6 @@ class MapAPI extends ViewableData
 			($obj instanceof Mappable) ||
 			(Object::has_extension($obj->ClassName, 'MapExtension'))
 		) {
-			//if(($obj->getMappableLatitude() > 0) || ($obj->getMappableLongitude() > 0)) {
 			$cat = $obj->hasMethod('getMappableMapCategory') ? $obj->getMappableMapCategory() : "default";
 			if ($infowindowtemplateparams !== null) {
 				foreach ($infowindowtemplateparams as $key => $value) {
@@ -627,7 +627,7 @@ class MapAPI extends ViewableData
 	/**
 	 * Add marker by an array of address
 	 *
-	 * @param string  $coordtab an array of address
+	 * @param array  $coordtab an array of address
 	 * @param string  $category marker category
 	 * @param string  $icon     an icon url
 	 *
