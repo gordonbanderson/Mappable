@@ -1,11 +1,9 @@
 <?php
 
 class MapExtensionTest extends SapphireTest {
-	//protected static $fixture_file = 'mappable/tests/mapextensions.yml';
+	protected static $fixture_file = 'mappable/tests/mapextensions.yml';
 
-	protected $extraDataObjects = array(
-		'TestPage_MapExtension'
-	);
+	protected $usesDatabase = false;
 
 	public function setUp() {
 		$cache = SS_Cache::factory('elasticsearch');
@@ -18,8 +16,13 @@ class MapExtensionTest extends SapphireTest {
 		$this->requireDefaultRecordsFrom = $classes;
 
 		// add MapExtension extension where appropriate
-		TestPage_MapExtension::add_extension('MapExtension');
+		Member::add_extension('MapExtension');
 		parent::setUp();
+	}
+
+
+	public function setUpOnce() {
+		parent::setupOnce();
 	}
 
 
@@ -31,6 +34,7 @@ class MapExtensionTest extends SapphireTest {
 	public function testGetMappableLatitude() {
 		$instance = $this->getInstance();
 		$instance->Lat = 42.1;
+		$instance->write();
 		$this->assertEquals(
 			42.1,
 			$instance->getMappableLatitude()
@@ -117,23 +121,25 @@ class MapExtensionTest extends SapphireTest {
 
 	public function testHasGeoOrigin() {
 		$instance = $this->getInstance();
-		$instance->Lat = - 0;
-		$instance->Lon = - 0;
+		$instance->Lat = 0;
+		$instance->Lon = 0;
 		$this->assertFalse($instance->HasGeo());
 	}
 
 	public function testHasGeoOriginMapLayerExtension() {
 		$instance = $this->getInstance();
-		$instance->Lat = - 0;
-		$instance->Lon = - 0;
+		$instance->Lat = 0;
+		$instance->Lon = 0;
 		$this->assertFalse($instance->HasGeo());
+		Page::add_extension('MapLayerExtension');
+		Page::remove_extension('MapLayerExtension');
 		$this->markTestSkipped('TODO');
 	}
 
 	public function testHasGeoOriginPointsOfInterestLayers() {
 		$instance = $this->getInstance();
-		$instance->Lat = - 0;
-		$instance->Lon = - 0;
+		$instance->Lat = 0;
+		$instance->Lon = 0;
 		$this->assertFalse($instance->HasGeo());
 		$this->markTestSkipped('TODO');
 	}
@@ -144,7 +150,12 @@ class MapExtensionTest extends SapphireTest {
 
 
 	public function testgetMapField() {
-
+		$instance = $this->getInstance();
+		$this->Lat = 37.1;
+		$this->Lon = 28;
+		$this->Zoom = 12;
+		$mapField  = $instance->getMapField();
+		$this->assertInstanceOf('LatLongField', $mapField);
 	}
 
 
@@ -154,7 +165,7 @@ class MapExtensionTest extends SapphireTest {
 
 
 	private function getInstance() {
-		$instance = new TestPage_MapExtension();
+		$instance = new Member();
 		return $instance;
 	}
 
