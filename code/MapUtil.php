@@ -221,12 +221,12 @@ class MapUtil
 	 * @param  array $infowindowtemplateparams Optional array of extra parameters to pass to the map info window
 	 * @return MapAPI
 	 */
-	public static function get_map(SS_List $list, $optionalinfowindowtemplatevalues) {
+	public static function get_map(SS_List $list, $infowindowtemplateparams) {
 		$gmap = self::instance();
 		if($list) {
 			foreach ($list as $mappable) {
 				if (self::ChooseToAddDataobject($mappable)) {
-					$gmap->addMarkerAsObject($mappable, $optionalinfowindowtemplatevalues);
+					$gmap->addMarkerAsObject($mappable, $infowindowtemplateparams);
 				}
 			}
 		}
