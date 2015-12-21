@@ -170,11 +170,32 @@ class MapAPITest extends SapphireTest {
 	}
 
 
-
-
-
 	public function testSetDisplayDirectionFields() {
+		$map = $this->getMap();
+		$map->setDisplayDirectionFields(false);
+		$html = $map->forTemplate();
+		echo $html;
 
+		$map->setDisplayDirectionFields(true);
+		$html = $map->forTemplate();
+		echo $html;
+		$this->fail('Does not appear to be used');
+	}
+
+
+	public function testMapWithMarkers() {
+		$map = $this->getMapMultipleItems();
+		$html = $map->forTemplate();
+		$expected = 'data-mapmarkers=\'[{"latitude":23,"longitude":78,"html":"'
+				  . 'Fred Bloggs","category":"default","icon":false},{"latitude'
+				  . '":-12,"longitude":42.1,"html":"Kane Williamson","category"'
+				  . ':"default","icon":false}]\'';
+		$this->assertContains($expected, $html);
+	}
+
+
+	public function testMapWithMarkersDifferentCategory() {
+		$this->markTestSkipped('TODO');
 	}
 
 
@@ -222,11 +243,6 @@ class MapAPITest extends SapphireTest {
 	}
 
 
-	public function testforTemplate() {
-
-	}
-
-
 	public function testaddArrayMarkerByAddress() {
 
 	}
@@ -252,11 +268,6 @@ class MapAPITest extends SapphireTest {
 	}
 
 
-	public function testgenerate() {
-
-	}
-
-
 	public function testprocessTemplateJS() {
 
 	}
@@ -266,9 +277,34 @@ class MapAPITest extends SapphireTest {
 
 	}
 
+
+
+
 	private function getMap() {
 		$instance = new Member();
 		return $instance->getRenderableMap();
+	}
+
+	private function getMapMultipleItems() {
+		$members = new ArrayList();
+
+		$member1 = new Member();
+		$member1->Lat = 23;
+		$member1->Lon = 78;
+		$member1->MapPinEdited = true;
+		$member1->FirstName = 'Fred';
+		$member1->Surname = 'Bloggs';
+		$members->push($member1);
+
+		$member2 = new Member();
+		$member2->Lat = -12;
+		$member2->Lon = 42.1;
+		$member2->MapPinEdited = true;
+		$member2->FirstName = 'Kane';
+		$member2->Surname = 'Williamson';
+		$members->push($member2);
+
+		return $members->getRenderableMap();
 	}
 
 }
