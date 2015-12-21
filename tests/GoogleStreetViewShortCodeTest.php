@@ -33,4 +33,27 @@ TEXT;
 		$html = ShortcodeParser::get_active()->parse($page->Content);
 		$this->assertEquals('Some text', $html);
 	}
+
+	public function testNoHeading() {
+		GoogleStreetViewShortCodeHandler::resetCounter();
+		$page = $this->objFromFixture('Page', 'StreetViewNoHeading');
+		$html = ShortcodeParser::get_active()->parse($page->Content);
+		$this->assertEquals('Some text', $html);
+	}
+
+	public function testZoom() {
+		GoogleStreetViewShortCodeHandler::resetCounter();
+		$page = $this->objFromFixture('Page', 'StreetViewWithZoom');
+		$html = ShortcodeParser::get_active()->parse($page->Content);
+		$expected = <<< TEXT
+Some text
+
+<div class="streetviewcontainer">
+<div id="google_streetview_1" class="streetview googlestreetview" data-streetview="" data-latitude="13.811841" data-longitude="100.527309" data-zoom="12" data-pitch="-10" data-heading="162.43"></div>
+<p class="caption">Canal south from Pracha Rat 1 Soi 28</p>
+</div>
+
+TEXT;
+		$this->assertEquals($expected, $html);
+	}
 }
