@@ -193,6 +193,10 @@ class MapExtensionTest extends SapphireTest {
 		return $instance;
 	}
 
+	/**
+	 * @param integer $lat
+	 * @param integer $lon
+	 */
 	private function showMapPinEdited(&$instance, $lat, $lon) {
 		$instance->Lat = $lat;
 		$instance->Long = $lon;
