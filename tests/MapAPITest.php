@@ -170,7 +170,7 @@ class MapAPITest extends SapphireTest {
 	}
 
 
-	function testjsonRemoveUnicodeSequences() {
+	public function testjsonRemoveUnicodeSequences() {
 
 	}
 
@@ -180,12 +180,12 @@ class MapAPITest extends SapphireTest {
 	}
 
 
-	function testprocessTemplateJS() {
+	public function testprocessTemplateJS() {
 
 	}
 
 
-	function testprocessTemplateHTML() {
+	public function testprocessTemplateHTML() {
 
 	}
 
