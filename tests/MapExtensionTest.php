@@ -57,7 +57,40 @@ class MapExtensionTest extends SapphireTest {
 	}
 
 
-	public function testonBeforeWrite() {
+	public function testonBeforeWriteMapPinNotEdited() {
+		$instance = $this->getInstance();
+		$this->Lat = 0;
+		$this->Lon = 0;
+		$instance->write();
+		$this->assertFalse($instance->MapPinEdited);
+	}
+
+	public function testonBeforeWriteMapPinEdited() {
+		$instance = $this->getInstance();
+
+		// north
+		$this->showMapPinEdited($instance, 10, 0);
+
+		// north west
+		$this->showMapPinEdited($instance, 10, -10);
+
+		// west
+		$this->showMapPinEdited($instance, 0, -10);
+
+		// south west
+		$this->showMapPinEdited($instance, -10, -10);
+
+		// south
+		$this->showMapPinEdited($instance, -10, 0);
+
+		// south east
+		$this->showMapPinEdited($instance, -10, 10);
+
+		// east
+		$this->showMapPinEdited($instance, 0, 10);
+
+		// north east
+		$this->showMapPinEdited($instance, 10, 10);
 
 	}
 
@@ -167,6 +200,13 @@ class MapExtensionTest extends SapphireTest {
 	private function getInstance() {
 		$instance = new Member();
 		return $instance;
+	}
+
+	private function showMapPinEdited(&$instance, $lat, $lon) {
+		$instance->Lat = $lat;
+		$instance->Long = $lon;
+		$instance->write();
+		$this->assertTrue($instance->MapPinEdited);
 	}
 
 
