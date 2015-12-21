@@ -2,7 +2,7 @@
 
 class LatLongField extends FieldGroup {
 
-	private static $allowed_actions = array (
+	private static $allowed_actions = array(
 		'geocode'
 	);
 
@@ -19,6 +19,9 @@ class LatLongField extends FieldGroup {
 
 	private static $ctr = 0;
 
+	/**
+	 * @param string[] $buttonText
+	 */
 	public function __construct($children = array(), $buttonText = null) {
 		self::$ctr++;
 
@@ -59,38 +62,38 @@ class LatLongField extends FieldGroup {
 		Requirements::javascript(MAPPABLE_MODULE_PATH.'/javascript/mapField.js');
 
 		$attributes = array(
-            'class' => 'editableMap',
-            'id' => 'GoogleMap',
-            'data-LatFieldName' => $this->latField,
+			'class' => 'editableMap',
+			'id' => 'GoogleMap',
+			'data-LatFieldName' => $this->latField,
 			'data-LonFieldName' => $this->longField,
 			'data-ZoomFieldName' => $this->zoomField,
 			'data-UseMapBounds' => false
-       );
+	   );
 
-        Requirements::css('mappable/css/mapField.css');
-        $guidePointsJSON = '';
-        if (!empty($this->guidePoints)) {
-        	$latlongps = array();
+		Requirements::css('mappable/css/mapField.css');
+		$guidePointsJSON = '';
+		if (!empty($this->guidePoints)) {
+			$latlongps = array();
 
 			foreach ($this->guidePoints as $guidepoint) {
 				array_push($latlongps, $guidepoint);
 			}
 
-        	$guidePointsJSON = json_encode($latlongps);
-        	// convert the mappable guidepoints to lat lon
+			$guidePointsJSON = json_encode($latlongps);
+			// convert the mappable guidepoints to lat lon
 
-        	$attributes['data-GuidePoints'] = $guidePointsJSON;
+			$attributes['data-GuidePoints'] = $guidePointsJSON;
 
-        	// we only wish to change the bounds to those of all the points iff
-        	// the item currently has no location
-        	$attributes['data-useMapBounds'] = true;
-        }
-        $content = '<div class="editableMapWrapper">' . $this->createTag(
-            "div",
-            $attributes
-       ) . '</div>';
+			// we only wish to change the bounds to those of all the points iff
+			// the item currently has no location
+			$attributes['data-useMapBounds'] = true;
+		}
+		$content = '<div class="editableMapWrapper">' . $this->createTag(
+			"div",
+			$attributes
+	   ) . '</div>';
 
-        $this->FieldList()->push(new LiteralField('locationEditor', $content));
+		$this->FieldList()->push(new LiteralField('locationEditor', $content));
 
 		$content2 = <<<HTML
 <div id="mapSearch">
