@@ -3,25 +3,16 @@
 class MapExtensionTest extends SapphireTest {
 	protected static $fixture_file = 'mappable/tests/mapextensions.yml';
 
-	protected $usesDatabase = false;
-
 	public function setUp() {
-		$cache = SS_Cache::factory('elasticsearch');
-		$cache->clean(Zend_Cache::CLEANING_MODE_ALL);
-		SS_Cache::set_cache_lifetime('elasticsearch', 3600, 1000);
+		//Member::add_extension('MapExtension');
 
-		// this needs to be called in order to create the list of searchable
-		// classes and fields that are available.  Simulates part of a build
-		$classes = array();
-		$this->requireDefaultRecordsFrom = $classes;
-
-		// add MapExtension extension where appropriate
-		Member::add_extension('MapExtension');
 		parent::setUp();
 	}
 
 
 	public function setUpOnce() {
+		Member::add_extension('MapExtension');
+
 		parent::setupOnce();
 	}
 
