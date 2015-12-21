@@ -154,7 +154,7 @@ class MapAPI extends ViewableData
 	 * @param string  $googleMapKey the googleMapKey
 	 */
 
-	public function __construct($googleMapKey='') {
+	public function __construct($googleMapKey = '') {
 		$this->googleMapKey = $googleMapKey;
 	}
 
@@ -210,8 +210,8 @@ class MapAPI extends ViewableData
 	 * @return void
 	 */
 
-	public function setClusterer($useClusterer, $gridSize=50, $maxZoom=17,
-		$clustererLibraryPath='/mappable/javascript/google/markerclusterer.js') {
+	public function setClusterer($useClusterer, $gridSize = 50, $maxZoom = 17,
+		$clustererLibraryPath = '/mappable/javascript/google/markerclusterer.js') {
 		$this->useClusterer = $useClusterer;
 		$this->gridSize = $gridSize;
 		$this->maxZoom = $maxZoom;
@@ -508,7 +508,7 @@ class MapAPI extends ViewableData
 	 * @return void
 	 */
 
-	public function addMarkerByCoords($lat, $lng, $html='', $category='', $icon='') {
+	public function addMarkerByCoords($lat, $lng, $html = '', $category = '', $icon = '') {
 		$m = array(
 			'latitude' => $lat,
 			'longitude' => $lng,
@@ -532,9 +532,9 @@ class MapAPI extends ViewableData
 	 * @return void
 	 */
 
-	public function addMarkerByAddress($address, $content='', $category='', $icon='') {
+	public function addMarkerByAddress($address, $content = '', $category = '', $icon = '') {
 		$point = $this->geocoding($address);
-		if ($point!==null) {
+		if ($point !== null) {
 			$this->addMarkerByCoords($point[2], $point[3], $content, $category, $icon);
 		} else {
 			// throw new Exception('Adress not found : '.$address);
@@ -552,7 +552,7 @@ class MapAPI extends ViewableData
 	 * @return void
 	 */
 
-	public function addArrayMarkerByCoords($coordtab, $category='', $icon='') {
+	public function addArrayMarkerByCoords($coordtab, $category = '', $icon = '') {
 		foreach ($coordtab as $coord) {
 			$this->addMarkerByCoords($coord[0], $coord[1], $coord[2], $category, $icon);
 		}
@@ -634,7 +634,7 @@ class MapAPI extends ViewableData
 	 * @return void
 	 */
 
-	public function addArrayMarkerByAddress($coordtab, $category='', $icon='') {
+	public function addArrayMarkerByAddress($coordtab, $category = '', $icon = '') {
 		foreach ($coordtab as $coord) {
 			$this->addMarkerByAddress($coord[0], $coord[1], $category, $icon);
 		}
@@ -651,7 +651,7 @@ class MapAPI extends ViewableData
 	 * @return void
 	 */
 
-	public function addDirection($from, $to, $idpanel='') {
+	public function addDirection($from, $to, $idpanel = '') {
 		$this->contentMarker .= 'addDirection("'.$from.'","'.$to.'","'.$idpanel.'");';
 	}
 
@@ -715,9 +715,9 @@ class MapAPI extends ViewableData
 			$linesJson = stripslashes($this->jsonRemoveUnicodeSequences($this->lines));
 			$kmlJson = stripslashes($this->jsonRemoveUnicodeSequences($this->kmlFiles));
 		} else {
-			$jsonMarkers = stripslashes(json_encode($this->markers,JSON_UNESCAPED_UNICODE));
-			$linesJson = stripslashes(json_encode($this->lines,JSON_UNESCAPED_UNICODE));
-			$kmlJson = stripslashes(json_encode($this->kmlFiles,JSON_UNESCAPED_UNICODE));
+			$jsonMarkers = stripslashes(json_encode($this->markers, JSON_UNESCAPED_UNICODE));
+			$linesJson = stripslashes(json_encode($this->lines, JSON_UNESCAPED_UNICODE));
+			$kmlJson = stripslashes(json_encode($this->kmlFiles, JSON_UNESCAPED_UNICODE));
 		}
 
 
@@ -727,8 +727,8 @@ class MapAPI extends ViewableData
 							$this->latLongCenter : $this->geocoding($this->center);
 
 		// coordinates for centre depending on which method used
-		if ($geocodeCentre[0]=="200") { // success
-			$latlngCentre = array('lat'=>$geocodeCentre[2],'lng' => $geocodeCentre[3]);
+		if ($geocodeCentre[0] == "200") { // success
+			$latlngCentre = array('lat'=>$geocodeCentre[2], 'lng' => $geocodeCentre[3]);
 		} else { // Paris
 			$latlngCentre = array('lat'=>48.8792, 'lng' => 2.34778);
 		}
@@ -820,7 +820,7 @@ class MapAPI extends ViewableData
 		return $result;
 	}
 
-	function processTemplateHTML($templateName, $templateVariables = null ) {
+	function processTemplateHTML($templateName, $templateVariables = null) {
 		if (!$templateVariables) {
 			$templateVariables = new ArrayList();
 		}

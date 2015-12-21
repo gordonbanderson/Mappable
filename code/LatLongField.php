@@ -89,10 +89,10 @@ class LatLongField extends FieldGroup {
 			// the item currently has no location
 			$attributes['data-useMapBounds'] = true;
 		}
-		$content = '<div class="editableMapWrapper">' . $this->create_tag(
+		$content = '<div class="editableMapWrapper">'.$this->create_tag(
 			"div",
 			$attributes
-	   ) . '</div>';
+	   ).'</div>';
 
 		$this->FieldList()->push(new LiteralField('locationEditor', $content));
 
