@@ -20,7 +20,6 @@ class MapUtilTest extends SapphireTest {
 	public function test_set_api_key() {
 		MapUtil::set_api_key('PRETENDAPIKEY');
 		$html = $this->htmlForMap();
-		echo $html;
 		$this->fail('Where is this used?');
 	}
 
@@ -81,7 +80,6 @@ class MapUtilTest extends SapphireTest {
 		$list->push($member);
 		$map = MapUtil::get_map($list,array());
 		$html = $map->forTemplate();
-		echo $html;
 		$this->fail('No change observed in generated HTML');
 		Member::remove_extension('MapExtension');
 	}
@@ -97,14 +95,12 @@ class MapUtilTest extends SapphireTest {
 	public function test_set_center() {
 		MapUtil::set_center('Bangkok, Thailand');
 		$html = $this->htmlForMap();
-		echo $html;
 		$this->fail('No evidence of map type changing');
 	}
 
 	 public function test_set_map_type() {
 		MapUtil::set_map_type('google.maps.MapTypeId.G_PHYSICAL_MAP');
 		$html = $this->htmlForMap();
-		echo $html;
 		$this->fail('No evidence of map type changing');
 	}
 
