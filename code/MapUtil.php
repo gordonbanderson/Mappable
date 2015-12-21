@@ -87,7 +87,6 @@ class MapUtil
 		return self::$map_already_rendered;
 	}
 
-
 	/**
 	 * Set the default size of the map
 	 *
