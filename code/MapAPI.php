@@ -75,53 +75,6 @@ class MapAPI extends ViewableData
 
 	protected $latLongCenter = null;
 
-
-
-
-	/*
-		Map styles for google maps, ignored if null
-		<pre>
-var styles = [
-			 {
-							 featureType: 'water',
-							 elementType: 'all',
-							 stylers: [
-											 { hue: '#B6C5CF' },
-											 { saturation: -54 },
-											 { lightness: 1 },
-											 { visibility: 'on' }
-							 ]
-			 },{
-							 featureType: 'landscape',
-							 elementType: 'all',
-							 stylers: [
-											 { hue: '#D9D4C8' },
-											 { saturation: -32 },
-											 { lightness: -8 },
-											 { visibility: 'on' }
-							 ]
-			 },{
-							 featureType: 'road',
-							 elementType: 'all',
-							 stylers: [
-											 { hue: '#A69D97' },
-											 { saturation: -92 },
-											 { lightness: -3 },
-											 { visibility: 'on' }
-							 ]
-			 },{
-							 featureType: 'poi',
-							 elementType: 'all',
-							 stylers: [
-											 { hue: '#E7E6DB' },
-											 { saturation: -53 },
-											 { lightness: 47 },
-											 { visibility: 'on' }
-							 ]
-			 }
-];
-		</pre>
-		*/
 	protected $jsonMapStyles = '[]';
 
 	protected $delayLoadMapFunction = false;
@@ -199,8 +152,6 @@ var styles = [
 	 * Class constructor
 	 *
 	 * @param string  $googleMapKey the googleMapKey
-	 *
-	 * @return void
 	 */
 
 	public function __construct($googleMapKey='') {
@@ -252,18 +203,15 @@ var styles = [
 	/**
 	 * Set the useClusterer parameter (optimization to display a lot of marker)
 	 *
-	 * @param boolean $useClusterer           use cluster or not
-	 * @param string  $clusterIcon            the cluster icon
-	 * @param int     $maxVisibleMarkers      max visible markers
-	 * @param int     $gridSize               grid size
-	 * @param int     $minMarkersPerClusterer minMarkersPerClusterer
-	 * @param int     $maxLinesPerInfoBox     maxLinesPerInfoBox
+	 * @param boolean $useClusterer     use cluster or not
+	 * @param int     $gridSize         grid size
+	 * @param int     $maxZoom 			max zoom to cluster at
 	 *
 	 * @return void
 	 */
 
 	public function setClusterer($useClusterer, $gridSize=50, $maxZoom=17,
-			$clustererLibraryPath='/mappable/javascript/google/markerclusterer.js') {
+		$clustererLibraryPath='/mappable/javascript/google/markerclusterer.js') {
 		$this->useClusterer = $useClusterer;
 		$this->gridSize = $gridSize;
 		$this->maxZoom = $maxZoom;
@@ -345,7 +293,7 @@ var styles = [
 	/**
 	 * Set the zoom of the gmap
 	 *
-	 * @param int     $zoom GoogleMap  zoom.
+	 * @param int $zoom GoogleMap zoom.
 	 *
 	 * @return void
 	 */
@@ -358,7 +306,7 @@ var styles = [
 	/**
 	 * Set the zoom of the infowindow
 	 *
-	 * @param int     $zoom GoogleMap  zoom.
+	 * @param int 	$infoWindowZoom GoogleMap information window zoom.
 	 *
 	 * @return void
 	 */
