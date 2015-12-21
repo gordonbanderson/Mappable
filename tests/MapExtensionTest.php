@@ -3,16 +3,10 @@
 class MapExtensionTest extends SapphireTest {
 	protected static $fixture_file = 'mappable/tests/mapextensions.yml';
 
-	public function setUp() {
-		//Member::add_extension('MapExtension');
-
-		parent::setUp();
-	}
-
-
 	public function setUpOnce() {
-		Member::add_extension('MapExtension');
-
+		$this->requiredExtensions = array(
+			'Member' => array('MapExtension')
+		);
 		parent::setupOnce();
 	}
 
