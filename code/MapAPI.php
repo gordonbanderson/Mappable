@@ -690,7 +690,7 @@ class MapAPI extends ViewableData
 	/*
 	For php 5.3
 	*/
-	function jsonRemoveUnicodeSequences($struct) {
+	private function jsonRemoveUnicodeSequences($struct) {
 		 return preg_replace("/\\\\u([a-f0-9]{4})/e",
 		 					"iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))",
 		 					json_encode($struct));
@@ -719,8 +719,6 @@ class MapAPI extends ViewableData
 			$linesJson = stripslashes(json_encode($this->lines,JSON_UNESCAPED_UNICODE));
 			$kmlJson = stripslashes(json_encode($this->kmlFiles,JSON_UNESCAPED_UNICODE));
 		}
-
-
 
 		 // Center of the GMap
 		$geocodeCentre = ($this->latLongCenter) ?
@@ -802,10 +800,6 @@ class MapAPI extends ViewableData
 				'UseCompressedAssets' => Config::inst()->get('Mappable', 'use_compressed_assets')
 			)
 		);
-
-		// JavaScript required to prime the map
-		//$javascript = $this->processTemplateJS('Map', $vars);
-		//$vars->setField('JavaScript', $javascript);
 
 		// HTML component of the map
 		$this->content = $this->processTemplateHTML('Map', $vars);
