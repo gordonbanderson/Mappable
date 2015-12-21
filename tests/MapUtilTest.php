@@ -7,13 +7,21 @@ class MapUtilTest extends SapphireTest {
 	1) List, ArrayList, DataList, null for get_map
 	2) Negative and zero map sizes
 	3) Invalid map type
-	 */
 
+
+	public function setUpOnce() {
+		$this->requiredExtensions = array(
+			'Member' => array('MapExtension')
+		);
+		parent::setupOnce();
+	}
+*/
 
 	public function test_set_api_key() {
 		MapUtil::set_api_key('PRETENDAPIKEY');
 		$html = $this->htmlForMap();
 		echo $html;
+		$this->fail('Where is this used?');
 	}
 
 	public function test_get_set_map_already_rendered() {
@@ -28,8 +36,6 @@ class MapUtilTest extends SapphireTest {
 		$html = $this->htmlForMap();
 		$this->assertContains(' style="width:890px; height: 24em;"', $html);
 	}
-
-
 
 	public function testSanitizeEmptyString() {
 		$this->assertEquals(
@@ -66,8 +72,18 @@ class MapUtilTest extends SapphireTest {
 		);
 	}
 
-	public static function test_chooseToAddDataobject() {
-
+	public function testSingularMappableItem() {
+		Member::add_extension('MapExtension');
+		$member = new Member();
+		$member->Lat = 12.847;
+		$member->Lon = 29.24;
+		$list = new ArrayList();
+		$list->push($member);
+		$map = MapUtil::get_map($list,array());
+		$html = $map->forTemplate();
+		echo $html;
+		$this->fail('No change observed in generated HTML');
+		Member::remove_extension('MapExtension');
 	}
 
 	private function htmlForMap() {
