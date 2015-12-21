@@ -410,6 +410,8 @@ var styles = [
 	/**
 	 * Set the type of the gmap.  Also takes into account legacy settings
 	 *
+	 * FIXME - allow other valid settings in config for map type
+	 *
 	 * @param string  $mapType  Can be one of road,satellite,hybrid or terrain. Defaults to road
 	 *
 	 * @return void
@@ -423,11 +425,11 @@ var styles = [
 			case 'google.maps.MapTypeId.SATELLITE':
 				$this->mapType = "satellite";
 				break;
-			case 'google.maps.MapTypeId.SATELLITE':
-				$this->mapType = "satellite";
+			case 'google.maps.MapTypeId.G_HYBRID_MAP':
+				$this->mapType = "hybrid";
 				break;
-			case 'google.maps.MapTypeId.SATELLITE':
-				$this->mapType = "satellite";
+			case 'google.maps.MapTypeId.G_PHYSICAL_MAP':
+				$this->mapType = "terrain";
 				break;
 			default:
 				$this->MapType = "road";
