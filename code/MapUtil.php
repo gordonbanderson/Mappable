@@ -23,11 +23,11 @@ class MapUtil
 	 */
 	public static $map_height = '400px';
 
-    /** @var int Icon width of the gmarker **/
-    public static $iconWidth = 24;
+	/** @var int Icon width of the gmarker **/
+	public static $iconWidth = 24;
 
-    /** @var int Icon height of the gmarker **/
-    public static $iconHeight = 24;
+	/** @var int Icon height of the gmarker **/
+	public static $iconHeight = 24;
 
 	/**
 	 * @var int Prefix for the div ID of the map
@@ -99,59 +99,59 @@ class MapUtil
 		self::$map_height = $height;
 	}
 
-    /**
-     * FIXME - NOT USED?
-      * Set the type of the gmap
-      *
-      * @param string $mapType (can be 'google.maps.MapTypeId.ROADMAP', 'G_SATELLITE_MAP',
-      * 'G_HYBRID_MAP', 'G_PHYSICAL_MAP')
-      *
-      * @return void
-      */
-    public static function set_map_type($mapType) {
-        self::$map_type = $mapType;
-    }
+	/**
+	 * FIXME - NOT USED?
+	 * Set the type of the gmap
+	 *
+	 * @param string $mapType (can be 'google.maps.MapTypeId.ROADMAP', 'G_SATELLITE_MAP',
+	 * 'G_HYBRID_MAP', 'G_PHYSICAL_MAP')
+	 *
+	 * @return void
+	 */
+	public static function set_map_type($mapType) {
+		self::$map_type = $mapType;
+	}
 
-    /**
-     * FIXME - NOT USED?
-      * Set the with of the gmap infowindow (on marker clik)
-      *
-      * @param int $info_window_width GoogleMap info window width
-      *
-      * @return void
-      */
-    public static function set_info_window_width($info_window_width)
-    {
-        self::$info_window_width = $info_window_width;
-    }
+	/**
+	 * FIXME - NOT USED?
+	 * Set the with of the gmap infowindow (on marker clik)
+	 *
+	 * @param int $info_window_width GoogleMap info window width
+	 *
+	 * @return void
+	 */
+	public static function set_info_window_width($info_window_width)
+	{
+		self::$info_window_width = $info_window_width;
+	}
 
-    /**
-     * FIXME - NOT USED?
-      * Set the center of the gmap (an address)
-      *
-      * @param string $center GoogleMap  center (an address)
-      *
-      * @return void
-      */
-    public static function set_center($center)
-    {
-        self::$center = $center;
-    }
+	/**
+	 * FIXME - NOT USED?
+	 * Set the center of the gmap (an address)
+	 *
+	 * @param string $center GoogleMap  center (an address)
+	 *
+	 * @return void
+	 */
+	public static function set_center($center)
+	{
+		self::$center = $center;
+	}
 
-    /**
-      * Set the size of the icon markers
-      *
-      * @param int $iconWidth GoogleMap  marker icon width
-      * @param int $iconHeight GoogleMap  marker icon height
-      *
-      * @return void
-      */
+	/**
+	 * Set the size of the icon markers
+	 *
+	 * @param int $iconWidth GoogleMap  marker icon width
+	 * @param int $iconHeight GoogleMap  marker icon height
+	 *
+	 * @return void
+	 */
 
-    public function set_icon_size($iconWidth,$iconHeight)
-    {
-        self::$iconWidth = $iconWidth;
-        self::$iconHeight = $iconHeight;
-    }
+	public function set_icon_size($iconWidth,$iconHeight)
+	{
+		self::$iconWidth = $iconWidth;
+		self::$iconHeight = $iconHeight;
+	}
 
 	/**
 	 * Get a new GoogleMapAPI object and load it with the default settings
@@ -193,11 +193,11 @@ class MapUtil
 		$gmap->setDisplayDirectionFields(self::$direction_fields);
 		$gmap->setSize(self::$map_width, self::$map_height);
 		$gmap->setDefaultHideMarker(self::$hide_marker);
-        $gmap->setMapType(self::$map_type);
-        $gmap->setCenter(self::$center);
-        $gmap->setIconSize(self::$iconWidth, self::$iconHeight);
-        $gmap->setIncludeDownloadJavascript(self::$map_already_rendered);
-        $gmap->setAllowFullScreen(self::$allow_full_screen);
+		$gmap->setMapType(self::$map_type);
+		$gmap->setCenter(self::$center);
+		$gmap->setIconSize(self::$iconWidth, self::$iconHeight);
+		$gmap->setIncludeDownloadJavascript(self::$map_already_rendered);
+		$gmap->setAllowFullScreen(self::$allow_full_screen);
 		return $gmap;
 	}
 
