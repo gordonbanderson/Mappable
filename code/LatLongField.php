@@ -71,7 +71,8 @@ class LatLongField extends FieldGroup {
 	   );
 
 		Requirements::css('mappable/css/mapField.css');
-		$guidePointsJSON = '';
+
+		// check for and if required add guide points
 		if (!empty($this->guidePoints)) {
 			$latlongps = array();
 
@@ -88,7 +89,7 @@ class LatLongField extends FieldGroup {
 			// the item currently has no location
 			$attributes['data-useMapBounds'] = true;
 		}
-		$content = '<div class="editableMapWrapper">' . $this->createTag(
+		$content = '<div class="editableMapWrapper">' . $this->create_tag(
 			"div",
 			$attributes
 	   ) . '</div>';
