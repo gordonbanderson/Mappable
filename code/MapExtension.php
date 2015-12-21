@@ -124,11 +124,17 @@ class MapExtension extends DataExtension implements Mappable {
 			}
 		}
 
+
+		$this->owner->extend('updateHasGeo', $result);
+		/**
+		 * FIXME - move this to PointsOfInterest module
 		if ($this->owner->hasExtension('PointsOfInterestLayerExtension')) {
 			if ($this->owner->PointsOfInterestLayers()->count() > 0) {
 				$result = true;
 			}
 		}
+		*/
+
 		return $result;
 	}
 
