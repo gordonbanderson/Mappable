@@ -10,6 +10,10 @@ class MapField extends DatalessField {
 		protected $headingLevel = 2;
 		private $divId;
 
+		/**
+		 * @param string $name
+		 * @param string $title
+		 */
 		function __construct($name, $title = null, $headingLevel = 2, $allowHTML = false, $form = null) {
 			$this->divId = $name;
 				// legacy handling for old parameters: $title, $heading, ...

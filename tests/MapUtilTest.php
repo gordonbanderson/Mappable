@@ -31,7 +31,7 @@ class MapUtilTest extends SapphireTest {
 	}
 
 	public function test_set_map_size() {
-		MapUtil::set_map_size('890px','24em');
+		MapUtil::set_map_size('890px', '24em');
 		$html = $this->htmlForMap();
 		$this->assertContains(' style="width:890px; height: 24em;"', $html);
 	}
@@ -78,14 +78,14 @@ class MapUtilTest extends SapphireTest {
 		$member->Lon = 29.24;
 		$list = new ArrayList();
 		$list->push($member);
-		$map = MapUtil::get_map($list,array());
+		$map = MapUtil::get_map($list, array());
 		$html = $map->forTemplate();
 		$this->fail('No change observed in generated HTML');
 		Member::remove_extension('MapExtension');
 	}
 
 	private function htmlForMap() {
-		$map = MapUtil::get_map(new ArrayList(),array());
+		$map = MapUtil::get_map(new ArrayList(), array());
 		$html = $map->forTemplate();
 		return $html;
 	}
@@ -104,7 +104,7 @@ class MapUtilTest extends SapphireTest {
 		$this->fail('No evidence of map type changing');
 	}
 
-	 public function test_set_info_window_width()  {
+	 public function test_set_info_window_width() {
 	 	$this->fail('No evidence of set info width being used');
 	}
 

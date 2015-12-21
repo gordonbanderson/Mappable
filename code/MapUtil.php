@@ -79,6 +79,9 @@ class MapUtil
 	}
 
 
+	/**
+	 * @param boolean $new_map_already_rendered
+	 */
 	public static function set_map_already_rendered($new_map_already_rendered) {
 		self::$map_already_rendered = $new_map_already_rendered;
 	}
@@ -146,7 +149,7 @@ class MapUtil
 	 * @return void
 	 */
 
-	public function set_icon_size($iconWidth,$iconHeight)
+	public function set_icon_size($iconWidth, $iconHeight)
 	{
 		self::$iconWidth = $iconWidth;
 		self::$iconHeight = $iconHeight;
@@ -155,7 +158,7 @@ class MapUtil
 	/**
 	 * Get a new GoogleMapAPI object and load it with the default settings
 	 *
-	 * @return GoogleMapAPI
+	 * @return MapAPI
 	 */
 	public static function instance()
 	{
@@ -208,7 +211,7 @@ class MapUtil
 	 * @return string
 	 */
 	public static function sanitize($content) {
-		return addslashes(str_replace(array("\n","\r", "\t"), '' ,$content));
+		return addslashes(str_replace(array("\n", "\r", "\t"), '', $content));
 	}
 
 
@@ -223,7 +226,7 @@ class MapUtil
 	 */
 	public static function get_map(SS_List $list, $infowindowtemplateparams) {
 		$gmap = self::instance();
-		if($list) {
+		if ($list) {
 			foreach ($list as $mappable) {
 				if (self::ChooseToAddDataobject($mappable)) {
 					$gmap->addMarkerAsObject($mappable, $infowindowtemplateparams);
@@ -244,7 +247,7 @@ class MapUtil
 	private static function ChooseToAddDataobject(DataObject $do) {
 		$isMappable = $do->is_a('Mappable');
 
-		foreach($do->getExtensionInstances() as $extension) {
+		foreach ($do->getExtensionInstances() as $extension) {
 			$isMappable = $isMappable || $extension instanceof Mappable;
 		}
 
@@ -252,6 +255,6 @@ class MapUtil
 			? $do->MapPinEdited
 			: true;
 
-		return $isMappable && $filterMapPinEdited  ;
+		return $isMappable && $filterMapPinEdited;
 	}
 }
