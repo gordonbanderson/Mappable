@@ -2,8 +2,6 @@
 
 class MapLayerExtensionTest extends SapphireTest {
 
-	protected $usesDatabase = false;
-
 	public function setUp() {
 		// add MapExtension and MapLayerExtension extension to Member
 		Member::add_extension('MapExtension');
