@@ -20,6 +20,12 @@ Page:
   StreetView:
     Title: Valid StreetView
     Content: Some text[GoogleStreetView latitude="13.811841" longitude="100.527309" heading="162.43" pitch="-10" caption="Canal south from Pracha Rat 1 Soi 28"]
+  StreetViewWithZoom:
+    Title: Valid StreetView With Zoom
+    Content: Some text[GoogleStreetView latitude="13.811841" longitude="100.527309" zoom="12" heading="162.43" pitch="-10" caption="Canal south from Pracha Rat 1 Soi 28"]
+  StreetViewNoHeading:
+    Title: StreetView with no Heading
+    Content: Some text[GoogleStreetView longitude="100.527309" latitude="13.811841" pitch="-10" caption="Canal south from Pracha Rat 1 Soi 28"]
   StreetViewNoLatitude:
     Title: StreetView with no Latitude
     Content: Some text[GoogleStreetView longitude="100.527309" heading="162.43" pitch="-10" caption="Canal south from Pracha Rat 1 Soi 28"]
