@@ -25,11 +25,11 @@ class MapUtilTest extends SapphireTest {
 
 	public function test_set_api_key_host_array() {
 		$url = Director::absoluteBaseURL();
-        // remove http and https
-        $url = str_replace('http://', '', $url);
-        $url = str_replace('https://', '', $url);
-        $parts = explode('/', $url);
-        $host = $parts[0];
+		// remove http and https
+		$url = str_replace('http://', '', $url);
+		$url = str_replace('https://', '', $url);
+		$parts = explode('/', $url);
+		$host = $parts[0];
 		$key = array($host => 'PRETENDAPIKEY');
 		MapUtil::set_api_key($key);
 		$html = $this->htmlForMap();
@@ -124,7 +124,7 @@ class MapUtilTest extends SapphireTest {
 	}
 
 	 public function test_set_icon_size() {
-	 	MapUtil::set_icon_size(14,37);
+	 	MapUtil::set_icon_size(14, 37);
 	 	$html = $this->htmlForMap();
 	 	$html = $this->htmlForMap();
 	 	echo $html;
