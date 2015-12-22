@@ -170,11 +170,6 @@ class MapUtil
 			self::$allow_full_screen = Config::inst()->get('Mappable', 'allow_full_screen');
 		}
 
-		// for JS
-		if (self::$allow_full_screen === false) {
-			self:$allow_full_screen = 'asdfsda';
-		}
-
 		$url = Director::absoluteBaseURL();
 
 		// remove http and https
@@ -186,6 +181,7 @@ class MapUtil
 		$key = self::$api_key;
 
 		// if an array, get the key by an array keyed by host
+		error_log('++++++++ HOST '.$host);
 		if (is_array($key)) {
 			$key = $key[$host];
 		}
@@ -230,9 +226,8 @@ class MapUtil
 		$gmap = self::instance();
 		if ($list) {
 			foreach ($list as $mappable) {
-				if (self::ChooseToAddDataobject($mappable)) {
+				if (self::ChooseToAddDataobject($mappable))
 					$gmap->addMarkerAsObject($mappable, $infowindowtemplateparams);
-				}
 			}
 		}
 		return $gmap;
