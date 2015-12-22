@@ -84,16 +84,23 @@ class MapUtilTest extends SapphireTest {
 		);
 	}
 
-	public function testSingularMappableItem() {
+	/**
+	 * A single marker for the Member should appear in the UJS map data
+	 */
+	public function testSingularMappableItemMarkerUJSExists() {
 		Member::add_extension('MapExtension');
 		$member = new Member();
 		$member->Lat = 12.847;
 		$member->Lon = 29.24;
+
+		// because we are not writing, set this manually
+		$member->MapPinEdited = true;
 		$list = new ArrayList();
 		$list->push($member);
 		$map = MapUtil::get_map($list, array());
 		$html = $map->forTemplate();
-		$this->fail('No change observed in generated HTML');
+		$markerExpected = 'data-mapmarkers=\'[{"latitude":12.847,"longitude":29.24,"html":"MEMBER: ","category":"default","icon":false}]\'';
+		$this->assertContains($markerExpected, $html);
 		Member::remove_extension('MapExtension');
 	}
 
@@ -106,9 +113,11 @@ class MapUtilTest extends SapphireTest {
 
 	// These appear to test code that's not used
 	public function test_set_center() {
-		MapUtil::set_center('Bangkok, Thailand');
+		MapUtil::set_center('Klong Tan, Bangkok, Thailand');
 		$html = $this->htmlForMap();
-		$this->fail('No evidence of map type changing');
+		//coordinates of Klong Tan in Bangkok
+		$expected = 'data-centre=\'{"lat":13.7243075,"lng":100.5718086}';
+		$this->assertContains($expected, $html);
 	}
 
 	 public function test_set_map_type() {
