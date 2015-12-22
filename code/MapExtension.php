@@ -162,7 +162,10 @@ class MapExtension extends DataExtension implements Mappable {
 			$map->setEnableAutomaticCenterZoom(true);
 		}
 
-		// add points of interest taking into account the default icon of the layer as an override
+		$this->owner->extend('updateBasicMap', $map);
+
+		/**
+		FIXME - move to POI module
 		if (Object::has_extension($this->owner->ClassName, 'PointsOfInterestLayerExtension')) {
 			foreach($this->owner->PointsOfInterestLayers() as $layer) {
 				$layericon = $layer->DefaultIcon();
@@ -183,6 +186,8 @@ class MapExtension extends DataExtension implements Mappable {
 			}
 			$map->setClusterer(true);
 		}
+
+		**/
 
 		$map->setEnableAutomaticCenterZoom($autozoom);
 		$map->setShowInlineMapDivStyle(true);
