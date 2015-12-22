@@ -23,10 +23,9 @@ class LatLongField extends FieldGroup {
 		if ((sizeof($children) < 2) || (sizeof($children) > 3) ||
 			 (!$children[0] instanceof FormField) ||
 			 (!$children[1] instanceof FormField)
-		) {
-			user_error('LatLongField argument 1 must be an array containing at least two FormField '.
+		) user_error('LatLongField argument 1 must be an array containing at least two FormField '.
 				'objects for Lat/Long values, respectively.', E_USER_ERROR);
-		}
+
 		parent::__construct($children);
 
 		$this->buttonText = $buttonText ? $buttonText : _t('LatLongField.LOOKUP', 'Search');
