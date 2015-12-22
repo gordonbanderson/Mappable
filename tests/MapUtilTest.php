@@ -16,6 +16,10 @@ class MapUtilTest extends SapphireTest {
 		parent::setupOnce();
 	}
 */
+	public function setUp() {
+		MapUtil::reset();
+		parent::setUp();
+	}
 
 	public function test_set_api_key_string() {
 		MapUtil::set_api_key('PRETENDAPIKEY');
@@ -121,14 +125,15 @@ class MapUtilTest extends SapphireTest {
 	}
 
 	 public function test_set_map_type() {
-		MapUtil::set_map_type('google.maps.MapTypeId.G_PHYSICAL_MAP');
+		MapUtil::set_map_type('google.maps.MapTypeId.G_HYBRID_MAP');
 		$html = $this->htmlForMap();
-		$this->fail('No evidence of map type changing');
+		$this->fail('No effect for set map type');
+
 	}
 
 	 public function test_set_info_window_width() {
 	 	MapUtil::set_info_window_width(420);
-	 	echo $html;
+	 	$html = $this->htmlForMap();
 	 	$this->fail('No evidence of set info width being used');
 	}
 
@@ -136,7 +141,7 @@ class MapUtilTest extends SapphireTest {
 	 	MapUtil::set_icon_size(14, 37);
 	 	$html = $this->htmlForMap();
 	 	$html = $this->htmlForMap();
-	 	echo $html;
+	 	$this->fail('No effect for set icon size');
 	}
 
 }
