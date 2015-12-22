@@ -17,8 +17,21 @@ class MapUtilTest extends SapphireTest {
 	}
 */
 
-	public function test_set_api_key() {
+	public function test_set_api_key_string() {
 		MapUtil::set_api_key('PRETENDAPIKEY');
+		$html = $this->htmlForMap();
+		$this->fail('Where is this used?');
+	}
+
+	public function test_set_api_key_host_array() {
+		$url = Director::absoluteBaseURL();
+        // remove http and https
+        $url = str_replace('http://', '', $url);
+        $url = str_replace('https://', '', $url);
+        $parts = explode('/', $url);
+        $host = $parts[0];
+		$key = array($host => 'PRETENDAPIKEY');
+		MapUtil::set_api_key($key);
 		$html = $this->htmlForMap();
 		$this->fail('Where is this used?');
 	}
@@ -105,11 +118,16 @@ class MapUtilTest extends SapphireTest {
 	}
 
 	 public function test_set_info_window_width() {
+	 	MapUtil::set_info_window_width(420);
+	 	echo $html;
 	 	$this->fail('No evidence of set info width being used');
 	}
 
 	 public function test_set_icon_size() {
-
+	 	MapUtil::set_icon_size(14,37);
+	 	$html = $this->htmlForMap();
+	 	$html = $this->htmlForMap();
+	 	echo $html;
 	}
 
 }
