@@ -135,7 +135,7 @@ class MapExtension extends DataExtension implements Mappable {
 				$result = true;
 			}
 		}
-		*/
+		 */
 
 		return $result;
 	}
