@@ -1,1 +1,1 @@
-MEMBER: $Name
+MEMBER: $Name{$TestKey}
