@@ -8,4 +8,4 @@ Mappable:
   mapping_service: 'Google'
 
 MapExtension:
-  map_info_window_suffix: 'MapInfoWindow'
+  map_info_window_suffix: '_MapInfoWindow'
