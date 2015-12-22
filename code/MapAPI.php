@@ -402,6 +402,18 @@ class MapAPI extends ViewableData
 	* @return MapAPI This same object, in order to enable chaining of methods
 	**/
 	public function setLatLongCenter($center) {
+		// error check, we want an associative array with lat,lng keys numeric
+
+		if (!is_array($center)) {
+			throw new InvalidArgumentException('Center must be an associative array containing lat,lng');
+		}
+
+		$keys = array_keys($center);
+		sort($keys);
+		if (implode(',', $keys) != 'lat,lng') {
+			throw new InvalidArgumentException('Keys provided must be lat, lng');
+		}
+
 		$this->latLongCenter = $center;
 		return $this;
 	}
@@ -712,7 +724,7 @@ class MapAPI extends ViewableData
 			$kmlJson = stripslashes(json_encode($this->kmlFiles, JSON_UNESCAPED_UNICODE));
 		}
 
-		 // Center of the GMap
+		 // Center of the GMap - text centre takes precedence
 		$geocodeCentre = ($this->latLongCenter) ?
 							$this->latLongCenter : $this->geocoding($this->center);
 
@@ -722,8 +734,10 @@ class MapAPI extends ViewableData
 				'lat' => $geocodeCentre['lat'],
 				'lng' => $geocodeCentre['lon']
 			);
+		} else if (is_array($this->latLongCenter)) {
+			$latlngCentre = $this->latLongCenter;
 		} else { // Paris
-			$latlngCentre = array('lat'=>48.8792, 'lng' => 2.34778);
+			$latlngCentre = array('lat'=>48.8792, 'lng' => 2.344444778);
 		}
 
 		$this->LatLngCentreJSON = stripslashes(json_encode($latlngCentre));
