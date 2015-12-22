@@ -11,7 +11,7 @@ class MapExtensionTest extends SapphireTest {
 	}
 
 
-	public function testupdateCMSFields() {
+	public function testUpdateCMSFields() {
 
 	}
 
@@ -80,23 +80,22 @@ class MapExtensionTest extends SapphireTest {
 	}
 
 
+	// FIXME - use an actual file here
 	public function testgetMappableMapPin() {
-
-	}
-
-
-	public function testHasGeoMapLayers() {
-		Member::add_extension('MapLayerExtension');
 		$instance = $this->getInstance();
-		$layer = new MapLayer();
-		$layer->Title = 'Ari Administrative Boundary';
-		$layers = new ArrayList();
-		$layers->push($layer);
-		$member->MapLayers = $layers;
-		$this->assertTrue($instance->HasGeo());
-		Member::remove_extension('MapLayerExtension');
+		$instance->MapPinIconID = 2;
+		$pin1 = $instance->getMappableMapPin();
+		$this->assertStringEndsWith('/assets/', $pin1);
 
+
+		// Test the cached pin
+		$pin2 = $instance->getMappableMapPin();
+		$this->assertStringEndsWith('/assets/', $pin2);
+		$this->assertEquals($pin1, $pin2);
 	}
+
+
+
 
 
 	public function testHasGeoWest() {
@@ -177,7 +176,13 @@ class MapExtensionTest extends SapphireTest {
 	}
 
 	public function testBasicMap() {
-
+		$instance = $this->getInstance();
+		$instance->Lat = 37.1;
+		$instance->Lon = 28;
+		$instance->Zoom = 12;
+		$instance->MapPinEdited = true;
+		$html = $instance->BasicMap()->forTemplate();
+		echo $html;
 	}
 
 
@@ -188,11 +193,22 @@ class MapExtensionTest extends SapphireTest {
 		$this->Zoom = 12;
 		$mapField  = $instance->getMapField();
 		$this->assertInstanceOf('LatLongField', $mapField);
+		$this->fail('Check centre');
 	}
 
 
 	public function testUseCompressedAssets() {
+		$original = Config::inst()->get('Mappable', 'use_compressed_assets');
 
+		$instance = $this->getInstance();
+		Config::inst()->update('Mappable', 'use_compressed_assets', false);
+		$this->assertFalse($instance->UseCompressedAssets());
+
+		$instance = $this->getInstance();
+		Config::inst()->update('Mappable', 'use_compressed_assets', true);
+		$this->assertTrue($instance->UseCompressedAssets());
+
+		Config::inst()->update('Mappable', 'use_compressed_assets', $original);
 	}
 
 
