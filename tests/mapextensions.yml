@@ -1,4 +1,4 @@
 Member:
-  TestPageWithMap:
-    Title: Test Page With Map
-    Content: Some text with a map hopefully
+  WithLayers:
+    Title: Member With Map and Layers
+    Content: Some content
