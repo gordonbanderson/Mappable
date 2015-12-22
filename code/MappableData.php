@@ -45,10 +45,8 @@ class MappableData extends Extension {
 		$gmap->setEnableAutomaticCenterZoom(false);
 		if ($this->owner->MapPinEdited) {
 			$gmap->setLatLongCenter(array(
-				'200',
-				'4',
-				$this->owner->getMappableLatitude(),
-				$this->owner->getMappableLongitude()
+				'lat' => $this->owner->getMappableLatitude(),
+				'lng' => $this->owner->getMappableLongitude()
 			));
 		}
 
