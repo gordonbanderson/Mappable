@@ -87,7 +87,7 @@ HTML;
 		$expected = '<img src="//maps.googleapis.com/maps/api/staticmap?center='
 				  . '13.84%2C100.52&amp;markers=13.84%2C100.52'
 				  . '&amp;zoom=13&amp;size=300x800&amp;sensor=false&amp;mapt'
-				  . 'ype=roadmap" width="300" height="800" alt="" />';
+				  . 'ype=roadmap" width="300" height="800" alt="User" />';
 		$this->assertEquals($expected, $html);
 	}
 
@@ -99,14 +99,14 @@ HTML;
 		$expected = '<img src="//maps.googleapis.com/maps/api/staticmap?center='
 				  . '13.8188931%2C100.5005558&amp;markers=13.8188931%2C100.5005'
 				  . '558&amp;zoom=13&amp;size=300x800&amp;sensor=false&amp;mapt'
-				  . 'ype=roadmap" width="300" height="800" alt="" />';
+				  . 'ype=roadmap" width="300" height="800" alt="User" />';
 		$this->assertEquals($expected, $html);
 
 		$html = $instance->StaticMap(310, 810);
 		$expected = '<img src="//maps.googleapis.com/maps/api/staticmap?center='
 				  . '13.8188931%2C100.5005558&amp;markers=13.8188931%2C100.5005'
 				  . '558&amp;zoom=13&amp;size=310x810&amp;sensor=false&amp;mapt'
-				  . 'ype=roadmap" width="310" height="810" alt="" />';
+				  . 'ype=roadmap" width="310" height="810" alt="User" />';
 		$this->assertEquals($expected, $html);
 	}
 
@@ -119,20 +119,20 @@ HTML;
 		$expected = '<img src="//maps.googleapis.com/maps/api/staticmap?center='
 				  . '13.8188931%2C100.5005558&amp;markers=13.8188931%2C100.5005'
 				  . '558&amp;zoom=13&amp;size=300x800&amp;sensor=false&amp;mapt'
-				  . 'ype=satellite" width="300" height="800" alt="" />';
+				  . 'ype=satellite" width="300" height="800" alt="User" />';
 		$this->assertEquals($expected, $html);
 
 		$html = $instance->StaticMap(300, 800, null, 'terrain');
 		$expected = '<img src="//maps.googleapis.com/maps/api/staticmap?center='
 				  . '13.8188931%2C100.5005558&amp;markers=13.8188931%2C100.5005'
 				  . '558&amp;zoom=13&amp;size=300x800&amp;sensor=false&amp;mapt'
-				  . 'ype=terrain" width="300" height="800" alt="" />';
+				  . 'ype=terrain" width="300" height="800" alt="User" />';
 
 		$html = $instance->StaticMap(300, 800, null, 'hybrid');
 		$expected = '<img src="//maps.googleapis.com/maps/api/staticmap?center='
 				  . '13.8188931%2C100.5005558&amp;markers=13.8188931%2C100.5005'
 				  . '558&amp;zoom=13&amp;size=300x800&amp;sensor=false&amp;mapt'
-				  . 'ype=hybrid" width="300" height="800" alt="" />';
+				  . 'ype=hybrid" width="300" height="800" alt="User" />';
 		$this->assertEquals($expected, $html);
 	}
 
@@ -144,14 +144,14 @@ HTML;
 		$expected = '<img src="//maps.googleapis.com/maps/api/staticmap?center='
 				  . '13.8188931%2C100.5005558&amp;markers=13.8188931%2C100.5005'
 				  . '558&amp;zoom=2&amp;size=300x800&amp;sensor=false&amp;mapt'
-				  . 'ype=roadmap" width="300" height="800" alt="" />';
+				  . 'ype=roadmap" width="300" height="800" alt="User" />';
 		$this->assertEquals($expected, $html);
 
 		$html = $instance->StaticMap(300, 800, 12);
 		$expected = '<img src="//maps.googleapis.com/maps/api/staticmap?center='
 				  . '13.8188931%2C100.5005558&amp;markers=13.8188931%2C100.5005'
 				  . '558&amp;zoom=12&amp;size=300x800&amp;sensor=false&amp;mapt'
-				  . 'ype=roadmap" width="300" height="800" alt="" />';
+				  . 'ype=roadmap" width="300" height="800" alt="User" />';
 		$this->assertEquals($expected, $html);
 	}
 
