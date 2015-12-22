@@ -73,6 +73,7 @@ class MapExtension extends DataExtension implements Mappable {
 				$this->owner->ClassName,
 				Config::inst()->get('MapExtension', 'map_info_window_suffix')
 			);
+
 		$template = count($classTemplate) ? $classTemplate : $defaultTemplate;
 		return MapUtil::sanitize($this->owner->renderWith($template));
 	}
@@ -100,8 +101,9 @@ class MapExtension extends DataExtension implements Mappable {
 	public function getMappableMapPin() {
 		$result = false;
 		if ($this->owner->MapPinIconID != 0) {
-			$mappin = $this->owner->MapPinIcon();
-			$result = $mappin->getAbsoluteURL();
+			$mapPin = $this->owner->MapPinIcon();
+			$result = $mapPin->getAbsoluteURL();
+			$this->CachedMapPinURL = $result;
 		} else {
 		  // check for a cached map pin already having been provided for the layer
 			if ($this->owner->CachedMapPinURL) {
