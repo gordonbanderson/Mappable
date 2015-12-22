@@ -571,14 +571,16 @@ class MapAPI extends ViewableData
 	public function addMarkerAsObject(ViewableData $obj, $infowindowtemplateparams = null) {
 		$extensionsImplementMappable = false;
 		$extensions = Object::get_extensions(get_class($obj));
+		if (is_array($extensions)) {
+			foreach ($extensions as $extension) {
+				$class = new ReflectionClass($extension);
+				if ($class->implementsInterface('Mappable')) {
+					$extensionsImplementMappable = true;
+				}
 
-		foreach (is_array($extensions) as $extension) {
-			$class = new ReflectionClass($extension);
-			if ($class->implementsInterface('Mappable')) {
-				$extensionsImplementMappable = true;
 			}
-
 		}
+
 		if ($extensionsImplementMappable ||
 			($obj instanceof Mappable) ||
 			(Object::has_extension($obj->ClassName, 'MapExtension'))
