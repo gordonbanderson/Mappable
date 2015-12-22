@@ -98,7 +98,7 @@ HTML;
 
 
 	public function testSetDelayLoadMapFunction() {
-
+		$this->fail('Not clear if this is still used');
 	}
 
 
@@ -112,7 +112,13 @@ HTML;
 
 
 	public function testSetDirectionDivId() {
-
+		$map = $this->getMap();
+		$map->setDirectionDivId('mymapdirectionid');
+		$html = $map->forTemplate();
+		echo $html;
+		//$expected = '<div id="mymapid" style=';
+		//$this->assertContains($expected, $html);
+		$this->fail('Check if still used');
 	}
 
 
@@ -124,9 +130,6 @@ HTML;
 	}
 
 
-	public function testSetIconSize() {
-
-	}
 
 
 	public function testSetLang() {
@@ -157,22 +160,32 @@ HTML;
 
 	}
 
+	public function testSetIconSize() {
+
+	}
+
+
 
 	public function testSetEnableAutomaticCenterZoom() {
 		$map = $this->getMap();
 		$map->setLang('fr');
 		$html = $map->forTemplate();
 		$this->assertContains('style="width:432px; height: 1234px;"', $html);
+		$this->fail('TODO');
 	}
 
 
+	/**
+	 * setCentre is mis-named, as the method expects text for a geocoder
+	 */
 	public function testSetCenter() {
 		$map = $this->getMap();
 		$map->setIncludeDownloadJavascript(true);
-		$map->setCenter(-23.714,47.149);
+		$map->setCenter('Klong Tan, Bangkok, Thailand');
 		$html = $map->forTemplate();
-		echo $html;
-		$expected = "data-centre='{\"lat\":023.714,\"lng\":47.149}'";
+
+		//coordinates of Klong Tan in Bangkok
+		$expected = 'data-centre=\'{"lat":13.7243075,"lng":100.5718086}';
 		$this->assertContains($expected, $html);
 	}
 
@@ -209,7 +222,6 @@ HTML;
 			$expected = "data-maptype='".$mapTypes[$mapType]."'";
 			$html = $map->forTemplate();
 			$this->assertContains($expected, $html);
-
 		}
 		echo $html;
 	}
