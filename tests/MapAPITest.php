@@ -184,11 +184,13 @@ class MapAPITest extends SapphireTest {
 
 
 	public function testMapWithMarkers() {
+		$config = Config::inst();
+
 		$map = $this->getMapMultipleItems();
 		$html = $map->forTemplate();
 		$expected = 'data-mapmarkers=\'[{"latitude":23,"longitude":78,"html":"'
-				  . 'Fred Bloggs","category":"default","icon":false},{"latitude'
-				  . '":-12,"longitude":42.1,"html":"Kane Williamson","category"'
+				  . 'MEMBER: Fred Bloggs","category":"default","icon":false},{"latitude'
+				  . '":-12,"longitude":42.1,"html":"MEMBER: Kane Williamson","category"'
 				  . ':"default","icon":false}]\'';
 		$this->assertContains($expected, $html);
 	}
