@@ -49,6 +49,9 @@ class MapUtil
 	 */
 	public static $hide_marker = false;
 
+
+
+
 	/**
 	 * @var boolean Show the marker fields on the map
 	 */
@@ -68,6 +71,24 @@ class MapUtil
 	/* Whether or not to allow full screen */
 	private static $allow_full_screen = null;
 
+
+	public static function reset() {
+		self::$api_key = null;
+		self::$instances = 0;
+		self::$map_width = '100%';
+		self::$map_height = '400px';
+		self::$iconWidth = 24;
+		self::$iconHeight = 24;
+		self::$div_id = "google_map";
+		self::$automatic_center = true;
+		self::$direction_fields = false;
+		self::$hide_marker = false;
+		self::$map_type = 'google.maps.MapTypeId.ROADMAP';
+		self::$center = 'Paris, France';
+		self::$info_window_width = 250;
+		self::$map_already_rendered = false;
+		self::$allow_full_screen = null;
+	}
 
 	/**
 	 * Set the API key for Google Maps
@@ -181,7 +202,6 @@ class MapUtil
 		$key = self::$api_key;
 
 		// if an array, get the key by an array keyed by host
-		error_log('++++++++ HOST '.$host);
 		if (is_array($key)) {
 			$key = $key[$host];
 		}
