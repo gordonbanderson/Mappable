@@ -473,30 +473,20 @@ class MapAPI extends ViewableData
 	 */
 
 	public function geocoding($address) {
-		$encodeAddress = urlencode($address);
-		$url = "//maps.google.com/maps/geo?q=".$encodeAddress."&output=csv&key=".$this->googleMapKey;
+		$geocoder = new MappableGoogleGeocoder();
+		$locations = $geocoder->getLocations($address);
+		$result = null;
+		if (!empty($locations)) {
+			$place = $locations[0];
+			$location = $place['geometry']['location'];
+			$result = array(
+				'lat' => $location['lat'],
+				'lon' => $location['lng'],
+				'geocoded' => true
+			);
 
-		if (function_exists('curl_init')) {
-			$data = $this->getContent($url);
-		} else {
-			$data = file_get_contents($url);
 		}
-
-		$csvSplit = preg_split("/,/", $data);
-		$status = $csvSplit[0];
-
-		if (strcmp($status, "200") == 0) {
-			/*
-			For a successful geocode:
-			- $precision = $csvSplit[1
-			- $lat = $csvSplit[2]
-			- $lng = $csvSplit[3];
-			*/
-			$return = $csvSplit;
-		} else {
-			$return = null; // failure to geocode
-		}
-		return $return;
+		return $result;
 	}
 
 	/**
@@ -727,8 +717,11 @@ class MapAPI extends ViewableData
 							$this->latLongCenter : $this->geocoding($this->center);
 
 		// coordinates for centre depending on which method used
-		if ($geocodeCentre[0] == "200") { // success
-			$latlngCentre = array('lat'=>$geocodeCentre[2], 'lng' => $geocodeCentre[3]);
+		if (isset($geocodeCentre['geocoded'] )) {
+			$latlngCentre = array(
+				'lat' => $geocodeCentre['lat'],
+				'lng' => $geocodeCentre['lon']
+			);
 		} else { // Paris
 			$latlngCentre = array('lat'=>48.8792, 'lng' => 2.34778);
 		}
