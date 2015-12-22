@@ -182,7 +182,10 @@ class MapExtensionTest extends SapphireTest {
 		$instance->Zoom = 12;
 		$instance->MapPinEdited = true;
 		$html = $instance->BasicMap()->forTemplate();
-		echo $html;
+		$expected = "data-centre='{\"lat\":37.1,\"lng\":28}'";
+		$this->assertContains($expected, $html);
+		$expected = "data-mapmarkers='[{\"latitude\":37.1,\"longitude\":28,\"html\":\"MEMBER: \",\"category\":\"default\",\"icon\":false}]'";
+		$this->assertContains($expected, $html);
 	}
 
 
@@ -193,7 +196,6 @@ class MapExtensionTest extends SapphireTest {
 		$this->Zoom = 12;
 		$mapField  = $instance->getMapField();
 		$this->assertInstanceOf('LatLongField', $mapField);
-		$this->fail('Check centre');
 	}
 
 
