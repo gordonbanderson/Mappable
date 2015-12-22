@@ -10,16 +10,24 @@ class MapAPITest extends SapphireTest {
 	}
 
 	public function testSetKey() {
-
+		$map = $this->getMap();
+		$map->setKey('PRETEND_KEY');
+		$html = $map->forTemplate();
+		$this->fail('where to check effect?');
 	}
 
 
 	public function testSetIncludeDownloadJavascript() {
-
+		$map = $this->getMap();
+		$map->etIncludeDownloadJavascript(true);
+		$html = $map->forTemplate();
+		$this->fail('where to check effect?');
 	}
 
 
 	public function testSetShowInlineMapDivStyle() {
+
+
 
 	}
 
@@ -34,7 +42,58 @@ class MapAPITest extends SapphireTest {
 
 
 	public function testSetMapStyle() {
+		$style = <<<STYLE
+[{
+	"featureType": "landscape",
+	"stylers": [{
+		"hue": "#FFBB00"
+	}, {
+		"saturation": 43.400000000000006
+	}, {
+		"lightness": 37.599999999999994
+	}, {
+		"gamma": 1
+	}]
+}]
+STYLE;
+		$map = $this->getMap();
+		$map->setMapStyle($style);
+		$html = $map->forTemplate()->getValue();
+		//echo $html;
+		$expected = <<<HTML
 
+
+<div id="google_map_1" style="width:100%; height: 400px;"
+ class=" mappable"
+data-map
+data-centre='{"lat":48.8792,"lng":2.34778}'
+data-zoom=9
+data-maptype='road'
+data-allowfullscreen='1'
+data-clusterergridsize=50,
+data-clusterermaxzoom=17,
+data-enableautocentrezoom=false
+data-mapmarkers='[]'
+data-lines='[]'
+data-kmlfiles='[]'
+data-mapstyles='[{
+	"featureType": "landscape",
+	"stylers": [{
+		"hue": "#FFBB00"
+	}, {
+		"saturation": 43.400000000000006
+	}, {
+		"lightness": 37.599999999999994
+	}, {
+		"gamma": 1
+	}]
+}]'
+data-useclusterer=false
+>
+</div>
+
+HTML;
+		$this->assertEquals($expected, $html);
 	}
 
 
