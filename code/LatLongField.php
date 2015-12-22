@@ -2,11 +2,6 @@
 
 class LatLongField extends FieldGroup {
 
-	private static $allowed_actions = array(
-		'geocode'
-	);
-
-
 	protected $latField;
 
 	protected $longField;
@@ -109,23 +104,6 @@ HTML;
 
 		return parent::FieldHolder();
 	}
-
-
-	/*
-	Perform place name search as a means of navigation when editing locations
-	*/
-	public function geocode(SS_HTTPRequest $r) {
-		if ($address = $r->requestVar('address')) {
-			if ($json = @file_get_contents(
-				"http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".
-				urlencode($address))) {
-				$response = Convert::json2array($json);
-				$location = $response['results'][0]->geometry->location;
-				return new SS_HTTPResponse($location->lat.",".$location->lng);
-			}
-		}
-	}
-
 
 	/*
 	Set guidance points for the map being edited.  For example in a photographic set show the map
