@@ -9,18 +9,27 @@ class MapAPITest extends SapphireTest {
 		parent::setupOnce();
 	}
 
+
+	public function setUp() {
+		MapUtil::reset();
+		parent::setUp();
+	}
+
 	public function testSetKey() {
 		$map = $this->getMap();
 		$map->setKey('PRETEND_KEY');
 		$html = $map->forTemplate();
+		$map->setKey(null);
 		$this->fail('where to check effect?');
 	}
 
 
 	public function testSetIncludeDownloadJavascript() {
 		$map = $this->getMap();
-		$map->etIncludeDownloadJavascript(true);
+		$map->setIncludeDownloadJavascript(true);
 		$html = $map->forTemplate();
+		$map->setIncludeDownloadJavascript(false);
+
 		$this->fail('where to check effect?');
 	}
 
@@ -38,6 +47,7 @@ class MapAPITest extends SapphireTest {
 		$html = $map->forTemplate();
 		$expected = 'class="bigMap shadowMap mappable"';
 		$this->assertContains($expected, $html);
+		$map->setAdditionalCSSClasses('bigMap shadowMap');
 	}
 
 
@@ -59,14 +69,13 @@ STYLE;
 		$map = $this->getMap();
 		$map->setMapStyle($style);
 		$html = $map->forTemplate()->getValue();
-		//echo $html;
 		$expected = <<<HTML
 
 
 <div id="google_map_1" style="width:100%; height: 400px;"
  class=" mappable"
 data-map
-data-centre='{"lat":48.8792,"lng":2.34778}'
+data-centre='{"lat":48.856614,"lng":2.3522219}'
 data-zoom=9
 data-maptype='road'
 data-allowfullscreen='1'
@@ -94,6 +103,7 @@ data-useclusterer=false
 
 HTML;
 		$this->assertEquals($expected, $html);
+		$map->setMapStyle(null);
 	}
 
 
@@ -115,7 +125,6 @@ HTML;
 		$map = $this->getMap();
 		$map->setDirectionDivId('mymapdirectionid');
 		$html = $map->forTemplate();
-		echo $html;
 		//$expected = '<div id="mymapid" style=';
 		//$this->assertContains($expected, $html);
 		$this->fail('Check if still used');
@@ -136,7 +145,7 @@ HTML;
 		$map = $this->getMap();
 		$map->setLang('fr');
 		$html = $map->forTemplate();
-		$this->assertContains('style="width:432px; height: 1234px;"', $html);
+		$this->fail('Response needs checked');
 	}
 
 
@@ -168,10 +177,9 @@ HTML;
 
 	public function testSetEnableAutomaticCenterZoom() {
 		$map = $this->getMap();
-		$map->setLang('fr');
+		$map->setEnableAutomaticCenterZoom(true);
 		$html = $map->forTemplate();
-		$this->assertContains('style="width:432px; height: 1234px;"', $html);
-		$this->fail('TODO');
+		$this->assertContains('data-enableautocentrezoom=1', $html);
 	}
 
 
@@ -187,16 +195,17 @@ HTML;
 		//coordinates of Klong Tan in Bangkok
 		$expected = 'data-centre=\'{"lat":13.7243075,"lng":100.5718086}';
 		$this->assertContains($expected, $html);
+		$map->setCenter('Paris, France');
 	}
 
 
 	public function testSetLatLongCenter() {
 		$map = $this->getMap();
 		$map->setIncludeDownloadJavascript(true);
-		$map->setLatLongCenter(-23.714,47.149);
+		$llc = array('lat' => -23.714, 'lng' => 47.419);
+		$map->setLatLongCenter($llc);
 		$html = $map->forTemplate();
-		echo $html;
-		$expected = "data-centre='{\"lat\":023.714,\"lng\":47.149}'";
+		$expected = "data-centre='{\"lat\":-23.714,\"lng\":47.419}'";
 		$this->assertContains($expected, $html);
 	}
 
@@ -223,7 +232,6 @@ HTML;
 			$html = $map->forTemplate();
 			$this->assertContains($expected, $html);
 		}
-		echo $html;
 	}
 
 
@@ -245,11 +253,9 @@ HTML;
 		$map = $this->getMap();
 		$map->setDisplayDirectionFields(false);
 		$html = $map->forTemplate();
-		echo $html;
 
 		$map->setDisplayDirectionFields(true);
 		$html = $map->forTemplate();
-		echo $html;
 		$this->fail('Does not appear to be used');
 	}
 

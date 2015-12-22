@@ -6,18 +6,25 @@ class MappableDataTest extends SapphireTest {
 		$this->requiredExtensions = array(
 			'Member' => array('MapExtension')
 		);
+
 		parent::setupOnce();
+	}
+
+	public function setUp() {
+		MapUtil::reset();
+		parent::setUp();
 	}
 
 	public function testGetRenderableMapSetNoMarkerValues() {
 		$instance = $this->getInstance();
 		$instance->MapPinEdited = true;
-		$html = $instance->getRenderableMap(300,800,2)->forTemplate()->getValue();
-		echo $html;
+		$html = $instance->getRenderableMap(300,800,2)->setDivId('testmap')->forTemplate()->getValue();
+
+
 		$expected = <<<HTML
 
 
-<div id="google_map_1" style="width:300; height: 800;"
+<div id="testmap" style="width:300; height: 800;"
  class=" mappable"
 data-map
 data-centre='{"lat":13.8188931,"lng":100.5005558}'
@@ -49,12 +56,11 @@ HTML;
 		$instance->MapPinEdited = true;
 		$vals = array('TestKey' => ' TestKeyVal');
 		$instance->setMarkerTemplateValues($vals);
-		$html = $instance->getRenderableMap(300,800,2)->forTemplate()->getValue();
-		echo $html;
+		$html = $instance->getRenderableMap(300,800,2)->setDivId('testmap')->forTemplate()->getValue();
 		$expected = <<<HTML
 
 
-<div id="google_map_1" style="width:300; height: 800;"
+<div id="testmap" style="width:300; height: 800;"
  class=" mappable"
 data-map
 data-centre='{"lat":13.8188931,"lng":100.5005558}'
