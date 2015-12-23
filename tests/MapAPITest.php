@@ -37,8 +37,6 @@ class MapAPITest extends SapphireTest {
 
 	public function testSetShowInlineMapDivStyle() {
 
-
-
 	}
 
 
@@ -258,7 +256,7 @@ HTML;
 	}
 
 
-	public function testgetGoogleMap() {
+	public function testGetGoogleMap() {
 
 	}
 
@@ -268,8 +266,15 @@ HTML;
 	}
 
 
-	public function testgeocoding() {
-
+	public function testGeocoding() {
+		$map = $this->getMap();
+		$location = $map->geocoding("Nonthaburi, Thailand");
+		$expected = array(
+			'lat' => 13.8621125,
+			'lon' => 100.5143528,
+    		'geocoded' => true
+		);
+		$this->assertEquals($expected, $location);
 	}
 
 	public function testaddMarkerByCoords() {
