@@ -103,7 +103,6 @@ class MapExtension extends DataExtension implements Mappable {
 		if ($this->owner->MapPinIconID != 0) {
 			$mapPin = $this->owner->MapPinIcon();
 			$result = $mapPin->getAbsoluteURL();
-			$this->CachedMapPinURL = $result;
 		} else {
 		  // check for a cached map pin already having been provided for the layer
 			if ($this->owner->CachedMapPinURL) {
