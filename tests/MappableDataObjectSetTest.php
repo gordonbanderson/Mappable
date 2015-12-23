@@ -31,7 +31,7 @@ class MappableDataObjectSetTest extends SapphireTest {
 		$vals = array('TestKey' => ' TestKeyValMDOS');
 		$mappableList->setMarkerTemplateValues($vals);
 
-		$html = $mappableList->getRenderableMap(300,800,2)->setDivId('testmap')->forTemplate()->getValue();
+		$html = $mappableList->getRenderableMap(300, 800, 2)->setDivId('testmap')->forTemplate()->getValue();
 		$expected = <<<HTML
 
 

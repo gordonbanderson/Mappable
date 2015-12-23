@@ -153,7 +153,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param string  $googleMapKey the googleMapKey
 	 *
-	 * @return void
+	 * @return MapAPI
 	 */
 
 	public function setKey($googleMapKey) {
@@ -394,7 +394,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param boolean $defaultHideMarker hide all the markers on the map by default
 	 *
-	 * @return void
+	 * @return MapAPI
 	 */
 
 	public function setDefaultHideMarker($defaultHideMarker) {
@@ -439,7 +439,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param string  $address an address
 	 *
-	 * @return array array with precision, lat & lng
+	 * @return string array with precision, lat & lng
 	 */
 
 	public function geocoding($address) {
@@ -468,7 +468,7 @@ class MapAPI extends ViewableData
 	 * @param string  $category marker category
 	 * @param string  $icon     an icon url
 	 *
-	 * @return void
+	 * @return MapAPI
 	 */
 
 	public function addMarkerByCoords($lat, $lng, $html = '', $category = '', $icon = '') {
@@ -492,7 +492,7 @@ class MapAPI extends ViewableData
 	 * @param string  $category marker category
 	 * @param string  $icon     an icon url
 	 *
-	 * @return void
+	 * @return MapAPI
 	 */
 
 	public function addMarkerByAddress($address, $content = '', $category = '', $icon = '') {
@@ -510,7 +510,7 @@ class MapAPI extends ViewableData
 	 * @param string  $category marker category
 	 * @param string  $icon     an icon url
 	 *
-	 * @return void
+	 * @return MapAPI
 	 */
 
 	public function addArrayMarkerByCoords($coordtab, $category = '', $icon = '') {
@@ -593,7 +593,7 @@ class MapAPI extends ViewableData
 	 * @param string  $category marker category
 	 * @param string  $icon     an icon url
 	 *
-	 * @return void
+	 * @return MapAPI
 	 */
 
 	public function addArrayMarkerByAddress($coordtab, $category = '', $icon = '') {
@@ -608,7 +608,7 @@ class MapAPI extends ViewableData
 	 *
 	 * @param string  $url      url of the kml file compatible with gmap and gearth
 	 *
-	 * @return void
+	 * @return MapAPI
 	 */
 
 	public function addKML($url) {
@@ -755,6 +755,10 @@ class MapAPI extends ViewableData
 		$this->content = $this->processTemplateHTML('Map', $vars);
 	}
 
+	/**
+	 * @param string $templateName
+	 * @param ArrayData $templateVariables
+	 */
 	function processTemplateHTML($templateName, $templateVariables = null) {
 		if (!$templateVariables) {
 			$templateVariables = new ArrayList();
