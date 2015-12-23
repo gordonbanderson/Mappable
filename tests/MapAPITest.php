@@ -24,21 +24,9 @@ class MapAPITest extends SapphireTest {
 		$this->fail('where to check effect?');
 	}
 
-
-	public function testSetIncludeDownloadJavascript() {
-		$map = $this->getMap();
-		$map->setIncludeDownloadJavascript(true);
-		$html = $map->forTemplate();
-		$map->setIncludeDownloadJavascript(false);
-
-		$this->fail('where to check effect?');
-	}
-
-
 	public function testSetShowInlineMapDivStyle() {
 
 	}
-
 
 	public function testSetAdditionalCSSClasses() {
 		$map = $this->getMap();
@@ -82,6 +70,7 @@ data-clusterergridsize=50,
 data-clusterermaxzoom=17,
 data-enableautocentrezoom=false
 data-mapmarkers='[]'
+data-defaultHideMarker=false
 data-lines='[]'
 data-kmlfiles='[]'
 data-mapstyles='[{
@@ -144,13 +133,25 @@ HTML;
 		$this->assertContains('data-zoom=12', $html);
 	}
 
-
 	public function testSetInfoWindowZoom() {
+		$map = $this->getMap();
+		$map->setInfoWindowZoom(4);
+		$html = $map->forTemplate();
+		$this->assertContains('data-infowindowzoom=4', $html);
+		$map->setInfoWindowZoom(12);
+		$html = $map->forTemplate();
+		$this->assertContains('data-infowindowzoom=12', $html);
 
 	}
 
-
 	public function testSetEnableWindowZoom() {
+		$map = $this->getMap();
+		$map->setEnableWindowZoom(false);
+		$html = $map->forTemplate();
+		$this->assertContains('data-enableautocentrezoom=false', $html);
+		$map->setEnableWindowZoom(true);
+		$html = $map->forTemplate();
+		$this->assertContains('data-enableautocentrezoom=1', $html);
 
 	}
 
@@ -173,7 +174,6 @@ HTML;
 	 */
 	public function testSetCenter() {
 		$map = $this->getMap();
-		$map->setIncludeDownloadJavascript(true);
 		$map->setCenter('Klong Tan, Bangkok, Thailand');
 		$html = $map->forTemplate();
 
@@ -186,7 +186,6 @@ HTML;
 
 	public function testSetLatLongCenter() {
 		$map = $this->getMap();
-		$map->setIncludeDownloadJavascript(true);
 		$llc = array('lat' => -23.714, 'lng' => 47.419);
 		$map->setLatLongCenter($llc);
 		$html = $map->forTemplate();
@@ -284,11 +283,6 @@ HTML;
 		$this->assertEquals($expected, $location);
 	}
 
-	public function testAddMarkerByCoords() {
-
-	}
-
-
 	public function testAddMarkerByAddress() {
 		//$address, $content = '', $category = '', $icon = ''
 		$map = $this->getMap();
@@ -305,6 +299,22 @@ HTML;
 
 
 	public function testAddArrayMarkerByCoords() {
+		$map = $this->getMap();
+
+		$markerArray = array();
+		$marker1 = array(48.2, 27, 'Description marker 1', 'Marker Test', '');
+		$marker2 = array(-12.2, 47, 'Description marker 2', 'Marker Test', '');
+
+		array_push($markerArray, $marker1);
+		array_push($markerArray, $marker2);
+
+		$map->addArrayMarkerByCoords($markerArray);
+		$html = $map->forTemplate();
+		$expected = 'data-mapmarkers=\'[{"latitude":48.2,"longitude":27,"html":"Description marker 1","category":"","icon":""},{"latitude":-12.2,"longitude":47,"html":"Description marker 2","category":"","icon":""}]\'';
+		$this->assertContains($expected, $html);
+	}
+
+	public function testAddMarkerByCoords() {
 		$map = $this->getMap();
 		$map->addMarkerByCoords(
 			13.91,
@@ -342,39 +352,49 @@ HTML;
 
 
 	public function testConnectPoints() {
-
+		$members = $this->getGeolocatedMembers();
+		$member1 = $members->pop();
+		$member2 = $members->pop();
+		$map = $this->getMap();
+		$map->connectPoints($member1, $member2);
+		$html = $map->forTemplate();
+		$expected = 'data-lines=\'[{"lat1":-12,"lon1":42.1,"lat2":23,"lon2":78,"color":"#FF3300"}]\'';
+		$this->assertContains($expected, $html);
 	}
 
-
-	public function testAddArrayMarkerByAddress() {
-
-	}
 
 	public function testAddKML() {
-
+		$map = $this->getMap();
+		$map->addKml('http://www.test.com/route1.kml');
+		$map->addKml('http://www.test.com/route2.kml');
+		$html = $map->forTemplate();
+		$expected = 'data-kmlfiles=\'["http://www.test.com/route1.kml","http://www.test.com/route2.kml"]\'';
+		$this->assertContains($expected, $html);
 	}
 
 
 	public function testAddLine() {
+		$map = $this->getMap();
+		$map->addLine(
+			array(13,101),
+			array(13.2, 101.4),
+			'#F32'
+		);
 
+		$map->addLine(
+			array(13.2, 101.4),
+			array(14.2,99.8)
+		);
+
+		$html = $map->forTemplate();
+		$expected = 'data-lines=\'[{"lat1":13,"lon1":101,"lat2":13.2,"lon2":101.4,"color":"#F32"},{"lat1":13.2,"lon1":101.4,"lat2":14.2,"lon2":99.8,"color":"#FF3300"}]\'';
+		$this->assertContains($expected, $html);
 	}
 
 
 	public function testJsonRemoveUnicodeSequences() {
-
+		$this->markTestSkipped('TODO - private function for PHP 5.3');
 	}
-
-
-	public function testProcessTemplateJS() {
-
-	}
-
-
-	public function testProcessTemplateHTML() {
-
-	}
-
-
 
 
 	private function getMap() {
@@ -383,6 +403,11 @@ HTML;
 	}
 
 	private function getMapMultipleItems() {
+		$members = $this->getGeolocatedMembers();
+		return $members->getRenderableMap();
+	}
+
+	private function getGeolocatedMembers() {
 		$members = new ArrayList();
 
 		$member1 = new Member();
@@ -403,7 +428,7 @@ HTML;
 		$member2->write();
 		$members->push($member2);
 
-		return $members->getRenderableMap();
+		return $members;
 	}
 
 }
