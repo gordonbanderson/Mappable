@@ -252,17 +252,28 @@ HTML;
 
 
 	public function testSetDefaultHideMarker() {
+		$map = $this->getMapMultipleItems();
+		$map->setDefaultHideMarker(false);
+		$html = $map->forTemplate();
+		$this->assertContains(
+			'data-defaultHideMarker=false',
+			$html
+		);
+
+		$map = $this->getMapMultipleItems();
+		$map->setDefaultHideMarker(true);
+		$html = $map->forTemplate();
+		$this->assertContains(
+			'data-defaultHideMarker=1',
+			$html
+		);
+
 
 	}
 
 
-	public function testGetGoogleMap() {
-
-	}
-
-
-	public function testgetContent() {
-
+	public function testGetContent() {
+		$this->markTestSkipped('Skipping this test so as tesable offline');
 	}
 
 
@@ -277,22 +288,22 @@ HTML;
 		$this->assertEquals($expected, $location);
 	}
 
-	public function testaddMarkerByCoords() {
+	public function testAddMarkerByCoords() {
 
 	}
 
 
-	public function testaddMarkerByAddress() {
+	public function testAddMarkerByAddress() {
 
 	}
 
 
-	public function testaddArrayMarkerByCoords() {
+	public function testAddArrayMarkerByCoords() {
 
 	}
 
 
-	public function testaddMarkerAsObject() {
+	public function testAddMarkerAsObject() {
 
 	}
 
@@ -302,16 +313,16 @@ HTML;
 	}
 
 
-	public function testaddArrayMarkerByAddress() {
+	public function testAddArrayMarkerByAddress() {
 
 	}
 
-	public function testaddKML() {
+	public function testAddKML() {
 
 	}
 
 
-	public function testaddLine() {
+	public function testAddLine() {
 
 	}
 
@@ -347,6 +358,7 @@ HTML;
 		$member1->MapPinEdited = true;
 		$member1->FirstName = 'Fred';
 		$member1->Surname = 'Bloggs';
+		$member1->write();
 		$members->push($member1);
 
 		$member2 = new Member();
@@ -355,6 +367,7 @@ HTML;
 		$member2->MapPinEdited = true;
 		$member2->FirstName = 'Kane';
 		$member2->Surname = 'Williamson';
+		$member2->write();
 		$members->push($member2);
 
 		return $members->getRenderableMap();
