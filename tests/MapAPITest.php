@@ -322,7 +322,22 @@ HTML;
 
 
 	public function testAddMarkerAsObject() {
+		$map = $this->getMap();
+		$member = new Member();
+		$member->FirstName = 'Test';
+		$member->Surname = 'User';
+		$member->Lat = 24.2;
+		$member->Lon = -40;
+		$member->write();
+		$params = array();
+		$map->addMarkerAsObject(
+			$member,
+			$params
+		);
 
+		$html = $map->forTemplate();
+		$expected = 'data-mapmarkers=\'[{"latitude":24.2,"longitude":-40,"html":"MEMBER: Test User","category":"default","icon":false}]\'';
+		$this->assertContains($expected, $html);
 	}
 
 
