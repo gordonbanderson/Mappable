@@ -185,6 +185,9 @@ HTML;
 	}
 
 
+	/**
+	 * @param Member $instance
+	 */
 	private function addMapPinToInstance(&$instance) {
 		// Create a pin
 		$imageFile = new Image(array('Name' => 'mapicontest.png', 'Filename' => 'mappable/tests/images/mapicontest.png'));
