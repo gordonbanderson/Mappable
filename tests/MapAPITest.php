@@ -20,8 +20,6 @@ class MapAPITest extends SapphireTest {
 		$map->setKey('PRETEND_KEY');
 		$html = $map->forTemplate();
 		$map->setKey(null);
-		$reqBackend = Requirements::backend();
-		error_log(print_r($reqBackend,1));
 
 		$this->fail('where to check effect?');
 	}
