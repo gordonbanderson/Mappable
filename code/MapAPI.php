@@ -588,7 +588,8 @@ class MapAPI extends ViewableData
 	}
 
 	/**
-	 * Parse a KML file and add markers to a category
+	 * Add a KML file which will be rendered on this map.  Normally used for likes
+	 * of GPS traces from activities
 	 *
 	 * @param string  $url      url of the kml file compatible with gmap and gearth
 	 *
@@ -703,6 +704,10 @@ class MapAPI extends ViewableData
 
 		if (!$this->allowFullScreen) {
 			$this->allowFullScreen = 'false';
+		}
+
+		if (!$this->enableWindowZoom) {
+			$this->enableWindowZoom = 'false';
 		}
 
 		$vars = new ArrayData(array(
