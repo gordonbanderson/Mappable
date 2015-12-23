@@ -133,7 +133,7 @@ HTML;
 
 	public function testSetSize() {
 		$map = $this->getMap();
-		$map->setSize('432px','1234px');
+		$map->setSize('432px', '1234px');
 		$html = $map->forTemplate();
 		$this->assertContains('style="width:432px; height: 1234px;"', $html);
 	}
