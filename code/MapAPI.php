@@ -23,9 +23,6 @@ class MapAPI extends ViewableData
 	/** GoogleMap ID for the HTML DIV  **/
 	protected $googleMapId = 'googlemapapi';
 
-	/** GoogleMap  Direction ID for the HTML DIV **/
-	protected $googleMapDirectionId = 'route';
-
 	/* Additional CSS classes to use when rendering the map */
 	protected $set_additional_css_classes = '';
 
@@ -95,9 +92,6 @@ class MapAPI extends ViewableData
 	protected $content = '';
 
 	protected $mapService = 'google';
-
-	/** Add the direction button to the infowindow **/
-	protected $displayDirectionFields = false;
 
 	/** Hide the marker by default **/
 	protected $defaultHideMarker = false;
@@ -229,19 +223,6 @@ class MapAPI extends ViewableData
 
 	public function setDivId($googleMapId) {
 		$this->googleMapId = $googleMapId;
-		return $this;
-	}
-
-	/**
-	 * Set the ID of the default gmap direction DIV
-	 *
-	 * @param string  $googleMapDirectionId GoogleMap  Direction ID for the HTML DIV
-	 *
-	 * @return MapAPI This same object, in order to enable chaining of methods
-	 */
-
-	public function setDirectionDivId($googleMapDirectionId) {
-		$this->googleMapDirectionId = $googleMapDirectionId;
 		return $this;
 	}
 
@@ -415,19 +396,6 @@ class MapAPI extends ViewableData
 		}
 
 		$this->latLongCenter = $center;
-		return $this;
-	}
-
-	/**
-	 * Decide whether or not to show direction controls
-	 *
-	 * @param boolean $displayDirectionFields display directions or not in the info window
-	 *
-	 * @return MapAPI This same object, in order to enable chaining of methods
-	 */
-
-	public function setDisplayDirectionFields($displayDirectionFields) {
-		$this->displayDirectionFields = $displayDirectionFields;
 		return $this;
 	}
 
@@ -643,20 +611,6 @@ class MapAPI extends ViewableData
 			$this->addMarkerByAddress($coord[0], $coord[1], $category, $icon);
 		}
 		return $this;
-	}
-
-	/**
-	 * Set a direction between 2 addresss and set a text panel
-	 *
-	 * @param string  $from    an address
-	 * @param string  $to      an address
-	 * @param string  $idpanel id of the div panel
-	 *
-	 * @return void
-	 */
-
-	public function addDirection($from, $to, $idpanel = '') {
-		$this->contentMarker .= 'addDirection("'.$from.'","'.$to.'","'.$idpanel.'");';
 	}
 
 	/**

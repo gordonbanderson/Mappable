@@ -40,11 +40,6 @@ class MapUtil
 	public static $automatic_center = true;
 
 	/**
-	 * @var boolean Show directions fields on the map
-	 */
-	public static $direction_fields = false;
-
-	/**
 	 * @var boolean Show the marker fields on the map
 	 */
 	public static $hide_marker = false;
@@ -81,7 +76,6 @@ class MapUtil
 		self::$iconHeight = 24;
 		self::$div_id = "google_map";
 		self::$automatic_center = true;
-		self::$direction_fields = false;
 		self::$hide_marker = false;
 		self::$map_type = 'google.maps.MapTypeId.ROADMAP';
 		self::$center = 'Paris, France';
@@ -210,7 +204,6 @@ class MapUtil
 		$gmap = new MapAPI($key);
 		$gmap->setDivId(self::$div_id."_".self::$instances);
 		$gmap->setEnableAutomaticCenterZoom(self::$automatic_center);
-		$gmap->setDisplayDirectionFields(self::$direction_fields);
 		$gmap->setSize(self::$map_width, self::$map_height);
 		$gmap->setDefaultHideMarker(self::$hide_marker);
 		$gmap->setMapType(self::$map_type);
