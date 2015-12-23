@@ -40,13 +40,6 @@ class MapUtilTest extends SapphireTest {
 		$this->fail('Where is this used?');
 	}
 
-	public function test_get_set_map_already_rendered() {
-		MapUtil::set_map_already_rendered(false);
-		$this->assertFalse(MapUtil::get_map_already_rendered());
-		MapUtil::set_map_already_rendered(true);
-		$this->assertTrue(MapUtil::get_map_already_rendered());
-	}
-
 	public function test_set_map_size() {
 		MapUtil::set_map_size('890px', '24em');
 		$html = $this->htmlForMap();
