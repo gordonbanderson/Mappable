@@ -267,15 +267,11 @@ HTML;
 			'data-defaultHideMarker=1',
 			$html
 		);
-
-
 	}
-
 
 	public function testGetContent() {
-		$this->markTestSkipped('Skipping this test so as tesable offline');
+		$this->markTestSkipped('Skipping this test so as testable offline');
 	}
-
 
 	public function testGeocoding() {
 		$map = $this->getMap();
@@ -294,12 +290,34 @@ HTML;
 
 
 	public function testAddMarkerByAddress() {
-
+		//$address, $content = '', $category = '', $icon = ''
+		$map = $this->getMap();
+		$map->addMarkerByAddress(
+			'Koh Kred, Nonthaburi, Thailand',
+			'Small island in the Chao Phraya river',
+			'testing',
+			'http://www.test.com/icon.png'
+		);
+		$html = $map->forTemplate();
+		$expected = 'data-mapmarkers=\'[{"latitude":13.9114455,"longitude":100.4761897,"html":"Small island in the Chao Phraya river","category":"testing","icon":"http://www.test.com/icon.png"}]\'';
+		$this->assertContains($expected, $html);
 	}
 
 
 	public function testAddArrayMarkerByCoords() {
+		$map = $this->getMap();
+		$map->addMarkerByCoords(
+			13.91,
+			100.47,
+			'Description of marker',
+			'testing',
+			'http://www.test.com/icon.png'
+		);
+		$html = $map->forTemplate();
+		$expected =
+		'data-mapmarkers=\'[{"latitude":13.91,"longitude":100.47,"html":"Description of marker","category":"testing","icon":"http://www.test.com/icon.png"}]';
 
+		$this->assertContains($expected, $html);
 	}
 
 
@@ -308,7 +326,7 @@ HTML;
 	}
 
 
-	public function testconnectPoints() {
+	public function testConnectPoints() {
 
 	}
 
@@ -327,17 +345,17 @@ HTML;
 	}
 
 
-	public function testjsonRemoveUnicodeSequences() {
+	public function testJsonRemoveUnicodeSequences() {
 
 	}
 
 
-	public function testprocessTemplateJS() {
+	public function testProcessTemplateJS() {
 
 	}
 
 
-	public function testprocessTemplateHTML() {
+	public function testProcessTemplateHTML() {
 
 	}
 
