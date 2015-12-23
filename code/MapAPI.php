@@ -587,24 +587,6 @@ class MapAPI extends ViewableData
 		return $this->getGoogleMap();
 	}
 
-
-	/**
-	 * Add marker by an array of address
-	 *
-	 * @param array  $coordtab an array of address
-	 * @param string  $category marker category
-	 * @param string  $icon     an icon url
-	 *
-	 * @return MapAPI
-	 */
-
-	public function addArrayMarkerByAddress($coordtab, $category = '', $icon = '') {
-		foreach ($coordtab as $coord) {
-			$this->addMarkerByAddress($coord[0], $coord[1], $category, $icon);
-		}
-		return $this;
-	}
-
 	/**
 	 * Parse a KML file and add markers to a category
 	 *
