@@ -5,7 +5,7 @@ class MapExtensionTest extends SapphireTest {
 
 	public function setUpOnce() {
 		$this->requiredExtensions = array(
-			'Member' => array('MapExtension')
+			'Member' => array('MapExtension', 'MapLayerExtension')
 		);
 		parent::setupOnce();
 	}
@@ -81,17 +81,30 @@ class MapExtensionTest extends SapphireTest {
 
 
 	// FIXME - use an actual file here
-	public function testgetMappableMapPin() {
+	public function testGetMappableMapPin() {
 		$instance = $this->getInstance();
-		$instance->MapPinIconID = 2;
+
+		// no icon, so return false
+		$this->assertFalse($instance->getMappableMapPin());
+
+		// add a default map icon
+		$this->addMapPinToInstance($instance);
+
 		$pin1 = $instance->getMappableMapPin();
-		$this->assertStringEndsWith('/assets/', $pin1);
+		$this->assertStringEndsWith('mappable/tests/images/mapicontest.png', $pin1);
 
+		// Test the cached pin - this is the case of a layer providing a cached pin
+		// so that repeated calls are not made to load the same icon
+		$iconURL =
+			'https://cdn3.iconfinder.com/data/icons/iconic-1/32/map_pin_fill-512.png';
 
-		// Test the cached pin
+		// Set mappable as having no icon, use the cached one instead
+		// This simulates using a common icon to avoid DB queries
+		$instance->MapPinIconID = 0;
+		$instance->write();
+		$instance->CachedMapPinURL = $iconURL;
 		$pin2 = $instance->getMappableMapPin();
-		$this->assertStringEndsWith('/assets/', $pin2);
-		$this->assertEquals($pin1, $pin2);
+		$this->assertEquals($iconURL, $pin2);
 	}
 
 
@@ -159,20 +172,16 @@ class MapExtensionTest extends SapphireTest {
 
 	public function testHasGeoOriginMapLayerExtension() {
 		$instance = $this->getInstance();
-		$instance->Lat = 0;
-		$instance->Lon = 0;
-		$this->assertFalse($instance->HasGeo());
-		Page::add_extension('MapLayerExtension');
-		Page::remove_extension('MapLayerExtension');
-		$this->markTestSkipped('TODO');
-	}
 
-	public function testHasGeoOriginPointsOfInterestLayers() {
-		$instance = $this->getInstance();
+		// assert that origin has no geo (until layers added)
 		$instance->Lat = 0;
 		$instance->Lon = 0;
 		$this->assertFalse($instance->HasGeo());
-		$this->markTestSkipped('TODO');
+
+		$this->addLayerToInstance($instance);
+
+		// assert has geo even when at the origin of 0,0
+		$this->assertTrue($instance->HasGeo());
 	}
 
 	public function testBasicMap() {
@@ -182,9 +191,34 @@ class MapExtensionTest extends SapphireTest {
 		$instance->Zoom = 12;
 		$instance->MapPinEdited = true;
 		$html = $instance->BasicMap()->forTemplate();
+
 		$expected = "data-centre='{\"lat\":37.1,\"lng\":28}'";
 		$this->assertContains($expected, $html);
 		$expected = "data-mapmarkers='[{\"latitude\":37.1,\"longitude\":28,\"html\":\"MEMBER: \",\"category\":\"default\",\"icon\":false}]'";
+		$this->assertContains($expected, $html);
+
+		// This is only set automatically with layers
+		$expected = 'data-enableautocentrezoom=false';
+		$this->assertContains($expected, $html);
+	}
+
+	public function testBasicMapWithLayer() {
+		$instance = $this->getInstance();
+		$instance->Lat = 37.1;
+		$instance->Lon = 28;
+		$instance->Zoom = 12;
+		$instance->MapPinEdited = true;
+		$instance->write();
+		$this->addLayerToInstance($instance);
+		$html = $instance->BasicMap()->forTemplate();
+
+		$expected = "data-centre='{\"lat\":37.1,\"lng\":28}'";
+		$this->assertContains($expected, $html);
+		$expected = "data-mapmarkers='[{\"latitude\":37.1,\"longitude\":28,\"html\":\"MEMBER: \",\"category\":\"default\",\"icon\":false}]'";
+		$this->assertContains($expected, $html);
+
+		// This is only set automatically with layers
+		$expected = 'data-enableautocentrezoom=1';
 		$this->assertContains($expected, $html);
 	}
 
@@ -217,6 +251,30 @@ class MapExtensionTest extends SapphireTest {
 	private function getInstance() {
 		$instance = new Member();
 		return $instance;
+	}
+
+	/*
+	Add a map layer to an existing instance
+	 */
+	private function addLayerToInstance(&$instance) {
+		// Create a layer
+		$kmlFile = new File(array('Name' => 'example.kml', 'Filename' => 'mappable/tests/kml/example.kml'));
+		$layer = new MapLayer();
+		$layer->Title = 'Example KML Layer';
+		$layer->KmlFile = $kmlFile;
+		$layer->write();
+
+		// add the layer to the Member object
+		$layers = $instance->MapLayers();
+		$layers->add($layer);
+	}
+
+	private function addMapPinToInstance(&$instance) {
+		// Create a pin
+		$imageFile = new Image(array('Name' => 'mapicontest.png', 'Filename' => 'mappable/tests/images/mapicontest.png'));
+		$imageFile->write();
+		$instance->MapPinIconID = $imageFile->ID;
+		$instance->write();
 	}
 
 	/**
