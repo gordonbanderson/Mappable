@@ -20,6 +20,9 @@ class MapAPITest extends SapphireTest {
 		$map->setKey('PRETEND_KEY');
 		$html = $map->forTemplate();
 		$map->setKey(null);
+		$reqBackend = Requirements::backend();
+		error_log(print_r($reqBackend,1));
+
 		$this->fail('where to check effect?');
 	}
 
@@ -120,26 +123,12 @@ HTML;
 		$this->assertContains($expected, $html);
 	}
 
-
-	public function testSetDirectionDivId() {
-		$map = $this->getMap();
-		$map->setDirectionDivId('mymapdirectionid');
-		$html = $map->forTemplate();
-		//$expected = '<div id="mymapid" style=';
-		//$this->assertContains($expected, $html);
-		$this->fail('Check if still used');
-	}
-
-
 	public function testSetSize() {
 		$map = $this->getMap();
 		$map->setSize('432px','1234px');
 		$html = $map->forTemplate();
 		$this->assertContains('style="width:432px; height: 1234px;"', $html);
 	}
-
-
-
 
 	public function testSetLang() {
 		$map = $this->getMap();
@@ -248,18 +237,6 @@ HTML;
 		$this->assertContains("data-allowfullscreen='1'", $html);
 	}
 
-
-	public function testSetDisplayDirectionFields() {
-		$map = $this->getMap();
-		$map->setDisplayDirectionFields(false);
-		$html = $map->forTemplate();
-
-		$map->setDisplayDirectionFields(true);
-		$html = $map->forTemplate();
-		$this->fail('Does not appear to be used');
-	}
-
-
 	public function testMapWithMarkers() {
 		$config = Config::inst();
 
@@ -325,12 +302,6 @@ HTML;
 	public function testaddArrayMarkerByAddress() {
 
 	}
-
-
-	public function testaddDirection() {
-
-	}
-
 
 	public function testaddKML() {
 
