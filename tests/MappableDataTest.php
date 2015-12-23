@@ -18,7 +18,7 @@ class MappableDataTest extends SapphireTest {
 	public function testGetRenderableMapSetNoMarkerValues() {
 		$instance = $this->getInstance();
 		$instance->MapPinEdited = true;
-		$html = $instance->getRenderableMap(300,800,2)->setDivId('testmap')->forTemplate()->getValue();
+		$html = $instance->getRenderableMap(300, 800, 2)->setDivId('testmap')->forTemplate()->getValue();
 
 
 		$expected = <<<HTML
@@ -56,7 +56,7 @@ HTML;
 		$instance->MapPinEdited = true;
 		$vals = array('TestKey' => ' TestKeyVal');
 		$instance->setMarkerTemplateValues($vals);
-		$html = $instance->getRenderableMap(300,800,2)->setDivId('testmap')->forTemplate()->getValue();
+		$html = $instance->getRenderableMap(300, 800, 2)->setDivId('testmap')->forTemplate()->getValue();
 		$expected = <<<HTML
 
 
