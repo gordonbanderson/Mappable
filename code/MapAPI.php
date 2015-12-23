@@ -138,10 +138,6 @@ class MapAPI extends ViewableData
 	/* set this to true to render button to maximize / minimize a map */
 	protected $allowFullScreen = null;
 
-
-	protected static $include_download_javascript = false;
-
-
 	/**
 	 * Class constructor
 	 *
@@ -164,12 +160,6 @@ class MapAPI extends ViewableData
 		$this->googleMapKey = $googleMapKey;
 		return $this;
 	}
-
-	public function setIncludeDownloadJavascript($inclusion) {
-		self::$include_download_javascript = $inclusion;
-		return $this;
-	}
-
 
 	public function setShowInlineMapDivStyle($new_show_inline_map_div_style) {
 		$this->show_inline_map_div_style = $new_show_inline_map_div_style;
@@ -731,8 +721,6 @@ class MapAPI extends ViewableData
 			$this->allowFullScreen = 'false';
 		}
 
-
-
 		$vars = new ArrayData(array(
 				'JsonMapStyles' => $this->jsonMapStyles,
 				'AdditionalCssClasses' => $this->additional_css_classes,
@@ -753,7 +741,6 @@ class MapAPI extends ViewableData
 				'GoogleMapID' => $this->googleMapId,
 				'Lang'=>$this->lang,
 				'UseClusterer'=>$this->useClusterer,
-				'DownloadJS' => !(self::$include_download_javascript),
 				'ClustererLibraryPath' => $this->clustererLibraryPath,
 				'ClustererMaxZoom' => $this->maxZoom,
 				'ClustererGridSize' => $this->gridSize,
@@ -766,15 +753,6 @@ class MapAPI extends ViewableData
 
 		// HTML component of the map
 		$this->content = $this->processTemplateHTML('Map', $vars);
-	}
-
-	function processTemplateJS($templateName, $templateVariables = null) {
-		if (!$templateVariables) {
-			$templateVariables = new ArrayList();
-		}
-		$mappingService = Config::inst()->get('Mappable', 'mapping_service');
-		$result = $templateVariables->renderWith($templateName.$mappingService.'JS');
-		return $result;
 	}
 
 	function processTemplateHTML($templateName, $templateVariables = null) {
