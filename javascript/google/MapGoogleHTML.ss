@@ -10,6 +10,7 @@ data-clusterergridsize=$ClustererGridSize,
 data-clusterermaxzoom=$ClustererMaxZoom,
 data-enableautocentrezoom=$EnableAutomaticCenterZoom
 data-mapmarkers='$MapMarkers'
+data-defaultHideMarker=$DefaultHideMarker
 data-lines='$Lines'
 data-kmlfiles='$KmlFiles'
 data-mapstyles='$JsonMapStyles'
