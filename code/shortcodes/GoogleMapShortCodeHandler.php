@@ -21,10 +21,6 @@ class GoogleMapShortCodeHandler {
 			'MapType' => 'road'
 		);
 
-		// ensure JavaScript for the map service is only downloaded once
-		$arguments['DownloadJS'] = !MapUtil::get_map_already_rendered();
-		MapUtil::set_map_already_rendered(true);
-
 		// convert parameters to CamelCase as per standard template conventions
 		$arguments['Latitude'] = $arguments['latitude'];
 		$arguments['Longitude'] = $arguments['longitude'];
