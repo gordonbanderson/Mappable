@@ -10,7 +10,7 @@ class MappableDataObjectSetTest extends SapphireTest {
 		parent::setupOnce();
 	}
 
-	public function testsetMarkerTemplateValues() {
+	public function testSetMarkerTemplateValues() {
 
 		$instance1 = $this->getInstance();
 		$instance1->MapPinEdited = true;
@@ -46,6 +46,7 @@ data-clusterergridsize=50,
 data-clusterermaxzoom=17,
 data-enableautocentrezoom=1
 data-mapmarkers='[{"latitude":13.8188931,"longitude":100.5005558,"html":"MEMBER: Test User TestKeyValMDOS","category":"default","icon":false},{"latitude":7.12,"longitude":23.4,"html":"MEMBER: Test User TestKeyValMDOS","category":"default","icon":false}]'
+data-defaultHideMarker=false
 data-lines='[]'
 data-kmlfiles='[]'
 data-mapstyles='[]'
