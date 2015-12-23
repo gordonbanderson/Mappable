@@ -497,8 +497,10 @@ class MapAPI extends ViewableData
 
 	public function addMarkerByAddress($address, $content = '', $category = '', $icon = '') {
 		$point = $this->geocoding($address);
+		error_log('POINT');
+		error_log(print_r($point,1));
 		if ($point !== null) {
-			$this->addMarkerByCoords($point[2], $point[3], $content, $category, $icon);
+			$this->addMarkerByCoords($point['lat'], $point['lon'], $content, $category, $icon);
 		}
 		return $this;
 	}
