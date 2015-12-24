@@ -197,6 +197,15 @@ HTML;
 		$this->assertContains('data-enableautocentrezoom=1', $html);
 	}
 
+	public function testSetNoLocation() {
+		$map = $this->getMap();
+		$html = $map->forTemplate();
+		$this->assertContains(
+			'data-centre=\'{"lat":48.856614,"lng":2.3522219}\'',
+			$html
+		);
+	}
+
 	/**
 	 * setCentre is mis-named, as the method expects text for a geocoder
 	 */
@@ -262,7 +271,6 @@ HTML;
 			'google.maps.MapTypeId.G_HYBRID_MAP' => 'hybrid',
 			'google.maps.MapTypeId.G_PHYSICAL_MAP' => 'terrain',
 			'custom_layer' => 'custom_layer'
-
 		);
 
 		foreach (array_keys($mapTypes) as $mapType) {
@@ -324,7 +332,13 @@ HTML;
 	}
 
 	public function testGetContent() {
-		$this->markTestSkipped('Skipping this test so as testable offline');
+		$map = $this->getMap();
+		$filepath = 'file://' . Director::baseFolder()
+				  . '/mappable/tests/kml/example.kml';
+		$content = $map->getContent($filepath);
+		$textHash = hash('ripemd160', $content);
+		$fileHash = hash_file('ripemd160', $filepath);
+		$this->assertEquals($fileHash, $textHash);
 	}
 
 	public function testGeocoding() {
@@ -450,7 +464,6 @@ HTML;
 	public function testJsonRemoveUnicodeSequences() {
 		$this->markTestSkipped('TODO - private function for PHP 5.3');
 	}
-
 
 	private function getMap() {
 		$instance = new Member();
