@@ -642,8 +642,6 @@ class MapAPI extends ViewableData
 			);
 		} else if (is_array($this->latLongCenter)) {
 			$latlngCentre = $this->latLongCenter;
-		} else { // Paris
-			$latlngCentre = array('lat'=>48.8792, 'lng' => 2.344444778);
 		}
 
 		$this->LatLngCentreJSON = stripslashes(json_encode($latlngCentre));
