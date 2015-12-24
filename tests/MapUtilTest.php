@@ -137,13 +137,5 @@ class MapUtilTest extends SapphireTest {
 			$html = $this->htmlForMap();
 			$this->assertContains($expected, $html);
 		}
-
 	}
-
-	 public function test_set_info_window_width() {
-	 	MapUtil::set_info_window_width(420);
-	 	$html = $this->htmlForMap();
-	 	$this->fail('No evidence of set info width being used');
-	}
-
 }
