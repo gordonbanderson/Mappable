@@ -130,12 +130,6 @@ HTML;
 		$map->setMapStyle(null);
 	}
 
-
-	public function testSetDelayLoadMapFunction() {
-		$this->fail('Not clear if this is still used');
-	}
-
-
 	public function testSetDivId() {
 		$map = $this->getMap();
 		$map->setDivId('mymapid');
