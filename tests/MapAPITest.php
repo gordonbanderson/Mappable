@@ -167,19 +167,12 @@ HTML;
 		$this->assertContains('data-enablewindowzoom=1', $html);
 	}
 
-	public function testSetIconSize() {
-
-	}
-
-
-
 	public function testSetEnableAutomaticCenterZoom() {
 		$map = $this->getMap();
 		$map->setEnableAutomaticCenterZoom(true);
 		$html = $map->forTemplate();
 		$this->assertContains('data-enableautocentrezoom=1', $html);
 	}
-
 
 	/**
 	 * setCentre is mis-named, as the method expects text for a geocoder
