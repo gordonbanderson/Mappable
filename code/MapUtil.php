@@ -23,12 +23,6 @@ class MapUtil
 	 */
 	public static $map_height = '400px';
 
-	/** @var int Icon width of the gmarker **/
-	public static $iconWidth = 24;
-
-	/** @var int Icon height of the gmarker **/
-	public static $iconHeight = 24;
-
 	/**
 	 * @var int Prefix for the div ID of the map
 	 */
@@ -69,8 +63,6 @@ class MapUtil
 		self::$instances = 0;
 		self::$map_width = '100%';
 		self::$map_height = '400px';
-		self::$iconWidth = 24;
-		self::$iconHeight = 24;
 		self::$div_id = "google_map";
 		self::$automatic_center = true;
 		self::$hide_marker = false;
@@ -192,7 +184,6 @@ class MapUtil
 		$gmap->setDefaultHideMarker(self::$hide_marker);
 		$gmap->setMapType(self::$map_type);
 		$gmap->setCenter(self::$center);
-		$gmap->setIconSize(self::$iconWidth, self::$iconHeight);
 		$gmap->setAllowFullScreen(self::$allow_full_screen);
 		return $gmap;
 	}

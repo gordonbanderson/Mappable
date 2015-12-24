@@ -32,12 +32,6 @@ class MapAPI extends ViewableData
 	/** Height of the gmap **/
 	protected $height = 600;
 
-	/** Icon width of the gmarker **/
-	protected $iconWidth = 20;
-
-	/** Icon height of the gmarker **/
-	protected $iconHeight = 34;
-
 	/* array of lines to be drawn on the map */
 	protected $lines = array();
 
@@ -229,22 +223,6 @@ class MapAPI extends ViewableData
 	public function setSize($width, $height) {
 		$this->width = $width;
 		$this->height = $height;
-		return $this;
-	}
-
-
-	/**
-	 * Set the size of the icon markers
-	 *
-	 * @param int     $iconWidth  GoogleMap  marker icon width
-	 * @param int     $iconHeight GoogleMap  marker icon height
-	 *
-	 * @return MapAPI This same object, in order to enable chaining of methods
-	 */
-
-	public function setIconSize($iconWidth, $iconHeight) {
-		$this->iconWidth = $iconWidth;
-		$this->iconHeight = $iconHeight;
 		return $this;
 	}
 
