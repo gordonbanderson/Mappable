@@ -68,8 +68,6 @@ class MapAPI extends ViewableData
 
 	protected $jsonMapStyles = '[]';
 
-	protected $delayLoadMapFunction = false;
-
 	/**
 	 * Type of the gmap, can be:
 	 *  'road' (roadmap),
@@ -168,13 +166,6 @@ class MapAPI extends ViewableData
 
 	public function setMapStyle($newStyles) {
 		$this->jsonMapStyles = $newStyles;
-		return $this;
-	}
-
-
-
-	public function setDelayLoadMapFunction($newDelay) {
-		$this->delayLoadMapFunction = $newDelay;
 		return $this;
 	}
 
@@ -694,7 +685,6 @@ class MapAPI extends ViewableData
 				'InfoWindowZoom' => $this->infoWindowZoom,
 				'EnableWindowZoom' => $this->enableWindowZoom,
 				'MapMarkers' => $jsonMarkers,
-				'DelayLoadMapFunction' => $this->delayLoadMapFunction,
 				'DefaultHideMarker' => $this->defaultHideMarker,
 				'LatLngCentre' => $this->LatLngCentreJSON,
 				'EnableAutomaticCenterZoom' => $this->enableAutomaticCenterZoom,
