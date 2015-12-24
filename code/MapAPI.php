@@ -328,11 +328,10 @@ class MapAPI extends ViewableData
 			case 'google.maps.MapTypeId.G_PHYSICAL_MAP':
 				$this->mapType = "terrain";
 				break;
-			default:
-				$this->MapType = "road";
+			case 'google.maps.MapTypeId.ROADMAP':
+				$this->mapType = "road";
 				break;
 		}
-
 		return $this;
 	}
 
