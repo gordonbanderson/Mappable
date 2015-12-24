@@ -130,11 +130,4 @@ class MapUtilTest extends SapphireTest {
 	 	$this->fail('No evidence of set info width being used');
 	}
 
-	 public function test_set_icon_size() {
-	 	MapUtil::set_icon_size(14, 37);
-	 	$html = $this->htmlForMap();
-	 	$html = $this->htmlForMap();
-	 	$this->fail('No effect for set icon size');
-	}
-
 }
