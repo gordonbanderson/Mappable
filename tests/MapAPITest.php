@@ -219,6 +219,33 @@ HTML;
 		$html = $map->forTemplate();
 		$expected = "data-centre='{\"lat\":-23.714,\"lng\":47.419}'";
 		$this->assertContains($expected, $html);
+
+		// now test error conditions
+		try {
+			$map->setLatLongCenter('This is not a coordinate');
+			$this->fail('Should not be able to set coordinate as text');
+		} catch (InvalidArgumentException $e) {
+			$message = $e->getMessage();
+			$this->assertEquals(
+				'Center must be an associative array containing lat,lng',
+				$message
+			);
+		}
+
+		try {
+			$badKeys = array('lat' => 47.2, 'wibble' => 76.10);
+			$map->setLatLongCenter($badKeys);
+			$this->fail('Should not be able to set coordinate as text');
+		} catch (InvalidArgumentException $e) {
+			$message = $e->getMessage();
+
+			$this->assertEquals(
+				'Keys provided must be lat, lng',
+				$message
+			);
+		}
+
+
 	}
 
 
