@@ -69,8 +69,10 @@ data-allowfullscreen='1'
 data-clusterergridsize=50,
 data-clusterermaxzoom=17,
 data-enableautocentrezoom=false
+data-enablewindowzoom=false
+data-infowindowzoom=13
 data-mapmarkers='[]'
-data-defaultHideMarker=false
+data-defaulthidemarker=false
 data-lines='[]'
 data-kmlfiles='[]'
 data-mapstyles='[{
@@ -148,11 +150,10 @@ HTML;
 		$map = $this->getMap();
 		$map->setEnableWindowZoom(false);
 		$html = $map->forTemplate();
-		$this->assertContains('data-enableautocentrezoom=false', $html);
+		$this->assertContains('data-enablewindowzoom=false', $html);
 		$map->setEnableWindowZoom(true);
 		$html = $map->forTemplate();
-		$this->assertContains('data-enableautocentrezoom=1', $html);
-
+		$this->assertContains('data-enablewindowzoom=1', $html);
 	}
 
 	public function testSetIconSize() {
@@ -255,7 +256,7 @@ HTML;
 		$map->setDefaultHideMarker(false);
 		$html = $map->forTemplate();
 		$this->assertContains(
-			'data-defaultHideMarker=false',
+			'data-defaulthidemarker=false',
 			$html
 		);
 
@@ -263,7 +264,7 @@ HTML;
 		$map->setDefaultHideMarker(true);
 		$html = $map->forTemplate();
 		$this->assertContains(
-			'data-defaultHideMarker=1',
+			'data-defaulthidemarker=1',
 			$html
 		);
 	}
