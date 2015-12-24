@@ -24,6 +24,29 @@ class MapAPITest extends SapphireTest {
 		$this->fail('where to check effect?');
 	}
 
+	public function testSetClusterer() {
+		$map = $this->getMap();
+		$map->setClusterer(true);
+		$html = $map->forTemplate();
+		$this->assertContains('data-clusterergridsize=50', $html);
+		$this->assertContains('data-clusterermaxzoom=17', $html);
+		$this->assertContains('data-useclusterer=1', $html);
+
+		$map = $this->getMap();
+		$map->setClusterer(true, 60,14);
+		$html = $map->forTemplate();
+		$this->assertContains('data-clusterergridsize=60', $html);
+		$this->assertContains('data-clusterermaxzoom=14', $html);
+		$this->assertContains('data-useclusterer=1', $html);
+
+		$map = $this->getMap();
+		$map->setClusterer(false);
+		$html = $map->forTemplate();
+		$this->assertContains('data-useclusterer=false', $html);
+		$this->assertContains('data-clusterergridsize=50', $html);
+		$this->assertContains('data-clusterermaxzoom=17', $html);
+	}
+
 	/*
 	Toggle as to whether or not to include a style= attribute with width/height
 	 */
@@ -211,11 +234,11 @@ HTML;
 			'google.maps.MapTypeId.SATELLITE' => 'satellite',
 			'google.maps.MapTypeId.G_HYBRID_MAP' => 'hybrid',
 			'google.maps.MapTypeId.G_PHYSICAL_MAP' => 'terrain',
-			'unrecognised_name' => 'road'
+			'custom_layer' => 'custom_layer'
 
 		);
 
-		foreach ($mapTypes as $mapType) {
+		foreach (array_keys($mapTypes) as $mapType) {
 			$map->setMapType($mapType);
 			$expected = "data-maptype='".$mapTypes[$mapType]."'";
 			$html = $map->forTemplate();
