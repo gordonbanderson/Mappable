@@ -132,23 +132,6 @@ class MapUtil
 	}
 
 	/**
-	 * FIXME Is this used?
-	 *
-	 * Set the size of the icon markers
-	 *
-	 * @param int $iconWidth GoogleMap  marker icon width
-	 * @param int $iconHeight GoogleMap  marker icon height
-	 *
-	 * @return void
-	 */
-
-	public static function set_icon_size($iconWidth, $iconHeight)
-	{
-		self::$iconWidth = $iconWidth;
-		self::$iconHeight = $iconHeight;
-	}
-
-	/**
 	 * Get a new GoogleMapAPI object and load it with the default settings
 	 *
 	 * @return MapAPI
