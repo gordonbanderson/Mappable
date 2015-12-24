@@ -24,8 +24,19 @@ class MapAPITest extends SapphireTest {
 		$this->fail('where to check effect?');
 	}
 
+	/*
+	Toggle as to whether or not to include a style= attribute with width/height
+	 */
 	public function testSetShowInlineMapDivStyle() {
+		$map = $this->getMap();
+		$map->setShowInlineMapDivStyle(true);
+		$html = $map->forTemplate();
+		$expected = 'style="width:100%; height: 400px;"';
+		$this->assertContains($expected, $html);
 
+		$map->setShowInlineMapDivStyle(false);
+		$html = $map->forTemplate();
+		$this->assertNotContains($expected, $html);
 	}
 
 	public function testSetAdditionalCSSClasses() {
