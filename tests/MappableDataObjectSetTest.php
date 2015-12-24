@@ -10,8 +10,12 @@ class MappableDataObjectSetTest extends SapphireTest {
 		parent::setupOnce();
 	}
 
-	public function testSetMarkerTemplateValues() {
+	public function setUp() {
+		MapUtil::reset();
+		parent::setUp();
+	}
 
+	public function testSetMarkerTemplateValues() {
 		$instance1 = $this->getInstance();
 		$instance1->MapPinEdited = true;
 		$instance1->write();
