@@ -118,9 +118,25 @@ class MapUtilTest extends SapphireTest {
 	}
 
 	 public function test_set_map_type() {
-		MapUtil::set_map_type('google.maps.MapTypeId.G_HYBRID_MAP');
-		$html = $this->htmlForMap();
-		$this->fail('No effect for set map type');
+		$mapTypes = array(
+			'road' => 'road',
+			'satellite' => 'satellite',
+			'hybrid' => 'hybrid',
+			'terrain' => 'terrain',
+			'google.maps.MapTypeId.ROADMAP' => 'road',
+			'google.maps.MapTypeId.SATELLITE' => 'satellite',
+			'google.maps.MapTypeId.G_HYBRID_MAP' => 'hybrid',
+			'google.maps.MapTypeId.G_PHYSICAL_MAP' => 'terrain',
+			'custom_layer' => 'custom_layer'
+
+		);
+
+		foreach (array_keys($mapTypes) as $mapType) {
+			MapUtil::set_map_type($mapType);
+			$expected = "data-maptype='".$mapTypes[$mapType]."'";
+			$html = $this->htmlForMap();
+			$this->assertContains($expected, $html);
+		}
 
 	}
 
