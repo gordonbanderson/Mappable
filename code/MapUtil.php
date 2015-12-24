@@ -51,9 +51,6 @@ class MapUtil
 	 */
 	public static $center = 'Paris, France';
 
-	/* Width of the map information window */
-	public static $info_window_width = 250;
-
 	/* Whether or not to allow full screen */
 	private static $allow_full_screen = null;
 
@@ -68,7 +65,6 @@ class MapUtil
 		self::$hide_marker = false;
 		self::$map_type = 'google.maps.MapTypeId.ROADMAP';
 		self::$center = 'Paris, France';
-		self::$info_window_width = 250;
 		self::$allow_full_screen = null;
 	}
 
@@ -106,21 +102,7 @@ class MapUtil
 	}
 
 	/**
-	 * FIXME - NOT USED?
-	 * Set the with of the gmap infowindow (on marker clik)
-	 *
-	 * @param int $info_window_width GoogleMap info window width
-	 *
-	 * @return void
-	 */
-	public static function set_info_window_width($info_window_width)
-	{
-		self::$info_window_width = $info_window_width;
-	}
-
-	/**
-	 * FIXME - NOT USED?
-	 * Set the center of the gmap (an address)
+	 * Set the center of the gmap (an address, using text geocoder query)
 	 *
 	 * @param string $center GoogleMap  center (an address)
 	 *
@@ -159,13 +141,13 @@ class MapUtil
 			$key = $key[$host];
 		}
 
-
 		$gmap = new MapAPI($key);
 		$gmap->setDivId(self::$div_id."_".self::$instances);
 		$gmap->setEnableAutomaticCenterZoom(self::$automatic_center);
 		$gmap->setSize(self::$map_width, self::$map_height);
 		$gmap->setDefaultHideMarker(self::$hide_marker);
 		$gmap->setMapType(self::$map_type);
+
 		$gmap->setCenter(self::$center);
 		$gmap->setAllowFullScreen(self::$allow_full_screen);
 		return $gmap;
