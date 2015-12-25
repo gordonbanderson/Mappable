@@ -38,9 +38,6 @@ class MapUtil
 	 */
 	public static $hide_marker = false;
 
-
-
-
 	/**
 	 * @var boolean Show the marker fields on the map
 	 */
@@ -70,6 +67,7 @@ class MapUtil
 		self::$center = 'Paris, France';
 		self::$map_already_rendered = false;
 		self::$allow_full_screen = null;
+		Config::inst()->update('Mappable', 'language', 'en');
 	}
 
 	/**
@@ -80,7 +78,6 @@ class MapUtil
 	public static function set_api_key($key) {
 		self::$api_key = $key;
 	}
-
 
 	/**
 	 * @param boolean $new_map_already_rendered
@@ -165,6 +162,8 @@ class MapUtil
 		$gmap->setMapType(self::$map_type);
 		$gmap->setCenter(self::$center);
 		$gmap->setAllowFullScreen(self::$allow_full_screen);
+		$language = Config::inst()->get('Mappable', 'language');
+		$gmap->setLang($language);
 		return $gmap;
 	}
 
