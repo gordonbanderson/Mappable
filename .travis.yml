@@ -39,5 +39,6 @@ script:
   - vendor/bin/phpunit --coverage-clover=coverage.clover mappable/tests/
 
 after_script:
+    - cd mappable
     - wget https://scrutinizer-ci.com/ocular.phar
     - php ocular.phar -vvv code-coverage:upload --format=php-clover coverage.clover
