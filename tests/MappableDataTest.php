@@ -24,7 +24,7 @@ class MappableDataTest extends SapphireTest {
 		$expected = <<<HTML
 
 
-<div id="testmap" style="width:300; height: 800;"
+<div id="testmap" data-google-map-lang="en"  style="width:300; height: 800;"
  class=" mappable"
 data-map
 data-centre='{"lat":13.8188931,"lng":100.5005558}'
@@ -63,7 +63,7 @@ HTML;
 		$expected = <<<HTML
 
 
-<div id="testmap" style="width:300; height: 800;"
+<div id="testmap" data-google-map-lang="en"  style="width:300; height: 800;"
  class=" mappable"
 data-map
 data-centre='{"lat":13.8188931,"lng":100.5005558}'
