@@ -163,9 +163,7 @@ class MapUtil
 		$gmap->setSize(self::$map_width, self::$map_height);
 		$gmap->setDefaultHideMarker(self::$hide_marker);
 		$gmap->setMapType(self::$map_type);
-
 		$gmap->setCenter(self::$center);
-		$gmap->setIncludeDownloadJavascript(self::$map_already_rendered);
 		$gmap->setAllowFullScreen(self::$allow_full_screen);
 		return $gmap;
 	}
