@@ -614,7 +614,7 @@ class MapAPI extends ViewableData
 							$this->latLongCenter : $this->geocoding($this->center);
 
 		// coordinates for centre depending on which method used
-		if (isset($geocodeCentre['geocoded'] )) {
+		if (isset($geocodeCentre['geocoded'])) {
 			$latlngCentre = array(
 				'lat' => $geocodeCentre['lat'],
 				'lng' => $geocodeCentre['lon']
