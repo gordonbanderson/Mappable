@@ -96,7 +96,6 @@ class MappableData extends Extension {
 
 		$src = htmlentities($apiurl . '?' . http_build_query($urlparts));
 
-		error_log('SRC:'.$src);
 		return '<img src="'.$src.'" width="'.$width.'" height="'.$height.'" alt="'.$this->owner->Title.'" />';
 	}
 
