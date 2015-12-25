@@ -281,12 +281,19 @@ HTML;
 		$map->setAllowFullScreen(false);
 		$html = $map->forTemplate();
 
-		//FIXME this is possibly problematic
 		$this->assertContains("data-allowfullscreen='false'", $html);
 
 		$map->setAllowFullScreen(true);
 		$html = $map->forTemplate();
 		$this->assertContains("data-allowfullscreen='1'", $html);
+
+		// deal with the null calse
+		$map->setAllowFullScreen(true);
+		$html = $map->forTemplate();
+		$expected = Config::inst()->get('Mappable', 'allow_full_screen');
+		$this->assertContains("data-allowfullscreen='{$expected}'", $html);
+
+
 	}
 
 	public function testMapWithMarkers() {
@@ -454,9 +461,35 @@ HTML;
 		$this->assertContains($expected, $html);
 	}
 
-
-	public function testJsonRemoveUnicodeSequences() {
-		$this->markTestSkipped('TODO - private function for PHP 5.3');
+	/**
+	 * This tests out a specific case of passing null for template values
+	 */
+	public function testProcessTemplate() {
+		$map = $this->getMap();
+		$html = $map->processTemplateHTML('Map', null);
+		echo $html;
+		$expected = <<<HTML
+<div id=""
+data-map
+data-centre=''
+data-zoom=
+data-maptype=''
+data-allowfullscreen=''
+data-clusterergridsize=,
+data-clusterermaxzoom=,
+data-enableautocentrezoom=
+data-enablewindowzoom=
+data-infowindowzoom=
+data-mapmarkers=''
+data-defaulthidemarker=
+data-lines=''
+data-kmlfiles=''
+data-mapstyles=''
+data-useclusterer=
+>
+</div>
+HTML;
+		$this->assertEquals($expected, $html);
 	}
 
 	private function getMap() {
