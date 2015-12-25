@@ -591,7 +591,7 @@ class MapAPI extends ViewableData
 	/*
 	For php 5.3
 	*/
-	private function jsonRemoveUnicodeSequences($struct) {
+	public static function jsonRemoveUnicodeSequences($struct) {
 		 return preg_replace("/\\\\u([a-f0-9]{4})/e",
 		 					"iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))",
 		 					json_encode($struct));
@@ -612,9 +612,9 @@ class MapAPI extends ViewableData
 
 		// prior to PHP version 5.4, one needs to use regex
 		if (PHP_VERSION_ID < 50400) {
-			$jsonMarkers = stripslashes($this->jsonRemoveUnicodeSequences($this->markers));
-			$linesJson = stripslashes($this->jsonRemoveUnicodeSequences($this->lines));
-			$kmlJson = stripslashes($this->jsonRemoveUnicodeSequences($this->kmlFiles));
+			$jsonMarkers = stripslashes(MapAPI::jsonRemoveUnicodeSequences($this->markers));
+			$linesJson = stripslashes(MapAPI::jsonRemoveUnicodeSequences($this->lines));
+			$kmlJson = stripslashes(MapAPI::jsonRemoveUnicodeSequences($this->kmlFiles));
 		} else {
 			$jsonMarkers = stripslashes(json_encode($this->markers, JSON_UNESCAPED_UNICODE));
 			$linesJson = stripslashes(json_encode($this->lines, JSON_UNESCAPED_UNICODE));
@@ -665,6 +665,7 @@ class MapAPI extends ViewableData
 
 		// initialise full screen as the config value if not already set
 		if ($this->allowFullScreen === null) {
+			asdfsdfsdf;
 			$this->allowFullScreen = Config::inst()->get('Mappable', 'allow_full_screen');
 		}
 
@@ -713,7 +714,7 @@ class MapAPI extends ViewableData
 	 * @param string $templateName
 	 * @param ArrayData $templateVariables
 	 */
-	function processTemplateHTML($templateName, $templateVariables = null) {
+	public function processTemplateHTML($templateName, $templateVariables = null) {
 		if (!$templateVariables) {
 			$templateVariables = new ArrayList();
 		}
