@@ -15,19 +15,24 @@ class MappableGoogleGeocoder implements MappableGeocoder {
 		$locations = null;
 
 		if (!($json = $cache->load($cacheKey))) {
-			error_log('GEOCODE NOT CACHED');
 			if ($json = @file_get_contents(
 				"http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".
 				urlencode($searchString))) {
 				$response = Convert::json2array($json);
 
 				if ($response['status'] != 'OK') {
-					throw new MappableGeocoderException('Google status returned error');
+					if ($response['status'] == 'ZERO_RESULTS') {
+						$locations = array();
+					} else {
+						throw new Exception('Google status returned error');
+					}
+
+				} else {
+					$locations = $response['results'];
 				}
-				$locations = $response['results'];
+
+				// save result in cache
 				$cache->save($json, $cacheKey);
-
-
 			}
 		} else {
 			$cached = true;
