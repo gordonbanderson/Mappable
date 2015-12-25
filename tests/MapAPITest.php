@@ -288,12 +288,10 @@ HTML;
 		$this->assertContains("data-allowfullscreen='1'", $html);
 
 		// deal with the null calse
-		$map->setAllowFullScreen(true);
+		$map->setAllowFullScreen(null);
 		$html = $map->forTemplate();
 		$expected = Config::inst()->get('Mappable', 'allow_full_screen');
 		$this->assertContains("data-allowfullscreen='{$expected}'", $html);
-
-
 	}
 
 	public function testMapWithMarkers() {
@@ -350,6 +348,13 @@ HTML;
 			'lon' => 100.5143528,
     		'geocoded' => true
 		);
+		$this->assertEquals($expected, $location);
+	}
+
+	public function testGeocodingNoResultsFound() {
+		$map = $this->getMap();
+		$location = $map->geocoding("aasdfsafsfdsfasdf");
+		$expected = array();
 		$this->assertEquals($expected, $location);
 	}
 
@@ -421,6 +426,22 @@ HTML;
 	}
 
 
+	public function testAddMarkerThatIsMappableAsObject() {
+		$map = $this->getMap();
+		$member = new MappableExampleClass();
+		//$member->write();
+		$params = array();
+		$map->addMarkerAsObject(
+			$member,
+			$params
+		);
+
+		$html = $map->forTemplate();
+		$expected = 'data-mapmarkers=\'[{"latitude":13.4,"longitude":100.7,"html":"example content","category":"default","icon":null}]\'';
+		$this->assertContains($expected, $html);
+	}
+
+
 	public function testConnectPoints() {
 		$members = $this->getGeolocatedMembers();
 		$member1 = $members->pop();
@@ -467,8 +488,9 @@ HTML;
 	public function testProcessTemplate() {
 		$map = $this->getMap();
 		$html = $map->processTemplateHTML('Map', null);
-		echo $html;
 		$expected = <<<HTML
+
+
 <div id=""
 data-map
 data-centre=''
@@ -488,8 +510,9 @@ data-mapstyles=''
 data-useclusterer=
 >
 </div>
+
 HTML;
-		$this->assertEquals($expected, $html);
+		$this->assertEquals($expected, $html->getValue());
 	}
 
 	private function getMap() {
@@ -526,4 +549,26 @@ HTML;
 		return $members;
 	}
 
+}
+
+
+
+// basic implementation of Mappable interface for some of the tests
+class MappableExampleClass extends ViewableData implements TestOnly, Mappable {
+
+	public function getMappableLatitude() {
+		return 13.4;
+	}
+
+	public function getMappableLongitude() {
+		return 100.7;
+	}
+
+	public function getMappableMapPin() {
+		return null;
+	}
+
+	public function getMappableMapContent() {
+		return 'example content';
+	}
 }
