@@ -39,7 +39,7 @@ class MappableDataObjectSetTest extends SapphireTest {
 		$expected = <<<HTML
 
 
-<div id="testmap" style="width:300; height: 800;"
+<div id="testmap" data-google-map-lang="en"  style="width:300; height: 800;"
  class=" mappable"
 data-map
 data-centre='{"lat":48.856614,"lng":2.3522219}'
