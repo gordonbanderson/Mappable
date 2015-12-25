@@ -91,7 +91,7 @@ class MapExtensionTest extends SapphireTest {
 		$this->addMapPinToInstance($instance);
 
 		$pin1 = $instance->getMappableMapPin();
-		$this->assertStringEndsWith('mappable/tests/images/mapicontest.png', $pin1);
+		$this->assertStringEndsWith('assets/mapicontest.png', $pin1);
 
 		// Test the cached pin - this is the case of a layer providing a cached pin
 		// so that repeated calls are not made to load the same icon
@@ -271,7 +271,9 @@ class MapExtensionTest extends SapphireTest {
 
 	private function addMapPinToInstance(&$instance) {
 		// Create a pin
-		$imageFile = new Image(array('Name' => 'mapicontest.png', 'Filename' => 'mappable/tests/images/mapicontest.png'));
+		$copied = copy('mappable/tests/images/mapicontest.png', 'assets/mapicontest.png');
+		$this->assertTrue($copied);
+		$imageFile = new Image(array('Name' => 'mapicontest.png', 'Filename' => 'assets/mapicontest.png'));
 		$imageFile->write();
 		$instance->MapPinIconID = $imageFile->ID;
 		$instance->write();
