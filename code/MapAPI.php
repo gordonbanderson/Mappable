@@ -246,7 +246,7 @@ class MapAPI extends ViewableData
 	/**
 	 * Enable the zoom on the marker when you click on it
 	 *
-	 * @param int $enableWindowZoom info window enabled zoom.
+	 * @param boolean $enableWindowZoom info window enabled zoom.
 	 *
 	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
@@ -259,7 +259,7 @@ class MapAPI extends ViewableData
 	/**
 	 * Enable theautomatic center/zoom at the gmap load
 	 *
-	 * @param int $enableAutomaticCenterZoom enable automatic centre zoom
+	 * @param boolean $enableAutomaticCenterZoom enable automatic centre zoom
 	 *
 	 * @return MapAPI This same object, in order to enable chaining of methods
 	 */
@@ -613,6 +613,7 @@ class MapAPI extends ViewableData
 		$geocodeCentre = ($this->latLongCenter) ?
 							$this->latLongCenter : $this->geocoding($this->center);
 
+		$latlngCentre = null;
 		// coordinates for centre depending on which method used
 		if (isset($geocodeCentre['geocoded'])) {
 			$latlngCentre = array(
@@ -645,10 +646,6 @@ class MapAPI extends ViewableData
 
 		if (!$this->defaultHideMarker) {
 			$this->defaultHideMarker = 'false';
-		}
-
-		if (!$this->MapTypeId) {
-			$this->MapTypeId = 'false';
 		}
 
 		// initialise full screen as the config value if not already set
