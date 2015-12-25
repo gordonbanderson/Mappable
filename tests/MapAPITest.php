@@ -9,19 +9,9 @@ class MapAPITest extends SapphireTest {
 		parent::setupOnce();
 	}
 
-
 	public function setUp() {
 		MapUtil::reset();
 		parent::setUp();
-	}
-
-	public function testSetKey() {
-		$map = $this->getMap();
-		$map->setKey('PRETEND_KEY');
-		$html = $map->forTemplate();
-		$map->setKey(null);
-
-		$this->fail('where to check effect?');
 	}
 
 	public function testSetClusterer() {
@@ -93,7 +83,7 @@ STYLE;
 		$expected = <<<HTML
 
 
-<div id="google_map_1" style="width:100%; height: 400px;"
+<div id="google_map_1" data-google-map-lang="en"  style="width:100%; height: 400px;"
  class=" mappable"
 data-map
 data-centre='{"lat":48.856614,"lng":2.3522219}'
@@ -134,7 +124,7 @@ HTML;
 		$map = $this->getMap();
 		$map->setDivId('mymapid');
 		$html = $map->forTemplate();
-		$expected = '<div id="mymapid" style=';
+		$expected = '<div id="mymapid" data-google-map-lang="en"  style=';
 		$this->assertContains($expected, $html);
 	}
 
@@ -146,10 +136,13 @@ HTML;
 	}
 
 	public function testSetLang() {
+		Config::inst()->update('Mappable', 'language', 'fr');
 		$map = $this->getMap();
-		$map->setLang('fr');
 		$html = $map->forTemplate();
-		$this->fail('Response needs checked');
+		$this->assertContains(
+			'<div id="google_map_1" data-google-map-lang="fr" ',
+			$html
+		);
 	}
 
 
