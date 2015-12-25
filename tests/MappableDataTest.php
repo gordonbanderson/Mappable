@@ -171,9 +171,9 @@ HTML;
 		$this->addMapPinToInstance($instance);
 
 		$html = $instance->StaticMap(300, 800, 2);
-		$expected = '<img src="//maps.googleapis.com/maps/api/staticmap?center=13.8188931%2C100.5005558&amp;markers=icon%3Ahttp%3A%2F%2Fdev.jakayanrides.com%2Fassets%2Fmapicontest.png%7C13.8188931%2C100.5005558&amp;zoom=2&amp;size=300x800&amp;sensor=false&amp;maptype=roadmap" width="300" height="800" alt="User, Test" />';
-		$this->assertEquals($expected, $html);
 
+		$this->assertStringStartsWith('<img src="//maps.googleapis.com/maps/api/staticmap?center=13.8188931%2C100.5005558&amp;markers=icon%3A', $html);
+		$this->assertStringEndsWith('%2Fassets%2Fmapicontest.png%7C13.8188931%2C100.5005558&amp;zoom=2&amp;size=300x800&amp;sensor=false&amp;maptype=roadmap" width="300" height="800" alt="User, Test" />', $html);
 	}
 
 	private function getInstance() {
