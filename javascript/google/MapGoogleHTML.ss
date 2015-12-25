@@ -1,5 +1,5 @@
 <% include GoogleJavaScript %>
-<div id="$GoogleMapID"<% if ShowInlineMapDivStyle %> style="width:{$Width}; height: {$Height};"
+<div id="$GoogleMapID"<% if $GoogleMapKey %> data-google-map-key="$GoogleMapKey"<% end_if %><% if $GoogleMapLang %> data-google-map-lang="$GoogleMapLang" <% end_if %><% if ShowInlineMapDivStyle %> style="width:{$Width}; height: {$Height};"
 <% end_if %><% if AdditionalCssClasses %> class="$AdditionalCssClasses"<% end_if %>
 data-map
 data-centre='$LatLngCentre'
