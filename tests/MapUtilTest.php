@@ -24,7 +24,16 @@ class MapUtilTest extends SapphireTest {
 	public function test_set_api_key_string() {
 		MapUtil::set_api_key('PRETENDAPIKEY');
 		$html = $this->htmlForMap();
-		$this->fail('Where is this used?');
+		$this->assertContains(
+			' data-google-map-key="PRETENDAPIKEY" data-google-map-lang="en"',
+			$html
+		);
+
+		$html = $this->htmlForMap();
+		$this->assertNotContains(
+			' data-google-map-key="PRETENDAPIKEY" data-google-map-lang="en"',
+			$html
+		);
 	}
 
 	public function test_set_api_key_host_array() {
@@ -37,7 +46,16 @@ class MapUtilTest extends SapphireTest {
 		$key = array($host => 'PRETENDAPIKEY');
 		MapUtil::set_api_key($key);
 		$html = $this->htmlForMap();
-		$this->fail('Where is this used?');
+		$this->assertContains(
+			' data-google-map-key="PRETENDAPIKEY" data-google-map-lang="en"',
+			$html
+		);
+
+		$html = $this->htmlForMap();
+		$this->assertNotContains(
+			' data-google-map-key="PRETENDAPIKEY" data-google-map-lang="en"',
+			$html
+		);
 	}
 
 	public function test_set_map_size() {
@@ -107,8 +125,6 @@ class MapUtilTest extends SapphireTest {
 		return $html;
 	}
 
-
-	// These appear to test code that's not used
 	public function test_set_center() {
 		MapUtil::set_center('Klong Tan, Bangkok, Thailand');
 		$html = $this->htmlForMap();
