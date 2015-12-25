@@ -25,6 +25,11 @@ class MapExtension extends DataExtension implements Mappable {
 		'MapPinEdited' => false
 	);
 
+	/*
+	Map editing field
+	 */
+	private $mapField = null;
+
 
 	/*
 	Add a Location tab containing the map
