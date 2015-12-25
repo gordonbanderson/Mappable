@@ -23,7 +23,7 @@ class MapAPITest extends SapphireTest {
 		$this->assertContains('data-useclusterer=1', $html);
 
 		$map = $this->getMap();
-		$map->setClusterer(true, 60,14);
+		$map->setClusterer(true, 60, 14);
 		$html = $map->forTemplate();
 		$this->assertContains('data-clusterergridsize=60', $html);
 		$this->assertContains('data-clusterermaxzoom=14', $html);
@@ -325,7 +325,7 @@ HTML;
 
 	public function testGetContent() {
 		$map = $this->getMap();
-		$filepath = 'file://' . Director::baseFolder()
+		$filepath = 'file://'.Director::baseFolder()
 				  . '/mappable/tests/kml/example.kml';
 		$content = $map->getContent($filepath);
 		$textHash = hash('ripemd160', $content);
@@ -460,14 +460,14 @@ HTML;
 	public function testAddLine() {
 		$map = $this->getMap();
 		$map->addLine(
-			array(13,101),
+			array(13, 101),
 			array(13.2, 101.4),
 			'#F32'
 		);
 
 		$map->addLine(
 			array(13.2, 101.4),
-			array(14.2,99.8)
+			array(14.2, 99.8)
 		);
 
 		$html = $map->forTemplate();
