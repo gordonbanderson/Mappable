@@ -51,6 +51,9 @@ class MapUtil
 	 */
 	public static $center = 'Paris, France';
 
+	/* Signals whether at least one map has already been rendered */
+	private static $map_already_rendered = false;
+
 	/* Whether or not to allow full screen */
 	private static $allow_full_screen = null;
 
@@ -65,6 +68,7 @@ class MapUtil
 		self::$hide_marker = false;
 		self::$map_type = 'google.maps.MapTypeId.ROADMAP';
 		self::$center = 'Paris, France';
+		self::$map_already_rendered = false;
 		self::$allow_full_screen = null;
 	}
 
@@ -75,6 +79,18 @@ class MapUtil
 	 */
 	public static function set_api_key($key) {
 		self::$api_key = $key;
+	}
+
+
+	/**
+	 * @param boolean $new_map_already_rendered
+	 */
+	public static function set_map_already_rendered($new_map_already_rendered) {
+		self::$map_already_rendered = $new_map_already_rendered;
+	}
+
+	public static function get_map_already_rendered() {
+		return self::$map_already_rendered;
 	}
 
 	/**
@@ -149,6 +165,7 @@ class MapUtil
 		$gmap->setMapType(self::$map_type);
 
 		$gmap->setCenter(self::$center);
+		$gmap->setIncludeDownloadJavascript(self::$map_already_rendered);
 		$gmap->setAllowFullScreen(self::$allow_full_screen);
 		return $gmap;
 	}
