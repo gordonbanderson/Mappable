@@ -140,19 +140,6 @@ class MapAPI extends ViewableData
 		$this->googleMapKey = $googleMapKey;
 	}
 
-	/**
-	 * Set the key of the gmap
-	 *
-	 * @param string  $googleMapKey the googleMapKey
-	 *
-	 * @return MapAPI
-	 */
-
-	public function setKey($googleMapKey) {
-		$this->googleMapKey = $googleMapKey;
-		return $this;
-	}
-
 	public function setShowInlineMapDivStyle($new_show_inline_map_div_style) {
 		$this->show_inline_map_div_style = $new_show_inline_map_div_style;
 		return $this;
@@ -550,9 +537,9 @@ class MapAPI extends ViewableData
 		);
 	}
 
-
 	public function forTemplate() {
 		$this->generate();
+		MapUtil::set_map_already_rendered(true);
 		return $this->getGoogleMap();
 	}
 
@@ -678,6 +665,7 @@ class MapAPI extends ViewableData
 		}
 
 		$vars = new ArrayData(array(
+
 				'JsonMapStyles' => $this->jsonMapStyles,
 				'AdditionalCssClasses' => $this->additional_css_classes,
 				'Width' => $this->width,
@@ -705,6 +693,11 @@ class MapAPI extends ViewableData
 				'UseCompressedAssets' => Config::inst()->get('Mappable', 'use_compressed_assets')
 			)
 		);
+
+		if (!MapUtil::get_map_already_rendered()) {
+			$vars->setField('GoogleMapKey', $this->googleMapKey);
+			$vars->setField('GoogleMapLang', $this->lang);
+		}
 
 		// HTML component of the map
 		$this->content = $this->processTemplateHTML('Map', $vars);
