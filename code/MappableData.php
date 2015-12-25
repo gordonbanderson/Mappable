@@ -49,6 +49,8 @@ class MappableData extends Extension {
 				'lng' => $this->owner->getMappableLongitude()
 			));
 		}
+
+		MapUtil::set_map_already_rendered(true);
 		return $gmap;
 	}
 
