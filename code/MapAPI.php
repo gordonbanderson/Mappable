@@ -423,6 +423,8 @@ class MapAPI extends ViewableData
 				'geocoded' => true
 			);
 
+		} else {
+			$result = array(); // no results
 		}
 		return $result;
 	}
@@ -465,8 +467,6 @@ class MapAPI extends ViewableData
 
 	public function addMarkerByAddress($address, $content = '', $category = '', $icon = '') {
 		$point = $this->geocoding($address);
-		error_log('POINT');
-		error_log(print_r($point,1));
 		if ($point !== null) {
 			$this->addMarkerByCoords($point['lat'], $point['lon'], $content, $category, $icon);
 		}
@@ -502,6 +502,7 @@ class MapAPI extends ViewableData
 		$extensionsImplementMappable = false;
 		$extensions = Object::get_extensions(get_class($obj));
 		if (is_array($extensions)) {
+
 			foreach ($extensions as $extension) {
 				$class = new ReflectionClass($extension);
 				if ($class->implementsInterface('Mappable')) {
@@ -665,7 +666,6 @@ class MapAPI extends ViewableData
 
 		// initialise full screen as the config value if not already set
 		if ($this->allowFullScreen === null) {
-			asdfsdfsdf;
 			$this->allowFullScreen = Config::inst()->get('Mappable', 'allow_full_screen');
 		}
 
