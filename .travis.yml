@@ -10,6 +10,7 @@ addons:
 env:
   global:
     - DB=MYSQL CORE_RELEASE=3.1
+    - MODULE_PATH="mappable"
 
 matrix:
   allow_failures:
@@ -36,9 +37,10 @@ before_script:
   - cd ~/builds/ss
 
 script:
-  - vendor/bin/phpunit --coverage-clover=coverage.clover mappable/tests/
+  - vendor/bin/phpunit --coverage-clover=coverage.clover -c $MODULE_PATH/phpunit.xml $MODULE_PATH/tests/
 
 after_script:
-    - cd mappable
+    - mv coverage.clover ~/build/$TRAVIS_REPO_SLUG/
+    - cd ~/build/$TRAVIS_REPO_SLUG
     - wget https://scrutinizer-ci.com/ocular.phar
-    - php ocular.phar -vvv code-coverage:upload --format=php-clover coverage.clover
+    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
