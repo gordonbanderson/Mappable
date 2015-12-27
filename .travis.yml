@@ -42,6 +42,7 @@ script:
   - vendor/bin/phpunit --coverage-clover=coverage.clover -c $MODULE_PATH/phpunit.xml $MODULE_PATH/tests/
 
 after_success:
+    - cat coverage.clover
     - cp coverage.clover ~/coverage.xml
     - mkdir -p build/logs
     - travis_retry php vendor/bin/coveralls -v --coverage_clover coverage.clover
