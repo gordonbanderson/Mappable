@@ -278,7 +278,7 @@ function initLivequery() {
 	function loadGoogleMapsAPI() {
 		var script = document.createElement("script");
 		script.type = "text/javascript";
-		script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=gmloaded";
+		script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=gmloaded&key=" + "$Apikey";
 		document.body.appendChild(script);
 	}
 
