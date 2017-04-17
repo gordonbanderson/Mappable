@@ -1,23 +1,24 @@
 <?php
 
-class MapLayer extends DataObject {
+class MapLayer extends DataObject
+{
 
-	static $db = array(
-		'Title' => 'Varchar(255)'
-	);
+    public static $db = array(
+        'Title' => 'Varchar(255)'
+    );
 
 
-	static $has_one = array(
-		'KmlFile' => 'File'
-	);
+    public static $has_one = array(
+        'KmlFile' => 'File'
+    );
 
-	function getCMSFields_forPopup() {
-		$fields = new FieldSet();
+    public function getCMSFields_forPopup()
+    {
+        $fields = new FieldSet();
 
-		$fields->push(new TextField('Title'));
-		$fields->push(new FileIFrameField('KmlFile'));
+        $fields->push(new TextField('Title'));
+        $fields->push(new FileIFrameField('KmlFile'));
 
-		return $fields;
-	}
-
+        return $fields;
+    }
 }
