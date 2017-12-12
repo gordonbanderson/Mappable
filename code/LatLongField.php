@@ -1,10 +1,15 @@
 <?php
 
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FormField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\View\Requirements;
 
 class LatLongField extends FieldGroup
 {
+    const RESOURCES_PATH='resources/silverstripe/admin/thirdparty';
+
     protected $latField;
 
     protected $longField;
@@ -25,7 +30,7 @@ class LatLongField extends FieldGroup
         ++self::$ctr;
 
         if ((sizeof($children) < 2) || (sizeof($children) > 3) ||
-             (!$children[0] instanceof FormFi) ||
+             (!$children[0] instanceof FormField) ||
              (!$children[1] instanceof FormField)
         ) {
             user_error('LatLongField argument 1 must be an array containing at least two FormField '.
@@ -56,9 +61,20 @@ class LatLongField extends FieldGroup
 
     public function FieldHolder($properties = array())
     {
-        Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
-        Requirements::javascript(THIRDPARTY_DIR.'/jquery-livequery/jquery.livequery.js');
-        Requirements::javascript(THIRDPARTY_DIR.'/jquery-metadata/jquery.metadata.js');
+        Requirements::javascript(self::RESOURCES_PATH.'/jquery/jquery.js');
+
+        if (self::$ctr == 1) {
+            if(!$apikey = Config::inst()->get('Mappable', 'service_key')){
+                Requirements::javascript(MAPPABLE_MODULE_PATH.'/javascript/mapField.js');
+                $apikey = 0;
+            }
+
+            $vars = ['Apikey' => $apikey];
+            Requirements::javascriptTemplate(MAPPABLE_MODULE_PATH.'/javascript/mapsApiKey.js', $vars);
+        }
+
+       // Requirements::javascript(self::RESOURCES_PATH.'/jquery-livequery/jquery.livequery.js');
+       // Requirements::javascript(self::RESOURCES_PATH.'/jquery-metadata/jquery.metadata.js');
         Requirements::javascript(MAPPABLE_MODULE_PATH.'/javascript/mapField.js');
 
         $attributes = array(
@@ -89,7 +105,7 @@ class LatLongField extends FieldGroup
             // the item currently has no location
             $attributes['data-useMapBounds'] = true;
         }
-        $content = '<div class="editableMapWrapper">'.$this->create_tag(
+        $content = '<div class="editableMapWrapper">'.$this->setTag(
             'div',
             $attributes
         ).'</div>';

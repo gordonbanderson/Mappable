@@ -1,5 +1,6 @@
 <?php
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataExtension;
 
 class MapExtension extends DataExtension implements Mappable
@@ -50,7 +51,7 @@ class MapExtension extends DataExtension implements Mappable
             $this->getMapField()
         );
 
-        $fields->addFieldToTab('Root.Location', $uf = new UploadField(
+        $fields->addFieldToTab('Root.Location', $uf = new \SilverStripe\AssetAdmin\Forms\UploadField(
             'MapPinIcon',
             _t('Mappable.MAP_PIN', 'Map Pin Icon.  Leave this blank for default pin to show')
         ));
