@@ -22,13 +22,13 @@
 * Gordon Anderson (Nickname: nontgor)
 	<gordon.b.anderson@gmail.com>
 
-##Introduction
+## Introduction
 
 This module provides mapping functionality for SilverStripe DataObjects in a
 manner that is simple as possible for both the programmer and content editor.
 Short codes are also provided to render Google Street View and Google maps.
  
-##Documentation
+## Documentation
 * [Installation](./docs/en/Installation.md)
 * [Adding a Map to a DataObject](./docs/en/AddingMapToADataObject.md)
 * [Multiple Maps on the Same Page](./docs/en/MultipleMapsSamePage.md)
@@ -41,8 +41,8 @@ Short codes are also provided to render Google Street View and Google maps.
 For more documentation about the module see the provided documentation located
 inside the docs folder.
 
-##Requirements
+## Requirements
 * SilverStripe 3.1 or 3.2
 
-##TODO
+## TODO
 * Add other mapping services such as Leaflet
