@@ -1,5 +1,8 @@
 <?php
 
+use SilverStripe\Forms\FieldGroup;
+use SilverStripe\Forms\FormField;
+
 class LatLongField extends FieldGroup
 {
     protected $latField;
@@ -22,7 +25,7 @@ class LatLongField extends FieldGroup
         ++self::$ctr;
 
         if ((sizeof($children) < 2) || (sizeof($children) > 3) ||
-             (!$children[0] instanceof FormField) ||
+             (!$children[0] instanceof FormFi) ||
              (!$children[1] instanceof FormField)
         ) {
             user_error('LatLongField argument 1 must be an array containing at least two FormField '.

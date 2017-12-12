@@ -1,7 +1,10 @@
 <?php
+use SilverStripe\Forms\FieldList;
+use SilverStripe\ORM\DataExtension;
 
 class MapExtension extends DataExtension implements Mappable
 {
+
     /*
      * Template suffix for rendering MapInfoWindow aka  map bubble
      */

@@ -1,5 +1,7 @@
 <?php
 
+use SilverStripe\Core\Extension;
+
 /*
  * Provides a GoogleMap() function to ViewableData objects.
  *

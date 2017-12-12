@@ -1,6 +1,6 @@
 ---
-Name: mappable
-After: 'framework/*','cms/*'
+Name: mappable_extensions
+#After: 'framework/*','cms/*'
 ---
 DataObject:
   extensions:

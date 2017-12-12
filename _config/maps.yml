@@ -1,6 +1,6 @@
 ---
-Name: mappable
-After: 'framework/*','cms/*'
+Name: mappable_maps
+#After: 'framework/*','cms2/*'
 ---
 Mappable:
   allow_full_screen: true

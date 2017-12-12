@@ -1,5 +1,8 @@
 <?php
 
+use SilverStripe\Forms\FieldList;
+use SilverStripe\ORM\DataExtension;
+
 class MapLayerExtension extends DataExtension
 {
     public static $many_many = array(

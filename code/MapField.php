@@ -1,4 +1,7 @@
 <?php
+
+use SilverStripe\Forms\DatalessField;
+
 /**
  * Map field to point for pois langitude and longitude positioning.
  */

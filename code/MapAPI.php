@@ -1,18 +1,6 @@
 <?php
 
-/*
-*
-* This script is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General public License for more details.
-*
-* This copyright notice MUST APPEAR in all copies of the script!
-*
-*  @author            CERDAN Yohann <cerdanyohann@yahoo.fr>
-*  @copyright      (c) 2009  CERDAN Yohann, All rights reserved
-*  @ version         18:13 26/05/2009
-*/
+use SilverStripe\View\ViewableData;
 
 class MapAPI extends ViewableData
 {
