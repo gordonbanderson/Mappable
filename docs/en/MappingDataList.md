@@ -1,4 +1,4 @@
-#Mapping a DataList
+# Mapping a DataList
 
 The principle difference from a simple map is that the renderable map is obtained from the DataList
 itself.  The objects in the DataList must implement the mappable interface, or use the extension
@@ -32,8 +32,6 @@ The map is positioned so that it shows all of the points automatically.  Also no
 page of the map does not require to implement mappable or even have a location attached to it, as
 the map is rendered entirely from the DataList, in this case $flickrPhotos.
 
-For clustered and unclustered examples, see:
-http://demo.weboftalent.asia/mappable/map-from-a-datalist-unclustered/
 ![Non Clustered DataList]
 (https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/datalist-unclustered.png?raw=true
 "Non Clustered DataList")

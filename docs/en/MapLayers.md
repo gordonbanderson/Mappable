@@ -1,4 +1,4 @@
-#Map Layers
+# Map Layers
 KML layers can be added through the CMS by adding an extension to the class in question.
 
 ```php
@@ -32,11 +32,11 @@ KML files.
 
 Templating is the same as before, the $BasicMap method takes account of layers when rendering a map.
 
-##Gotchas
+## Gotchas
 Note you will not be able to see map layers in your dev environment, as the KML file URL needs to be
 publicly visible in order that Google's servers can render them.
 
-##Example Rendering
+## Example Rendering
 The following screenshot is of an exported KML file from http://www.plotaroute.com/route/43228, a
 cycle route along canals avoiding main roads.
 

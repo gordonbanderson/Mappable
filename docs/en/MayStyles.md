@@ -1,4 +1,4 @@
-#Map Styles
+# Map Styles
 The color of a rendered Google map can be changed by setting style parameters in JSON format.  For
 background on this see https://developers.google.com/maps/documentation/javascript/styling
 

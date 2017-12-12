@@ -26,7 +26,7 @@ see http://stackoverflow.com/questions/11340468/street-view-not-working-in-firef
 	text-align: center;
 }
 ```
-##Example Rendering
+## Example Rendering
 ![Example Google Street View Rendering]
 (https://raw.githubusercontent.com/gordonbanderson/Mappable/screenshots/screenshots/google-streeview-shortcode-example.png?raw=true
 "Example Google Street View Rendering")

@@ -1,7 +1,7 @@
-#Multiple Maps on the Same Page
+# Multiple Maps on the Same Page
 Multiple maps can be added to a page.  One option is to associate maps with a DataObject whose
 relationship to the parent page is 'has many', as in this example of contact page addresses.
-##Example
+## Example
 Often a company will have more than one office location that they wish to display, this is a an
 example of that use case.  It would probably need expanding in order to show the likes of email
 address and telephone number,  left as an exercise for the reader.
@@ -81,5 +81,3 @@ $BasicMap
  
 $Content
 ```
-
-See http://demo.weboftalent.asia/mappable/multiple-maps-on-the-same-page/ for a working demo.

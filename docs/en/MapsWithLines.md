@@ -1,4 +1,4 @@
-#Adding Lines to Maps
+# Adding Lines to Maps
 A line can be added to a map with the following API call:
 
 ```
@@ -44,8 +44,6 @@ public function MapWithLines() {
 ```
 
 Instead of calling $BasicMap call $MapWithLines instead from the template.
-
-See http://demo.weboftalent.asia/mappable/map-with-lines/ for a working demo.
 
 ![Map With Lines]
 (https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/mapswithlines.png?raw=true 

@@ -1,7 +1,8 @@
-#Adding a Map to a DataObject
-##Add Extension
+# Adding a Map to a DataObject
+## Add Extension
 Using the standard method of adding extensions in SilverStripe 3.1, add an extension called
 'MapExtension' to relevant DataObjects.
+
 ```yml
 ---
 name: weboftalent-example-map-extensions
@@ -10,7 +11,8 @@ PageWithMap:
 	extensions:
 		['MapExtension']
 ```
-##Editing
+
+## Editing
 Utilising the extensions adds Latitude, Longitude and Zoom fields to the DataObject in question,
 in the example above 'PageWithMap'.  In addition, the admin interface for PageWithMap now has a 
 location tab.  Location can be changed in 3 ways:
@@ -25,7 +27,7 @@ location tab.  Location can be changed in 3 ways:
 
 The zoom level set by the content editor is also saved.
 
-##Templates
+## Templates
 To render a map in the template, simply called $BasicMap
 
 ```php
@@ -37,7 +39,7 @@ $BasicMap
 For an example of this, 
 see http://demo.weboftalent.asia/mappable/quick-map-adding-a-map-to-a-dataobject/
 
-##Custom Popup
+## Custom Popup
 When clicking on the pin a popup with the name of the pin will occur.
 
 If you want to change the information displayed there you have to setup a template named by the
