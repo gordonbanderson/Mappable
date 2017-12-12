@@ -237,14 +237,14 @@ function initLivequery()
     (function ($) {
 
         //triggers
-        $('input[name=action_GetCoords]').livequery('click', function (e) {
+        $('input[name=action_GetCoords]').on('click', function (e) {
             // get the data needed to ask coords
             var location = $('#Form_EditForm_Location').val();
             setCoordByAddress(location);
             return false;
         });
 
-        $('#searchLocationButton').livequery('click', function (e) {
+        $('#searchLocationButton').on('click', function (e) {
             // get the data needed to ask coords
             var location = $('#location_search').val();
             searchForAddress(location);
@@ -252,7 +252,7 @@ function initLivequery()
         });
 
         //geocodedSearchResults
-        $('.geocodedSearchResults li').livequery('click', function (e) {
+        $('.geocodedSearchResults li').on('click', function (e) {
             // get the data needed to ask coords
             var t = $(this);
             var lat = t.attr("lat");
@@ -278,9 +278,13 @@ function initLivequery()
             setMarker(latlng, true);
             return false;
         });
-        $('#GoogleMap').livequery(function () {
+
+        $('#GoogleMap').on('match', function () {
+            alert('initalising map');
             initMap();
         });
+
+        initMap();
     })(jQuery);
 }
 
@@ -290,7 +294,7 @@ function initLivequery()
     {
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=gmloaded";
+        script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=gmloaded&key=" + "$Apikey";
         document.body.appendChild(script);
     }
 
