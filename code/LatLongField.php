@@ -69,7 +69,7 @@ class LatLongField extends FieldGroup
                 $apikey = 0;
             }
 
-            $vars = ['Apikey' => $apikey];
+            $vars = ['MapsApiKey' => $apikey];
             Requirements::javascriptTemplate(MAPPABLE_MODULE_PATH.'/javascript/mapsApiKey.js', $vars);
         }
 
@@ -105,9 +105,13 @@ class LatLongField extends FieldGroup
             // the item currently has no location
             $attributes['data-useMapBounds'] = true;
         }
+
+        $this->addExtraClass('editableMap');
+        $this->setAttribute('id', 'GoogleMap');
+
+        // @todo How do I add the composite tag here?
         $content = '<div class="editableMapWrapper">'.$this->setTag(
-            'div',
-            $attributes
+            'test'
         ).'</div>';
 
         $this->FieldList()->push(new LiteralField('locationEditor', $content));

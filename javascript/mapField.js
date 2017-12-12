@@ -294,7 +294,7 @@ function initLivequery()
     {
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=gmloaded&key=" + "$Apikey";
+        script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=gmloaded&key=" + mapsApiKey;
         document.body.appendChild(script);
     }
 
