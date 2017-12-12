@@ -1,5 +1,6 @@
 <?php
 
-class MappableGeocoderException extends Exception {
+class MappableGeocoderException extends Exception
+{
 
 }

@@ -13,7 +13,7 @@ interface Mappable
      *
      * @example
      * <code>
-     * 	return $this->Lat;
+     *  return $this->Lat;
      * </code>
      *
      * @return string
@@ -25,7 +25,7 @@ interface Mappable
      *
      * @example
      * <code>
-     * 	return $this->Long;
+     *  return $this->Long;
      * </code>
      *
      * @return string

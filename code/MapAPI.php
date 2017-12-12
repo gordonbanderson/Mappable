@@ -166,9 +166,12 @@ class MapAPI extends ViewableData
      *
      * * @return MapAPI This same object, in order to enable chaining of methods
      */
-    public function setClusterer($useClusterer, $gridSize = 50, $maxZoom = 17,
-        $clustererLibraryPath = '/mappable/javascript/google/markerclusterer.js')
-    {
+    public function setClusterer(
+        $useClusterer,
+        $gridSize = 50,
+        $maxZoom = 17,
+        $clustererLibraryPath = '/mappable/javascript/google/markerclusterer.js'
+    ) {
         $this->useClusterer = $useClusterer;
         $this->gridSize = $gridSize;
         $this->maxZoom = $maxZoom;
@@ -600,9 +603,11 @@ class MapAPI extends ViewableData
     */
     public static function jsonRemoveUnicodeSequences($struct)
     {
-        return preg_replace('/\\\\u([a-f0-9]{4})/e',
-                            "iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))",
-                            json_encode($struct));
+        return preg_replace(
+            '/\\\\u([a-f0-9]{4})/e',
+            "iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))",
+            json_encode($struct)
+        );
     }
 
     /**
@@ -705,8 +710,7 @@ class MapAPI extends ViewableData
                 'KmlFiles' => $kmlJson,
                 'AllowFullScreen' => $this->allowFullScreen,
                 'UseCompressedAssets' => Config::inst()->get('Mappable', 'use_compressed_assets'),
-            )
-        );
+            ));
 
         if (!MapUtil::get_map_already_rendered()) {
             $vars->setField('GoogleMapKey', $this->googleMapKey);

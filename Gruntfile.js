@@ -9,19 +9,19 @@ module.exports = function (grunt) {
         },
         uglify: {
             js: {
-			    files : {
-			        'javascript/google/mappablegoogle.min.js' : [
-				        'javascript/google/FullScreenControl.js',
-				        'javascript/google/markerclusterer.js',
-				        'javascript/google/maputil.js'
-			        ],
+                files : {
+                    'javascript/google/mappablegoogle.min.js' : [
+                        'javascript/google/FullScreenControl.js',
+                        'javascript/google/markerclusterer.js',
+                        'javascript/google/maputil.js'
+                    ],
 
-			        'javascript/mapField.min.js' : [
-				         'javascript/mapField.js'
-			        ]
+                    'javascript/mapField.min.js' : [
+                         'javascript/mapField.js'
+                    ]
 
-			    }
-			  },
+                }
+            },
         },
     });
     grunt.loadNpmTasks('grunt-contrib-uglify');

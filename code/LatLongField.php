@@ -65,7 +65,7 @@ class LatLongField extends FieldGroup
             'data-LonFieldName' => $this->longField,
             'data-ZoomFieldName' => $this->zoomField,
             'data-UseMapBounds' => false,
-       );
+        );
 
         Requirements::css('mappable/css/mapField.css');
 
@@ -89,7 +89,7 @@ class LatLongField extends FieldGroup
         $content = '<div class="editableMapWrapper">'.$this->create_tag(
             'div',
             $attributes
-       ).'</div>';
+        ).'</div>';
 
         $this->FieldList()->push(new LiteralField('locationEditor', $content));
 
