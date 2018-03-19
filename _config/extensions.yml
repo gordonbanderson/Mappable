@@ -1,6 +1,8 @@
 ---
 Name: mappable
-After: 'framework/*','cms/*'
+After:
+  - 'framework'
+  - 'cms'
 ---
 SilverStripe\ORM\DataObject:
   extensions:

@@ -10,7 +10,8 @@ PageWithMap:
 	extensions:
 		['MapExtension']
 ```
-##Editing
+
+## Editing
 Utilising the extensions adds Latitude, Longitude and Zoom fields to the DataObject in question,
 in the example above 'PageWithMap'.  In addition, the admin interface for PageWithMap now has a 
 location tab.  Location can be changed in 3 ways:
@@ -25,7 +26,7 @@ location tab.  Location can be changed in 3 ways:
 
 The zoom level set by the content editor is also saved.
 
-##Templates
+## Templates
 To render a map in the template, simply called $BasicMap
 
 ```php
