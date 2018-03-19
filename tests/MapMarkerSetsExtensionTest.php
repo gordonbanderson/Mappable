@@ -1,5 +1,8 @@
 <?php
 
+use SilverStripe\Security\Member;
+use SilverStripe\Dev\SapphireTest;
+
 class MapMarkerSetsExtensionTest extends SapphireTest
 {
     public function setUpOnce()

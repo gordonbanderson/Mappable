@@ -1,5 +1,8 @@
 <?php
 
+use SilverStripe\Security\Member;
+use SilverStripe\Dev\SapphireTest;
+
 class MapLayerExtensionTest extends SapphireTest
 {
     public function setUp()

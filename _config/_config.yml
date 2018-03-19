@@ -1,3 +1,4 @@
-# allow geographical format files to be uploaded
-File:
-  $allowed_extensions: ['gpx', 'kml']
+SilverStripe\Assets\File:
+  $allowed_extensions:
+    - gpx
+    - kml

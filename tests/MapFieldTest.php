@@ -1,5 +1,7 @@
 <?php
 
+use SilverStripe\Dev\SapphireTest;
+
 class MapFieldTest extends SapphireTest
 {
     public function testFieldWithTitle()

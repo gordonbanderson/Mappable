@@ -1,5 +1,9 @@
 <?php
 
+use SilverStripe\Security\Member;
+use SilverStripe\Assets\Image;
+use SilverStripe\Dev\SapphireTest;
+
 class MappableDataTest extends SapphireTest
 {
     public function setUpOnce()

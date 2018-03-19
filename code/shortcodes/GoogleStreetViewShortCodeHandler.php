@@ -1,5 +1,8 @@
 <?php
 
+use SilverStripe\View\SSViewer;
+use SilverStripe\View\ArrayData;
+
 class GoogleStreetViewShortCodeHandler
 {
     /* Counter used to ensure unique div ids to allow for multiple StreetViews on on page */

@@ -1,5 +1,13 @@
 <?php
 
+use SilverStripe\Assets\Image;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\View\SSViewer;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataExtension;
+
 class MapExtension extends DataExtension implements Mappable
 {
     /*
@@ -15,7 +23,7 @@ class MapExtension extends DataExtension implements Mappable
     );
 
     public static $has_one = array(
-        'MapPinIcon' => 'Image',
+        'MapPinIcon' => Image::class,
     );
 
     public static $defaults = array(

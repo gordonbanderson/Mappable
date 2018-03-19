@@ -1,5 +1,10 @@
 <?php
 
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Control\Director;
+use SilverStripe\ORM\SS_List;
+use SilverStripe\ORM\DataObject;
+
 class MapUtil
 {
     /**

@@ -1,5 +1,13 @@
 <?php
 
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Control\Director;
+use SilverStripe\Security\Member;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\View\ViewableData;
+use SilverStripe\Dev\TestOnly;
+
 class MapAPITest extends SapphireTest
 {
     public function setUpOnce()

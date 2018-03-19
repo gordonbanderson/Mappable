@@ -1,5 +1,7 @@
 <?php
 
+use SilverStripe\Dev\SapphireTest;
+
 class MapLayerTest extends SapphireTest
 {
     public function testCMSFields()

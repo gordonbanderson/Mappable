@@ -1,5 +1,11 @@
 <?php
 
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Security\Member;
+use SilverStripe\Assets\File;
+use SilverStripe\Assets\Image;
+use SilverStripe\Dev\SapphireTest;
+
 class MapExtensionTest extends SapphireTest
 {
     protected static $fixture_file = 'mappable/tests/mapextensions.yml';

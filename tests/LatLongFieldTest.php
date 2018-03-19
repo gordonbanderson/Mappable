@@ -1,5 +1,8 @@
 <?php
 
+use SilverStripe\Forms\TextField;
+use SilverStripe\Dev\SapphireTest;
+
 class LatLongFieldTest extends SapphireTest
 {
     public function testConstructValid()

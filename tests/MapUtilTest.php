@@ -1,5 +1,10 @@
 <?php
 
+use SilverStripe\Control\Director;
+use SilverStripe\Security\Member;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\Dev\SapphireTest;
+
 class MapUtilTest extends SapphireTest
 {
     /*

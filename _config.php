@@ -1,5 +1,7 @@
 <?php
 
+use SilverStripe\View\Parsers\ShortcodeParser;
+
 //define global path to Components' root folder
 if(!defined('MAPPABLE_MODULE_PATH'))
 {

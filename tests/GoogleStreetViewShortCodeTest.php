@@ -1,5 +1,8 @@
 <?php
 
+use SilverStripe\View\Parsers\ShortcodeParser;
+use SilverStripe\Dev\SapphireTest;
+
 class GoogleStreetViewShortCodeTest extends SapphireTest
 {
     protected static $fixture_file = 'mappable/tests/shortcodes.yml';

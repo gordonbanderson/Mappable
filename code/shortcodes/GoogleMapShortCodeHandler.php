@@ -1,5 +1,9 @@
 <?php
 
+use SilverStripe\Core\Config\Config;
+use SilverStripe\View\SSViewer;
+use SilverStripe\View\ArrayData;
+
 class GoogleMapShortCodeHandler
 {
     /* Counter used to ensure unique div ids to allow for multiple maps on on page */

@@ -1,5 +1,9 @@
 <?php
 
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\Security\Member;
+use SilverStripe\Dev\SapphireTest;
+
 class MappableDataObjectSetTest extends SapphireTest
 {
     public function setUpOnce()

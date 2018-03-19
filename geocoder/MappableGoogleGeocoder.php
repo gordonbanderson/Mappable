@@ -1,5 +1,7 @@
 <?php
 
+use SilverStripe\Core\Convert;
+
 class MappableGoogleGeocoder implements MappableGeocoder {
 	/**
 	 * Get locations given a search string

@@ -1,5 +1,12 @@
 <?php
 
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\ORM\DataExtension;
+
 class MapLayerExtension extends DataExtension
 {
     public static $many_many = array(
@@ -16,10 +23,10 @@ class MapLayerExtension extends DataExtension
     {
         $gridConfig2 = GridFieldConfig_RelationEditor::create();
         $gridConfig2->getComponentByType(
-            'GridFieldAddExistingAutocompleter')->
+            GridFieldAddExistingAutocompleter::class)->
             setSearchFields(array('Title')
         );
-        $gridConfig2->getComponentByType('GridFieldPaginator')->setItemsPerPage(100);
+        $gridConfig2->getComponentByType(GridFieldPaginator::class)->setItemsPerPage(100);
         $gridField2 = new GridField('Map Layers',
             'Map Layers:',
             $this->owner->MapLayers(),

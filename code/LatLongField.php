@@ -1,5 +1,10 @@
 <?php
 
+use SilverStripe\Forms\FormField;
+use SilverStripe\View\Requirements;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\FieldGroup;
+
 class LatLongField extends FieldGroup
 {
     protected $latField;

@@ -1,5 +1,10 @@
 <?php
 
+use SilverStripe\View\ViewableData;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\View\ArrayData;
+use SilverStripe\ORM\ArrayList;
+
 /*
 *
 * This script is distributed in the hope that it will be useful,

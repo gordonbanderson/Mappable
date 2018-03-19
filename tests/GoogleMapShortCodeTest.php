@@ -1,5 +1,8 @@
 <?php
 
+use SilverStripe\View\Parsers\ShortcodeParser;
+use SilverStripe\Dev\SapphireTest;
+
 /**
  * Testing YouTubeShortCodeHandler.
  */

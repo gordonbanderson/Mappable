@@ -1,5 +1,9 @@
 <?php
 
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Extension;
+
 /*
  * Provides a GoogleMap() function to ViewableData objects.
  *

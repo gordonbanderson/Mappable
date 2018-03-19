@@ -1,5 +1,8 @@
 <?php
 
+use SilverStripe\Assets\File;
+use SilverStripe\ORM\DataObject;
+
 class MapLayer extends DataObject
 {
     public static $db = array(
@@ -7,6 +10,6 @@ class MapLayer extends DataObject
     );
 
     public static $has_one = array(
-        'KmlFile' => 'File',
+        'KmlFile' => File::class,
     );
 }

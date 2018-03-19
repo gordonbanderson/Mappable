@@ -2,14 +2,12 @@
 Name: mappable
 After: 'framework/*','cms/*'
 ---
-DataObject:
+SilverStripe\ORM\DataObject:
   extensions:
-    -  MappableData
-
-DataList:
+    - MappableData
+SilverStripe\ORM\DataList:
   extensions:
-    -  MappableDataObjectSet
-
-ArrayList:
+    - MappableDataObjectSet
+SilverStripe\ORM\ArrayList:
   extensions:
-    -  MappableDataObjectSet
+    - MappableDataObjectSet
