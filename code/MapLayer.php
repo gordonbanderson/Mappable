@@ -1,4 +1,5 @@
 <?php
+namespace WebOfTalent\Mappable;
 
 use SilverStripe\Assets\File;
 use SilverStripe\ORM\DataObject;

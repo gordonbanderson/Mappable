@@ -1,4 +1,6 @@
 <?php
+namespace WebOfTalent\Mappable;
+
 /**
  * Defines the interface for a mappable DataObject. Implementors of this interface
  * must define the following functions in order to work with the {@link GoogleMapUtil}

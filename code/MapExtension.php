@@ -1,4 +1,5 @@
 <?php
+namespace WebOfTalent\Mappable;
 
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;

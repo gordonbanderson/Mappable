@@ -1,4 +1,5 @@
 <?php
+namespace WebOfTalent\Mappable\ShortCodes;
 
 use SilverStripe\Core\Config\Config;
 use SilverStripe\View\SSViewer;

@@ -1,4 +1,5 @@
 <?php
+namespace WebOfTalent\Mappable;
 
 use SilverStripe\View\Requirements;
 use SilverStripe\Forms\DatalessField;

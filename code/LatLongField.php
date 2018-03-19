@@ -1,4 +1,5 @@
 <?php
+namespace WebOfTalent\Mappable;
 
 use SilverStripe\Forms\FormField;
 use SilverStripe\View\Requirements;

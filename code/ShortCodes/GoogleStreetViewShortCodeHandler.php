@@ -1,4 +1,5 @@
 <?php
+namespace WebOfTalent\Mappable\ShortCodes;
 
 use SilverStripe\View\SSViewer;
 use SilverStripe\View\ArrayData;
