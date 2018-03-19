@@ -1,15 +1,12 @@
 ---
 Name: mappable
-After:
-  - 'framework'
-  - 'cms'
 ---
 SilverStripe\ORM\DataObject:
   extensions:
-    - MappableData
+    - WebOfTalent\Mappable\MappableData
 SilverStripe\ORM\DataList:
   extensions:
-    - MappableDataObjectSet
+    - WebOfTalent\Mappable\MappableDataObjectSet
 SilverStripe\ORM\ArrayList:
   extensions:
-    - MappableDataObjectSet
+    - WebOfTalent\Mappable\MappableDataObjectSet

@@ -9,7 +9,17 @@ class GoogleStreetViewShortCodeHandler
     /* Counter used to ensure unique div ids to allow for multiple StreetViews on on page */
     private static $gsv_ctr = 1;
 
-    public static function parse_googlestreetview($arguments, $caption = null, $parser = null)
+    /**
+     * Gets the list of shortcodes provided by this handler
+     *
+     * @return mixed
+     */
+    public static function get_shortcodes()
+    {
+        return array('GoogleMap');
+    }
+
+    public static function handle_shortcode($arguments, $content, $parser, $shortcode, $extra = array())
     {
         // each of latitude, longitude and heading are required at a bare minimum
         if (!isset($arguments['latitude'])) {

@@ -6,9 +6,10 @@ Using the standard method of adding extensions in SilverStripe 3.1, add an exten
 ---
 name: weboftalent-example-map-extensions
 ---
-PageWithMap:
-	extensions:
-		['MapExtension']
+Page:
+  extensions:
+    - WebOfTalent\Mappable\MapExtension
+
 ```
 
 ## Editing

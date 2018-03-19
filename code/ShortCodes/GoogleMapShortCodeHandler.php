@@ -2,15 +2,27 @@
 namespace WebOfTalent\Mappable\ShortCodes;
 
 use SilverStripe\Core\Config\Config;
+use SilverStripe\View\Parsers\ShortcodeHandler;
 use SilverStripe\View\SSViewer;
 use SilverStripe\View\ArrayData;
 
-class GoogleMapShortCodeHandler
+class GoogleMapShortCodeHandler implements ShortcodeHandler
 {
     /* Counter used to ensure unique div ids to allow for multiple maps on on page */
     private static $gsv_ctr = 1;
 
-    public static function parse_googlemap($arguments, $caption = null, $parser = null)
+    /**
+     * Gets the list of shortcodes provided by this handler
+     *
+     * @return mixed
+     */
+    public static function get_shortcodes()
+    {
+        return array('GoogleMap');
+    }
+
+
+    public static function handle_shortcode($arguments, $content, $parser, $shortcode, $extra = array())
     {
         // each of latitude and longitude are required at a bare minimum
         if (!isset($arguments['latitude'])) {

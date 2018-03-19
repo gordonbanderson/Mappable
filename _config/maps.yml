@@ -1,8 +1,5 @@
 ---
 Name: mappable_maps
-After:
-  - 'framework'
-  - 'cms'
 ---
 WebOfTalent\Mappable\Mappable:
   allow_full_screen: true
