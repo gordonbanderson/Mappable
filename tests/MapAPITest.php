@@ -1,6 +1,8 @@
 <?php
 namespace WebOfTalent\Mappable\Tests;
 
+use SilverStripe\Dev\SapphireTest;
+
 class MapAPITest extends SapphireTest
 {
     public function setUpOnce()
