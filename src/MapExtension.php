@@ -1,4 +1,6 @@
 <?php
+namespace WebOfTalent\Mappable;
+
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataExtension;

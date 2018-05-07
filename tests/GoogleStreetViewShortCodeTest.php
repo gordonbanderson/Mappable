@@ -1,4 +1,5 @@
 <?php
+namespace WebOfTalent\Mappable\Tests;
 
 class GoogleStreetViewShortCodeTest extends SapphireTest
 {

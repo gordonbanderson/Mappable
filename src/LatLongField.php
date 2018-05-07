@@ -1,4 +1,5 @@
 <?php
+namespace WebOfTalent\Mappable;
 
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\FieldGroup;
