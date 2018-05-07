@@ -1,6 +1,8 @@
 <?php
 namespace WebOfTalent\Mappable\Tests;
 
+use SilverStripe\Dev\SapphireTest;
+
 /**
  * Testing YouTubeShortCodeHandler.
  */
