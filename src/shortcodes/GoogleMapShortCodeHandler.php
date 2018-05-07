@@ -3,10 +3,15 @@ namespace WebOfTalent\Mappable\ShortCode;
 
 class GoogleMapShortCodeHandler
 {
-    /* Counter used to ensure unique div ids to allow for multiple maps on on page */
+    public static function get_shortcodes()
+    {
+        return ['googlemap'];
+    }
+
+    /* Counter used to ensure unique div ids to allow for multiple StreetViews on on page */
     private static $gsv_ctr = 1;
 
-    public static function parse_googlemap($arguments, $caption = null, $parser = null)
+    public static function handle_shortcode($arguments, $content, $parser, $shortcode, $extra = array())
     {
         // each of latitude and longitude are required at a bare minimum
         if (!isset($arguments['latitude'])) {

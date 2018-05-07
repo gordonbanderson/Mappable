@@ -1,12 +1,19 @@
 <?php
 namespace WebOfTalent\Mappable\ShortCode;
 
+use WebOfTalent\Mappable\MapUtil;
+
 class GoogleStreetViewShortCodeHandler
 {
+    public static function get_shortcodes()
+    {
+        return ['googlestreetview'];
+    }
+
     /* Counter used to ensure unique div ids to allow for multiple StreetViews on on page */
     private static $gsv_ctr = 1;
 
-    public static function parse_googlestreetview($arguments, $caption = null, $parser = null)
+    public static function handle_shortcode($arguments, $content, $parser, $shortcode, $extra = array())
     {
         // each of latitude, longitude and heading are required at a bare minimum
         if (!isset($arguments['latitude'])) {
