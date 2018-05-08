@@ -1,14 +1,62 @@
 {
-  "name": "mappable",
-  "version": "0.1.0",
+  "name": "silverstripe-mappable",
+  "version": "1.0.0",
+  "description": "SS4 version of mappable",
+  "homepage": "https://github.com/gordonbanderson/Mappable",
+  "keywords": ["SilverStripe","timezones","time"],
+  "license": "BSD-3-Clause",
+  "author": "Suilven",
+  "contributors": [
+    {
+      "name": "Gordon Anderson",
+      "email": "gordon.b.anderson@gmail.com",
+      "url": "https://www.github.com/gordonbanderson"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gordonbanderson/Mappable.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gordonbanderson/Mappable/issues"
+  },
+  "engines": {
+    "node": "^9"
+  },
+  "scripts": {
+    "watch": "webpack --env.development --colors --watch",
+    "build": "webpack --env.production --colors --optimize-minimize"
+  },
+  "dependencies": {},
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.11.2",
-    "grunt-contrib-nodeunit": "~0.4.1",
-    "grunt-contrib-uglify": "~0.9.1",
-    "grunt-contrib-concat": "~0.5.1",
-    "grunt-contrib-cssmin": "~0.12.2",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-contrib-clean": "~0.6.0"
-  }
+    "autoprefixer": "^7.1.6",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "clean-webpack-plugin": "^0.1.17",
+    "copy-webpack-plugin": "^4.2.0",
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.5",
+    "node-sass": "^4.5.3",
+    "postcss-loader": "^2.0.8",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.0",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.8.1"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "modules": false
+        }
+      ]
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
 }
