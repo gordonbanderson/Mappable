@@ -1,18 +1,35 @@
 <?php
 namespace WebOfTalent\Mappable\ShortCode;
 
+use SilverStripe\View\Parsers\ShortcodeHandler;
 use WebOfTalent\Mappable\MapUtil;
 
-class GoogleStreetViewShortCodeHandler
+class GoogleStreetViewShortCodeHandler implements ShortcodeHandler
 {
+    /* Counter used to ensure unique div ids to allow for multiple StreetViews on on page */
+    private static $gsv_ctr = 1;
+
+    /**
+     * Gets the list of shortcodes provided by this handler
+     *
+     * @return mixed
+     */
     public static function get_shortcodes()
     {
         return ['googlestreetview'];
     }
 
-    /* Counter used to ensure unique div ids to allow for multiple StreetViews on on page */
-    private static $gsv_ctr = 1;
 
+    /**
+     *
+     * @param array $arguments
+     * @param string $content
+     * @param ShortcodeParser $parser
+     * @param string $shortcode
+     * @param array $extra
+     *
+     * @return string
+     */
     public static function handle_shortcode($arguments, $content, $parser, $shortcode, $extra = array())
     {
         // each of latitude, longitude and heading are required at a bare minimum

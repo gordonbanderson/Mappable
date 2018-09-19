@@ -1,18 +1,34 @@
 <?php
 namespace WebOfTalent\Mappable\ShortCode;
 
-class GoogleMapShortCodeHandler
+use SilverStripe\View\Parsers\ShortcodeHandler;
+
+class GoogleMapShortCodeHandler implements ShortcodeHandler
 {
+    /* Counter used to ensure unique div ids to allow for multiple StreetViews on on page */
+    private static $gsv_ctr = 1;
+
+    /**
+     * Gets the list of shortcodes provided by this handler
+     *
+     * @return mixed
+     */
     public static function get_shortcodes()
     {
         return ['googlemap'];
     }
 
-    /* Counter used to ensure unique div ids to allow for multiple StreetViews on on page */
-    private static $gsv_ctr = 1;
-
-    public static function handle_shortcode($arguments, $content, $parser, $shortcode, $extra = array())
-    {
+    /**
+     *
+     * @param array $arguments
+     * @param string $content
+     * @param ShortcodeParser $parser
+     * @param string $shortcode
+     * @param array $extra
+     *
+     * @return string
+     */
+    public static function handle_shortcode($arguments, $content, $parser, $shortcode, $extra = array()) {
         // each of latitude and longitude are required at a bare minimum
         if (!isset($arguments['latitude'])) {
             return '';
