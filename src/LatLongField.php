@@ -62,21 +62,22 @@ class LatLongField extends FieldGroup
 
     public function FieldHolder($properties = array())
     {
-        Requirements::javascript(self::RESOURCES_PATH.'/jquery/jquery.js');
+        Requirements::javascript('silverstripe/admin: thirdparty/jquery/jquery.js');
 
         if (self::$ctr == 1) {
+            // "todo Review this, may not be required.  Also class is not namespaced
             if(!$apikey = Config::inst()->get('Mappable', 'service_key')){
-                Requirements::javascript(MAPPABLE_MODULE_PATH.'/javascript/mapField.js');
+                //Requirements::javascript('weboftalent/mappable:javascript/mapField.js');
                 $apikey = 0;
             }
 
             $vars = ['MapsApiKey' => $apikey];
-            Requirements::javascriptTemplate(MAPPABLE_MODULE_PATH.'/javascript/mapsApiKey.js', $vars);
+            Requirements::javascriptTemplate('weboftalent/mappable:/javascript/mapsApiKey.js', $vars);
         }
 
        // Requirements::javascript(self::RESOURCES_PATH.'/jquery-livequery/jquery.livequery.js');
        // Requirements::javascript(self::RESOURCES_PATH.'/jquery-metadata/jquery.metadata.js');
-        Requirements::javascript(MAPPABLE_MODULE_PATH.'/javascript/mapField.js');
+        Requirements::javascript('weboftalent/mappable: admin/client/dist/js/bundle.js');
 
         $attributes = array(
             'class' => 'editableMap',
@@ -87,7 +88,9 @@ class LatLongField extends FieldGroup
             'data-UseMapBounds' => false,
         );
 
-        Requirements::css('mappable/css/mapField.css');
+        Requirements::css('weboftalent/mappable: admin/client/dist/styles/bundle.css');
+
+
 
         // check for and if required add guide points
         if (!empty($this->guidePoints)) {
