@@ -2,6 +2,7 @@
 namespace WebOfTalent\Mappable\Tests;
 
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\View\ViewableData;
 
 class MapAPITest extends SapphireTest
 {
