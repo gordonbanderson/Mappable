@@ -6,6 +6,7 @@ use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\View\Requirements;
+use  SilverStripe\View\HTML;
 
 class LatLongField extends FieldGroup
 {
@@ -112,11 +113,11 @@ class LatLongField extends FieldGroup
 
         $this->addExtraClass('editableMap');
         $this->setAttribute('id', 'GoogleMap');
-
-        // @todo How do I add the composite tag here?
-        $content = '<div class="editableMapWrapper">'.$this->setTag(
-            'test'
-        ).'</div>';
+        
+        $content = '<div class="editableMapWrapper">'.HTML::createTag(
+                'div',
+                $attributes
+            ).'</div>';
 
         $this->FieldList()->push(new LiteralField('locationEditor', $content));
 
