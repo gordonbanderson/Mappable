@@ -3,4 +3,4 @@
 
 // Load Styles:
 
-require('styles/bundle.scss');
+require('./styles/bundle.scss');
