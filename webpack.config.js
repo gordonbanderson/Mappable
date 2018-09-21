@@ -14,12 +14,10 @@ console.log('ENV', process.env.NODE_ENV);
 module.exports = {
     devtool: 'source-map',
     entry: {
-        bootstrap4: path.resolve(__dirname, 'src/js/bootstrap'),
-        CookieConsent: path.resolve(__dirname, '../../vendor/bramdeleeuw/cookieconsent/javascript/src/cookieconsent'),
-        main: path.resolve(__dirname, 'src/js/main')
-    },
+        clientbundle: path.resolve(__dirname, 'admin/client/src/bundle')
+	},
     output: {
-        filename: 'js/[name].js',
+        filename: 'dist/[name].js',
         chunkFilename: "[id].css"
     },
     optimization: {
@@ -126,24 +124,9 @@ module.exports = {
         }),
         new ConcatPlugin({
             filesToConcat: [
-                'bootstrap',
-                'flexslider',
-                'timeago',
-                'lazysizes',
-                'cookieconsent'
+				path.resolve(__dirname, 'admin/client/src/bundle')
             ],
             name: 'js/thirdparty',
-            uglify: true
-        }),
-        new ConcatPlugin({
-            filesToConcat: [
-                'bootstrap',
-                'flexslider',
-                'timeago',
-                'lazysizes',
-                'cookieconsent'
-            ],
-            name: 'js/TEST',
             uglify: true
         }),
         new ProgressBarPlugin({

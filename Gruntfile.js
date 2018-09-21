@@ -10,14 +10,14 @@ module.exports = function (grunt) {
         uglify: {
             js: {
                 files : {
-                    'javascript/google/mappablegoogle.min.js' : [
-                        'javascript/google/FullScreenControl.js',
-                        'javascript/google/markerclusterer.js',
-                        'javascript/google/maputil.js'
+                    'dist/js/mappablegoogle.min.js' : [
+                        'client/src/google/FullScreenControl.js',
+                        'client/src/google/markerclusterer.js',
+                        'client/src/google/maputil.js'
                     ],
 
-                    'javascript/mapField.min.js' : [
-                         'javascript/mapField.js'
+                    'dist/admin/js/map-field.min.js' : [
+                         'admin/src/js/map-field.js'
                     ]
 
                 }

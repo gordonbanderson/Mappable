@@ -4,10 +4,10 @@
   "description": "Webpack for Mappable",
   "main": "webpack.config.js",
   "scripts": {
-    "dev": "NODE_ENV=development webpack --mode development --progress  --config webpack.config.js",
-    "devdebug": "NODE_ENV=development webpack --mode development --progress --verbose --display-error-details  --config webpack.config.js",
-    "prod": "NODE_ENV=production webpack --mode production --progress --config webpack.config.js",
-    "watch": "NODE_ENV=development webpack --watch --mode development --progress --config webpack.config.js"
+    "dev": "NODE_ENV=development webpack --colors --mode development --progress  --config webpack.config.js",
+    "devdebug": "NODE_ENV=development webpack --colors --mode development --progress --verbose --display-error-details  --config webpack.config.js",
+    "prod": "NODE_ENV=production webpack --colors --mode production --progress --config webpack.config.js",
+    "watch": "NODE_ENV=development webpack --colors --watch --mode development --progress --config webpack.config.js"
   },
   "repository": {
     "type": "git",
