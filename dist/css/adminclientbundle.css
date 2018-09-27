@@ -17,15 +17,13 @@
   padding-bottom: 5px; }
 
 .editableMap {
-  height: 600px;
+  height: 500px;
   /* width: 90%;*/
-  float: none;
-  border: solid red 4px; }
+  float: none; }
 
 .editableMapWrapper {
-  display: inline-block;
-  width: 900px;
-  float: none;
+  width: 100%;
+  height: 500px;
   margin-left: auto;
   margin-right: auto; }
 
@@ -34,7 +32,8 @@
 
 #Form_EditForm_MapPinIcon_Holder {
   border: solid blue 4px;
-  background: yellow; }
+  background: yellow;
+  clear: both; }
 
 
-/*# sourceMappingURL=clientbundle.css.map*/
+/*# sourceMappingURL=adminclientbundle.css.map*/

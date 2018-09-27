@@ -112,4 +112,4 @@ __webpack_require__(/*! ./styles/bundle.scss */ "./admin/client/src/styles/bundl
 /***/ })
 
 /******/ });
-//# sourceMappingURL=clientbundle.js.map
+//# sourceMappingURL=adminclientbundle.js.map
