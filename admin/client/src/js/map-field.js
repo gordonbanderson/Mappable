@@ -95,7 +95,7 @@ function initMap()
             var lng = event.latLng.lng();
             latField.val(lat);
             lonField.val(lng);
-            setMarker(event.latLng, false);
+            setMarker(event.latLng, true);
             //statusMessage('Location changed to ' + lat + ',' + lng);
         });
 
@@ -183,12 +183,23 @@ function setCoordByMarker(event)
         var lat = event.latLng.lat();
         var lng = event.latLng.lng();
         latField.val(lat);
-        lonField.val(lng);
-        setMarker(event.latLng, true);
+        //lonField.val(lng);
+
+		latField.addClass('changed');
+		lonField.addClass('changed');
+
+		setMarker(event.latLng, true);
         //this.statusMessage('Location changed to ' + lat + ',' + lng);
         if (zoomField.length) {
             zoomField.val(map.getZoom());
-        }
+			zoomField.addClass('changed');
+
+		}
+
+		//$('.cms-container').redraw();
+
+		console.log('#### Set coord by marker ####');
+
         map.setCenter(event.latLng);
     })(jQuery);
 }
@@ -280,7 +291,7 @@ function initLivequery()
         });
 
         $('#GoogleMap').on('match', function () {
-            alert('initalising map');
+            console.log('initalising map T1');
             initMap();
         });
 
@@ -294,7 +305,7 @@ function initLivequery()
     {
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=gmloaded&key=" + mapsApiKey;
+        script.src = "//maps.googleapis.com/maps/api/js?callback=gmloaded&key=" + mapsApiKey;
         document.body.appendChild(script);
     }
 
