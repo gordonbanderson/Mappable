@@ -44,6 +44,7 @@ class LatLongField extends FieldGroup
         $this->buttonText = $buttonText ? $buttonText : _t('LatLongField.LOOKUP', 'Search');
         $this->latField = $children[0]->getName();
         $this->longField = $children[1]->getName();
+        $this->setLegend('Legend');
 
         if (sizeof($children) == 3) {
             $this->zoomField = $children[2]->getName();
@@ -61,24 +62,29 @@ class LatLongField extends FieldGroup
         $this->name = $name;
     }
 
-    public function FieldHolder($properties = array())
+    public function FieldHolder($properties = [])
     {
-        Requirements::javascript('silverstripe/admin: thirdparty/jquery/jquery.js');
-
+        error_log('FIELD HOLDER LAT LONG FIELD');
+        error_log('LLF T1');
         if (self::$ctr == 1) {
             // "todo Review this, may not be required.  Also class is not namespaced
-            if(!$apikey = Config::inst()->get('Mappable', 'service_key')){
+            if(!$apikey = Config::inst()->get(Mappable::class, 'service_key')){
+                error_log('LLF T2');
                 //Requirements::javascript('weboftalent/mappable:javascript/mapField.js');
                 $apikey = 0;
             }
 
+            error_log('LLF T3');
+
             $vars = ['MapsApiKey' => $apikey];
-            Requirements::javascriptTemplate('weboftalent/mappable:/javascript/mapsApiKey.js', $vars);
+            Requirements::javascriptTemplate('weboftalent/mappable:/admin/client/src/maps-api-key.ss.js', $vars);
         }
+
+        error_log('LLF T4');
 
        // Requirements::javascript(self::RESOURCES_PATH.'/jquery-livequery/jquery.livequery.js');
        // Requirements::javascript(self::RESOURCES_PATH.'/jquery-metadata/jquery.metadata.js');
-        Requirements::javascript('weboftalent/mappable: admin/client/dist/js/bundle.js');
+        Requirements::javascript('weboftalent/mappable: dist/js/mapfield.js');
 
         $attributes = array(
             'class' => 'editableMap',
@@ -89,7 +95,7 @@ class LatLongField extends FieldGroup
             'data-UseMapBounds' => false,
         );
 
-        Requirements::css('weboftalent/mappable: admin/client/dist/styles/bundle.css');
+        Requirements::css('weboftalent/mappable: dist/css/adminclientbundle.css');
 
 
 
@@ -114,21 +120,55 @@ class LatLongField extends FieldGroup
         $this->addExtraClass('editableMap');
         $this->setAttribute('id', 'GoogleMap');
         
-        $content = '<div class="editableMapWrapper">'.HTML::createTag(
+        $map = '<div class="editableMapWrapper">'.HTML::createTag(
                 'div',
                 $attributes
             ).'</div>';
 
-        $this->FieldList()->push(new LiteralField('locationEditor', $content));
+        $content = '<div id="Form_EditForm_Mappable_Holder" class="form-group field text">
+
+        <label for="Form_EditForm_Mappable" id="mappable-Form_EditForm_Mappable" class="form__field-label">Location</label>
+
+        <div class="form__field-holder input-group">
+        ' . $map .'
+        </div>
+
+
+
+    </div>';
+
+       // $this->FieldList()->push(new LiteralField('locationEditor', $content));
+
+        /*
+         * <div id="Form_EditForm_Title_Holder" class="form-group field text">
+
+        <label for="Form_EditForm_Title" id="title-Form_EditForm_Title" class="form__field-label">Page name</label>
+
+    <div class="form__field-holder input-group">
+        <input name="Title" value="Contact Us" class="text" id="Form_EditForm_Title" type="text"><button class="update btn btn-outline-secondary form__field-update-url" type="button" style="display: none;">Update URL</button>
+
+
+
+    </div>
+
+</div>
+         */
 
         $content2 = <<<HTML
-<div id="mapSearch">
-<input name="location_search" id="location_search" size=80/>
-<button class="action" id="searchLocationButton">Search Location Name</button>
-	<div id="mapSearchResults">
-</div>
-</div>
+        <div id="Form_EditForm_Title_Holder" class="form-group field text" id="mapSearch">
+
+            <label for="Form_EditForm_Title" class="form__field-label">Search</label>
+    
+            <div class="form__field-holder input-group">
+                <input name="location_search" value="Contact Us" class="text" id="location_search" type="text">
+                <button class="update btn btn-outline-secondary form__field-update-url"  id="searchLocationButton" type="button">Search Location Name</button>
+                <div id="mapSearchResults"></div>
+            </div>
+        </div>
+
 HTML;
+
+
 
         $this->FieldList()->push(new LiteralField('mapSearch', $content2));
 
