@@ -5,6 +5,7 @@ var bounds;
 
 function gmloaded()
 {
+	console.log('gm loaded');
     initLivequery();
 }
 
@@ -12,6 +13,8 @@ function gmloaded()
 // initialise the map
 function initMap()
 {
+	console.log('INIT MAP');
+
     var myOptions = {
         zoom: 16,
         disableDefaultUI: false,
@@ -95,7 +98,7 @@ function initMap()
             var lng = event.latLng.lng();
             latField.val(lat);
             lonField.val(lng);
-            setMarker(event.latLng, true);
+            setMarker(event.latLng, false);
             //statusMessage('Location changed to ' + lat + ',' + lng);
         });
 
@@ -193,7 +196,6 @@ function setCoordByMarker(event)
         if (zoomField.length) {
             zoomField.val(map.getZoom());
 			zoomField.addClass('changed');
-
 		}
 
 		//$('.cms-container').redraw();
@@ -290,14 +292,25 @@ function initLivequery()
             return false;
         });
 
-        $('#GoogleMap').on('match', function () {
-            console.log('initalising map T1');
-            initMap();
-        });
-
         initMap();
     })(jQuery);
 }
+
+
+
+(function($) {
+	$.entwine(function($) {
+		/**
+		 * This previously worked with jquery in SS3, SS4 needs entwine
+		 */
+		$('#GoogleMap').entwine({
+			onmatch: function() {
+				console.log("GoogleMap showed up");
+				initMap();
+			}
+		});
+	});
+})(jQuery);
 
 
 (function ($) {
