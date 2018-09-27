@@ -48,6 +48,7 @@ class MapExtension extends DataExtension implements Mappable
         $fields->removeByName('MapPinIcon');
         $fields->removeByName('MapPinEdited');
 
+        // Add a location tab with a map
         $fields->addFieldToTab(
             'Root.Location',
             $this->getMapField()
