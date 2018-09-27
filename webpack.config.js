@@ -14,7 +14,7 @@ console.log('ENV', process.env.NODE_ENV);
 module.exports = {
     devtool: 'source-map',
     entry: {
-        clientbundle: path.resolve(__dirname, 'admin/client/src/bundle')
+        adminclientbundle: path.resolve(__dirname, 'admin/client/src/bundle')
 	},
     output: {
         filename: 'dist/[name].js',
@@ -126,14 +126,14 @@ module.exports = {
 			filesToConcat: [
 				path.resolve(__dirname, 'admin/client/src/js/map-field')
 			],
-			name: 'js/map-field',
-			uglify: process.env.NODE_ENV == 'production' ? true : false
+			name: 'js/mapfield',
+			uglify: false // process.env.NODE_ENV == 'production' ? true : false
 		}),
 		new ConcatPlugin({
 			filesToConcat: [
 				path.resolve(__dirname, 'client/src/google/FullScreenControl'),
 				path.resolve(__dirname, 'client/src/google/markerclusterer'),
-				path.resolve(__dirname, 'client/src/google/maputil')
+				path.resolve(__dirname, 'client/src/google/maputil'),
 
 			],
 			name: 'js/map-google',
