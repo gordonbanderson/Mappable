@@ -45,12 +45,12 @@ class MapField extends DatalessField
 
     public function Field($properties = array())
     {
-        Requirements::javascript('framework/thirdparty/jquery/jquery.js');
-        Requirements::javascript('framework/thirdparty/jquery-livequery/jquery.livequery.js');
+        //@todo needed? Requirements::javascript('framework/thirdparty/jquery/jquery.js');
+        //@todo needed?  Requirements::javascript('framework/thirdparty/jquery-livequery/jquery.livequery.js');
         $attributes = array(
                         'class' => 'middleColumn',
                         'id' => $this->divId,
-                        'style' => 'width:100%;height:300px;margin:5px 0px 5px 5px;position:relative;',
+        // @todo needed?                 'style' => 'width:100%;height:300px;margin:5px 0px 5px 5px;position:relative;',
                 );
 
         Requirements::css('mappable/css/mapField.css');
