@@ -125,19 +125,16 @@ class LatLongField extends FieldGroup
                 $attributes
             ).'</div>';
 
-        $content = '<div id="Form_EditForm_Mappable_Holder" class="form-group field text">
-
-        <label for="Form_EditForm_Mappable" id="mappable-Form_EditForm_Mappable" class="form__field-label">Location</label>
-
-        <div class="form__field-holder input-group">
-        ' . $map .'
-        </div>
 
 
+        $content = '<div id="Form_EditForm_MappableMap_Holder" class="form-group field text">
+            <label for="Form_EditForm_MappableMap_Holder" class="form__field-label">Map</label>
+            <div class="form__field-holder input-group">
+                ' . $map . '
+            </div>
+        </div>';
 
-    </div>';
-
-       // $this->FieldList()->push(new LiteralField('locationEditor', $content));
+       $this->FieldList()->push(new LiteralField('locationEditor', $content));
 
         /*
          * <div id="Form_EditForm_Title_Holder" class="form-group field text">
@@ -155,9 +152,9 @@ class LatLongField extends FieldGroup
          */
 
         $content2 = <<<HTML
-        <div id="Form_EditForm_Title_Holder" class="form-group field text" id="mapSearch">
+        <div id="mapSearch" class="form-group field text">
 
-            <label for="Form_EditForm_Title" class="form__field-label">Search</label>
+            <label for="mapSearch" class="form__field-label">Search</label>
     
             <div class="form__field-holder input-group">
                 <input name="location_search" value="Contact Us" class="text" id="location_search" type="text">
