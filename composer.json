@@ -37,7 +37,8 @@
 		},
 		"expose": [
 			"admin/client/dist",
-			"client/dist"
+			"client/dist",
+			"dist"
 		]
 	},
 	"minimum-stability": "dev",
