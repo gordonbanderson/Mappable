@@ -1,4 +1,5 @@
 .geocodedSearchResults li {
+	color: green;
     cursor: pointer;
     font-weight: bold;
     font-size: 120%;
@@ -7,19 +8,28 @@
 }
 
 .editableMap {
-    height: 300px;
+    height: 500px;
     /* width: 90%;*/
     float: none;
 }
 
 .editableMapWrapper {
-    display: inline-block;
-    width: 900px;
-    float: none;
+    //display: inline-block;
+    width: 100%;
+	height: 500px;
+    //float: none;
     margin-left: auto;
     margin-right: auto;
 }
 
 .fieldholder-small {
     display: none;
+}
+
+
+#Form_EditForm_MapPinIcon_Holder {
+	border: solid blue 4px;
+	background: yellow;
+	clear: both;
+
 }

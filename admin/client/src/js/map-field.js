@@ -96,7 +96,7 @@ function initMap()
             latField.val(lat);
             lonField.val(lng);
             setMarker(event.latLng, false);
-            statusMessage('Location changed to ' + lat + ',' + lng);
+            //statusMessage('Location changed to ' + lat + ',' + lng);
         });
 
         google.maps.event.addListener(map, "zoom_changed", function (e) {
@@ -185,7 +185,7 @@ function setCoordByMarker(event)
         latField.val(lat);
         lonField.val(lng);
         setMarker(event.latLng, true);
-        statusMessage('Location changed to ' + lat + ',' + lng);
+        //this.statusMessage('Location changed to ' + lat + ',' + lng);
         if (zoomField.length) {
             zoomField.val(map.getZoom());
         }
@@ -200,16 +200,16 @@ function searchForAddress(address)
         var geocoder = new google.maps.Geocoder();
         var elevator = new google.maps.ElevationService();
         if (geocoder) {
-            statusMessage("Searching for:" + address);
+            //statusMessage("Searching for:" + address);
             geocoder.geocode({
                 'address': address
             }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     var l = results.length;
                     if (l > 0) {
-                        statusMessage("Places found");
+                        //statusMessage("Places found");
                     } else if (l === 0) {
-                        errorMessage("No places found");
+                        //errorMessage("No places found");
                     }
                     var html = '<ul class="geocodedSearchResults">';
                     //mapSearchResults
@@ -223,7 +223,7 @@ function searchForAddress(address)
                     html = html + "</ul>";
                     $('#mapSearchResults').html(html);
                 } else {
-                    errorMessage("Unable to find any geocoded results");
+                    //errorMessage("Unable to find any geocoded results");
                 }
             });
         }
@@ -259,7 +259,7 @@ function initLivequery()
             var lon = t.attr("lon");
             var address = t.html();
             var latlng = new google.maps.LatLng(lat, lon);
-            statusMessage("Setting map to " + address);
+            //statusMessage("Setting map to " + address);
             $('.geocodedSearchResults').html('');
             $('#Form_EditForm_Latitude').val(lat);
             $('#Form_EditForm_Longitude').val(lon);
