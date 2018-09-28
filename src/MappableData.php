@@ -2,6 +2,7 @@
 namespace WebOfTalent\Mappable;
 
 use SilverStripe\Core\Extension;
+use SilverStripe\ORM\ArrayList;
 
 /*
  * Provides a GoogleMap() function to ViewableData objects.
@@ -80,13 +81,13 @@ class MappableData extends Extension
 
         // use provided zoom or set a default
         if ($zoom == null) {
-            $zoom = Config::inst()->get('MappableData', 'staticmap_default_zoom');
+            $zoom = Config::inst()->get(MappableData::class, 'staticmap_default_zoom');
         }
 
         //https://maps.googleapis.com/maps/api/staticmap?center=Berkeley,CA&zoom=14&size=400x400&key=YOUR_API_KEY
                 //maps.googleapis.com/maps/api/staticmap';
 
-        $apiurl = Config::inst()->get('MappableData', 'staticmap_api_url');
+        $apiurl = Config::inst()->get(MappableData::class, 'staticmap_api_url');
 
         $urlparts = array(
             'center' => "$lat,$lng",

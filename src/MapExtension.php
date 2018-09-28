@@ -1,9 +1,11 @@
 <?php
 namespace WebOfTalent\Mappable;
 
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\View\SSViewer;
 
 class MapExtension extends DataExtension implements Mappable
 {
@@ -87,7 +89,7 @@ class MapExtension extends DataExtension implements Mappable
         $classTemplate =
             SSViewer::get_templates_by_class(
                 $this->owner->ClassName,
-                Config::inst()->get('MapExtension', 'map_info_window_suffix')
+                Config::inst()->get(MapExtension::class, 'map_info_window_suffix')
             );
 
         $template = count($classTemplate) ? $classTemplate : $defaultTemplate;

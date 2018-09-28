@@ -134,7 +134,8 @@ class LatLongField extends FieldGroup
             </div>
         </div>';
 
-       $this->FieldList()->push(new LiteralField('locationEditor', $content));
+        $le = new LiteralField('locationEditor', $content);
+       $this->FieldList()->push($le);
 
         /*
          * <div id="Form_EditForm_Title_Holder" class="form-group field text">

@@ -1,6 +1,7 @@
 <?php
 namespace WebOfTalent\Mappable;
 
+use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ViewableData;
 
 class MapAPI extends ViewableData
@@ -497,11 +498,11 @@ class MapAPI extends ViewableData
     public function addMarkerAsObject(ViewableData $obj, $infowindowtemplateparams = null)
     {
         $extensionsImplementMappable = false;
-        $extensions = Object::get_extensions(get_class($obj));
+        $extensions = DataObject::get_extensions(get_class($obj));
         if (is_array($extensions)) {
             foreach ($extensions as $extension) {
-                $class = new ReflectionClass($extension);
-                if ($class->implementsInterface('Mappable')) {
+                $class = new \ReflectionClass($extension);
+                if ($class->implementsInterface(Mappable::class)) {
                     $extensionsImplementMappable = true;
                 }
             }

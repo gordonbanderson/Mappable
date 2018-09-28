@@ -1,6 +1,9 @@
 <?php
 namespace WebOfTalent\Mappable;
 
+use SilverStripe\Control\Director;
+use SilverStripe\Core\Config\Config;
+
 class MapUtil
 {
     /**
@@ -137,7 +140,7 @@ class MapUtil
         ++self::$instances;
 
         if (self::$allow_full_screen == null) {
-            self::$allow_full_screen = Config::inst()->get('Mappable', 'allow_full_screen');
+            self::$allow_full_screen = Config::inst()->get(Mappable::class, 'allow_full_screen');
         }
 
         $url = Director::absoluteBaseURL();
@@ -190,7 +193,7 @@ class MapUtil
      *
      * @return MapAPI
      */
-    public static function get_map(SS_List $list, $infowindowtemplateparams)
+    public static function get_map($list, $infowindowtemplateparams)
     {
         $gmap = self::instance();
         if ($list) {
@@ -213,9 +216,9 @@ class MapUtil
      *
      * @return bool
      */
-    private static function ChooseToAddDataobject(DataObject $do)
+    private static function ChooseToAddDataobject($do)
     {
-        $isMappable = $do->is_a('Mappable');
+        $isMappable = is_a($do, Mappable::class);
 
         foreach ($do->getExtensionInstances() as $extension) {
             $isMappable = $isMappable || $extension instanceof Mappable;
