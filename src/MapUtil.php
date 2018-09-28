@@ -70,7 +70,7 @@ class MapUtil
         self::$center = 'Paris, France';
         self::$map_already_rendered = false;
         self::$allow_full_screen = null;
-        Config::inst()->update('Mappable', 'language', 'en');
+        Config::inst()->update(Mappable::class, 'language', 'en');
     }
 
     /**
@@ -88,11 +88,14 @@ class MapUtil
      */
     public static function set_map_already_rendered($new_map_already_rendered)
     {
+        error_log('Setting map already rendered');
         self::$map_already_rendered = $new_map_already_rendered;
     }
 
     public static function get_map_already_rendered()
     {
+        error_log('Getting map already rendered - ' . self::$map_already_rendered);
+
         return self::$map_already_rendered;
     }
 

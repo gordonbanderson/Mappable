@@ -5,6 +5,7 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Parsers\ShortcodeHandler;
 use SilverStripe\View\SSViewer;
+use WebOfTalent\Mappable\Mappable;
 use WebOfTalent\Mappable\MapUtil;
 
 class GoogleMapShortCodeHandler implements ShortcodeHandler
@@ -49,7 +50,15 @@ class GoogleMapShortCodeHandler implements ShortcodeHandler
         );
 
         // ensure JavaScript for the map service is only downloaded once
-        $arguments['DownloadJS'] = !MapUtil::get_map_already_rendered();
+
+        error_log('GMSCH T1');
+        if (!MapUtil::get_map_already_rendered()) {
+            error_log('GMSCH T2');
+
+            $arguments['GoogleMapKey'] = Config::inst()->get(Mappable::class, 'service_key');
+            $arguments['GoogleMapLang'] = Config::inst()->get(Mappable::class, 'language');
+        }
+
         MapUtil::set_map_already_rendered(true);
 
         // convert parameters to CamelCase as per standard template conventions
@@ -75,6 +84,9 @@ class GoogleMapShortCodeHandler implements ShortcodeHandler
 
         // fullscreen
         $arguments['AllowFullScreen'] = Config::inst()->get('Mappable', 'allow_full_screen');
+
+
+
 
         // incrememt the counter to ensure a unique id for each map canvas
         ++self::$gsv_ctr;

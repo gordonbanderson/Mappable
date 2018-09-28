@@ -706,7 +706,9 @@ class MapAPI extends ViewableData
 
         error_log('GENERATE T1 AR=' . MapUtil::get_map_already_rendered());
 
+        error_log('MapAPI T1');
         if (!MapUtil::get_map_already_rendered()) {
+            error_log('MapAPI T2');
             error_log('First map on page');
             $vars->setField('GoogleMapKey', $this->googleMapKey);
             $vars->setField('GoogleMapLang', $this->lang);
