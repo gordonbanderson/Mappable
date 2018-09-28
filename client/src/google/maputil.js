@@ -283,7 +283,7 @@ var primeMap;
                 },
                 zoom: zoom,
                 mapTypeId: maptype
-            };
+			};
 
 
 
@@ -321,18 +321,24 @@ var primeMap;
             // initialise geocoder
             geocoder = new google.maps.Geocoder();
 
-            // default of [] renders google maps as per normal
+			var allowfullscreen = parseInt(mapnode.attr('data-allowfullscreen'));
+
+
+			// default of [] renders google maps as per normal
             if (mapnode.attr('data-mapstyles')) {
                 var json = $.parseJSON(mapnode.attr('data-mapstyles'));
                 map.setOptions({
-                    styles: json
+                    styles: json,
+					fullscreenControl: allowfullscreen
                 });
             }
 
+
+
             if (mapnode.data['data-allowfullscreen']) {
-                map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
-                    FullScreenControl(map, "Full Screen", "Original Size")
-                );
+                //map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+               //     FullScreenControl(map, "Full Screen", "Original Size")
+               // );
             }
 
             var markerjson = $.parseJSON(mapnode.attr('data-mapmarkers'));
@@ -348,7 +354,6 @@ var primeMap;
                 infoWindowZoom,
                 defaultHideMarker
             );
-            var allowfullscreen = parseInt(mapnode.attr('data-allowfullscreen'));
 
             if (enableAutomaticCenterZoom == 1) {
                 centre = $.parseJSON(mapnode.attr('data-centre'));
@@ -367,9 +372,9 @@ var primeMap;
             }
 
             if (allowfullscreen == 1) {
-                map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
-                    FullScreenControl(map, "Full Screen", "Original Size")
-                );
+            //    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+             //       FullScreenControl(map, "Full Screen", "Original Size")
+             //   );
             }
 
             var googlemaptype = convertMapType(mapnode.attr('data-maptype'));

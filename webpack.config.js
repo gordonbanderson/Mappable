@@ -131,7 +131,6 @@ module.exports = {
 		}),
 		new ConcatPlugin({
 			filesToConcat: [
-				path.resolve(__dirname, 'client/src/google/FullScreenControl'),
 				path.resolve(__dirname, 'client/src/google/markerclusterer'),
 				path.resolve(__dirname, 'client/src/google/maputil'),
 
