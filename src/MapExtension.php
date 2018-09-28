@@ -5,6 +5,7 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
 
 class MapExtension extends DataExtension implements Mappable
@@ -61,6 +62,17 @@ class MapExtension extends DataExtension implements Mappable
             _t('Mappable.MAP_PIN', 'Map Pin Icon.  Leave this blank for default pin to show')
         ));
         $uf->setFolderName('mapicons');
+
+        if(!$apikey = Config::inst()->get(Mappable::class, 'service_key')){
+            error_log('LLF T2');
+            //Requirements::javascript('weboftalent/mappable:javascript/mapField.js');
+            $apikey = 0;
+        }
+
+        error_log('LLF T3');
+
+        $vars = ['MapsApiKey' => $apikey];
+        Requirements::javascriptTemplate('weboftalent/mappable:/admin/client/src/maps-api-key.ss.js', $vars);
     }
 
     public function getMappableLatitude()

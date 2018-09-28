@@ -123,9 +123,10 @@ class MapAPI extends ViewableData
      *
      * @param string $googleMapKey the googleMapKey
      */
-    public function __construct($googleMapKey = '')
+    public function __construct()
     {
-        $this->googleMapKey = $googleMapKey;
+        $this->googleMapKey = Config::inst()->get(Mappable::class, 'service_key');
+        $this->lang = Config::inst()->get(Mappable::class, 'language');
     }
 
     public function setShowInlineMapDivStyle($new_show_inline_map_div_style)
@@ -703,7 +704,10 @@ class MapAPI extends ViewableData
                 'UseCompressedAssets' => Config::inst()->get('Mappable', 'use_compressed_assets'),
             ));
 
+        error_log('GENERATE T1 AR=' . MapUtil::get_map_already_rendered());
+
         if (!MapUtil::get_map_already_rendered()) {
+            error_log('First map on page');
             $vars->setField('GoogleMapKey', $this->googleMapKey);
             $vars->setField('GoogleMapLang', $this->lang);
         }

@@ -166,7 +166,7 @@ class MapUtil
         $gmap->setMapType(self::$map_type);
         $gmap->setCenter(self::$center);
         $gmap->setAllowFullScreen(self::$allow_full_screen);
-        $language = Config::inst()->get('Mappable', 'language');
+        $language = Config::inst()->get(Mappable::class, 'language');
         $gmap->setLang($language);
 
         return $gmap;
