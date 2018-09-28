@@ -1,4 +1,4 @@
-<% include GoogleJavaScript %>
+<% include WebOfTalent/Mappable/GoogleJavaScript %>
 <div class="googlemapcontainer">
 <div id="$DomID" class="map googlemap" data-shortcode-map
 data-latitude=$Latitude

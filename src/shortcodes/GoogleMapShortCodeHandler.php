@@ -1,7 +1,11 @@
 <?php
 namespace WebOfTalent\Mappable\ShortCode;
 
+use SilverStripe\Core\Config\Config;
+use SilverStripe\View\ArrayData;
 use SilverStripe\View\Parsers\ShortcodeHandler;
+use SilverStripe\View\SSViewer;
+use WebOfTalent\Mappable\MapUtil;
 
 class GoogleMapShortCodeHandler implements ShortcodeHandler
 {
@@ -82,7 +86,7 @@ class GoogleMapShortCodeHandler implements ShortcodeHandler
         //Requirements::javascriptTemplate("mappable/javascript/google/map.google.template.js", $customised);
 
         //get map view template and render the HTML
-        $template = new SSViewer('GoogleMapShortCode');
+        $template = new SSViewer('WebOfTalent/Mappable/Includes/GoogleMapShortCode');
 
         //return the template customised with the parmameters
         return $template->process(new ArrayData($customised));
