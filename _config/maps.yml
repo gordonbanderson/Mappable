@@ -2,7 +2,7 @@
 Name: mappable_maps
 #After: 'framework/*','cms2/*'
 ---
-Mappable:
+WebOfTalent\Mappable\Mappable:
   allow_full_screen: true
   use_compressed_assets: false
   mapping_service: 'Google'
