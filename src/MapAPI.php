@@ -1,7 +1,9 @@
 <?php
 namespace WebOfTalent\Mappable;
 
+use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\View\ArrayData;
 use SilverStripe\View\ViewableData;
 
 class MapAPI extends ViewableData
@@ -662,7 +664,7 @@ class MapAPI extends ViewableData
 
         // initialise full screen as the config value if not already set
         if ($this->allowFullScreen === null) {
-            $this->allowFullScreen = Config::inst()->get('Mappable', 'allow_full_screen');
+            $this->allowFullScreen = Config::inst()->get(Mappable::class, 'allow_full_screen');
         }
 
         if (!$this->allowFullScreen) {
@@ -674,7 +676,6 @@ class MapAPI extends ViewableData
         }
 
         $vars = new ArrayData(array(
-
                 'JsonMapStyles' => $this->jsonMapStyles,
                 'AdditionalCssClasses' => $this->additional_css_classes,
                 'Width' => $this->width,
@@ -720,8 +721,8 @@ class MapAPI extends ViewableData
         if (!$templateVariables) {
             $templateVariables = new ArrayList();
         }
-        $mappingService = Config::inst()->get('Mappable', 'mapping_service');
-        $result = $templateVariables->renderWith($templateName.$mappingService.'HTML');
+        $mappingService = Config::inst()->get(Mappable::class, 'mapping_service');
+        $result = $templateVariables->renderWith('WebOfTalent/Mappable/Includes/' . $templateName.$mappingService.'HTML');
 
         return $result;
     }
