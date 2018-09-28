@@ -51,10 +51,7 @@ class GoogleMapShortCodeHandler implements ShortcodeHandler
 
         // ensure JavaScript for the map service is only downloaded once
 
-        error_log('GMSCH T1');
         if (!MapUtil::get_map_already_rendered()) {
-            error_log('GMSCH T2');
-
             $arguments['GoogleMapKey'] = Config::inst()->get(Mappable::class, 'service_key');
             $arguments['GoogleMapLang'] = Config::inst()->get(Mappable::class, 'language');
         }

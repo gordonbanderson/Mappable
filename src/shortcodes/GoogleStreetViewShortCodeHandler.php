@@ -1,7 +1,11 @@
 <?php
 namespace WebOfTalent\Mappable\ShortCode;
 
+use SilverStripe\Core\Config\Config;
+use SilverStripe\View\ArrayData;
 use SilverStripe\View\Parsers\ShortcodeHandler;
+use SilverStripe\View\SSViewer;
+use WebOfTalent\Mappable\Mappable;
 use WebOfTalent\Mappable\MapUtil;
 
 class GoogleStreetViewShortCodeHandler implements ShortcodeHandler
@@ -51,8 +55,11 @@ class GoogleStreetViewShortCodeHandler implements ShortcodeHandler
             'Pitch' => 0,
         );
 
-        // ensure JavaScript for the map service is only downloaded once
-        $arguments['DownloadJS'] = !MapUtil::get_map_already_rendered();
+        // provide keys for the first map
+        if (!MapUtil::get_map_already_rendered()) {
+            $arguments['GoogleMapKey'] = Config::inst()->get(Mappable::class, 'service_key');
+            $arguments['GoogleMapLang'] = Config::inst()->get(Mappable::class, 'language');
+        }
         MapUtil::set_map_already_rendered(true);
 
         // convert parameters to CamelCase as per standard template conventions
@@ -88,7 +95,7 @@ class GoogleStreetViewShortCodeHandler implements ShortcodeHandler
         //Requirements::javascriptTemplate("mappable/javascript/google/streetview.google.template.js", $customised);
 
         //get streetview template template
-        $template = new SSViewer('GoogleStreetView');
+        $template = new SSViewer('WebOfTalent/Mappable/Includes/GoogleStreetView');
 
         //return the template customised with the parmameters
         return $template->process(new ArrayData($customised));
