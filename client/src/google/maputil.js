@@ -329,7 +329,12 @@ var primeMap;
                 var json = $.parseJSON(mapnode.attr('data-mapstyles'));
                 map.setOptions({
                     styles: json,
-					fullscreenControl: allowfullscreen
+					fullscreenControl: allowfullscreen,
+					zoomControl: true,
+					mapTypeControl: true,
+					scaleControl: true,
+					streetViewControl: true,
+					rotateControl: true
                 });
             }
 
@@ -380,6 +385,8 @@ var primeMap;
             var googlemaptype = convertMapType(mapnode.attr('data-maptype'));
             map.setMapTypeId(googlemaptype);
 
+            console.log('Map type: ' + googlemaptype);
+
             if (useClusterer == 1) {
                 // ensure zoom and grid size are integers by prefixing with unary plus
                 var clustererGridSize = parseInt(mapnode.attr('data-clusterergridsize'));
@@ -387,7 +394,7 @@ var primeMap;
                 var mcOptions = {
                     gridSize: clustererGridSize,
                     maxZoom: clustererMaxZoom
-                };
+				};
                 var markerCluster = new MarkerClusterer(map, markers, mcOptions);
             }
 
@@ -450,10 +457,14 @@ var primeMap;
     }
 
     window.loadGoogleMapsScript = function () {
+    	var key = getGoogleMapsKey();
+    	var lang = getGoogleMapsLanguage();
+    	console.log('KEY: ' + key, lang);
+
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'https://maps.googleapis.com/maps/api/js?' +
-            '&sensor=false&callback=loadedGoogleMapsAPI&hl=en';
+            '&callback=loadedGoogleMapsAPI&hl='+lang+'&key=' + key;
         document.body.appendChild(script);
     };
 
@@ -467,4 +478,14 @@ var primeMap;
 function loadedGoogleMapsAPI()
 {
     primeMap();
+}
+
+function getGoogleMapsKey()
+{
+	return $('.mappable-map').first().attr('data-google-map-key');
+}
+
+function getGoogleMapsLanguage()
+{
+	return $('.mappable-map').first().attr('data-google-map-lang');
 }
