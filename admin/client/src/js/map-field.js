@@ -99,12 +99,15 @@ function initMap()
             latField.val(lat);
             lonField.val(lng);
             setMarker(event.latLng, false);
-            //statusMessage('Location changed to ' + lat + ',' + lng);
+            console.log('Location changed to ' + lat + ',' + lng);
+
+			highlight_publish_button();
         });
 
         google.maps.event.addListener(map, "zoom_changed", function (e) {
             if (zoomField.length) {
                 zoomField.val(map.getZoom());
+				highlight_publish_button();
             }
         });
 
@@ -122,6 +125,12 @@ function initMap()
                 map.setCenter(marker.getPosition());
             }
         });
+
+		function highlight_publish_button()
+		{
+			console.log('Trying to highlight');
+			$('#Form_EditForm_Lat').click();
+		}
 
     })(jQuery);
 
@@ -154,6 +163,8 @@ function addGuideMarker(lat, lon)
     guideMarker.setMap(map);
 
 }
+
+
 
 
 function setMarker(location, recenter)
@@ -198,9 +209,13 @@ function setCoordByMarker(event)
 			zoomField.addClass('changed');
 		}
 
+
+
 		//$('.cms-container').redraw();
 
 		console.log('#### Set coord by marker ####');
+
+		$('#Form_EditForm_Lat').click();
 
         map.setCenter(event.latLng);
     })(jQuery);
