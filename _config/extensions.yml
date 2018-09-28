@@ -2,14 +2,14 @@
 Name: mappable_extensions
 #After: 'framework/*','cms/*'
 ---
-DataObject:
+SilverStripe\ORM\DataObject:
   extensions:
-    -  MappableData
+    -  WebOfTalent\Mappable\MappableData
 
-DataList:
+SilverStripe\ORM\DataList:
   extensions:
-    -  MappableDataObjectSet
+    -  WebOfTalent\Mappable\MappableDataObjectSet
 
-ArrayList:
+SilverStripe\ORM\ArrayList:
   extensions:
-    -  MappableDataObjectSet
+    -  WebOfTalent\Mappable\MappableDataObjectSet
