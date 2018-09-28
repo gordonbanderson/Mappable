@@ -1,40 +1,23 @@
-/* {module-name} Admin Bundle
+/* {module-name} Bundle
 ===================================================================================================================== */
-/* {module-name} Admin Variables
+/* {module-name} Variables
 ===================================================================================================================== */
-#LatLonZoomLevel .fieldholder-small {
-  margin: 0px; }
+.mappable-map {
+  height: 500px;
+  -webkit-box-shadow: 10px 10px 16px 1px #888888;
+          box-shadow: 10px 10px 16px 1px #888888; }
 
-#LatLonZoomLevel .fieldholder-small-label {
-  margin: 0px; }
+.streetview, .map {
+  width: 100%;
+  height: 500px;
+  background: none; }
 
-.geocodedSearchResults li {
-  color: green;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 120%;
-  padding-top: 5px;
-  padding-bottom: 5px; }
+.googlestreetview img, .map img {
+  border: none !important;
+  max-width: none !important; }
 
-.editableMap {
-  height: 600px;
-  /* width: 90%;*/
-  float: none;
-  border: solid red 4px; }
-
-.editableMapWrapper {
-  display: inline-block;
-  width: 900px;
-  float: none;
-  margin-left: auto;
-  margin-right: auto; }
-
-.fieldholder-small {
-  display: none; }
-
-#Form_EditForm_MapPinIcon_Holder {
-  border: solid blue 4px;
-  background: yellow; }
+.streetviewcontainer p.caption, .googlemapcontainer p.caption {
+  text-align: center; }
 
 
 /*# sourceMappingURL=clientbundle.css.map*/

@@ -81,29 +81,29 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./admin/client/src/bundle.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./client/src/bundle.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./admin/client/src/bundle.js":
-/*!************************************!*\
-  !*** ./admin/client/src/bundle.js ***!
-  \************************************/
+/***/ "./client/src/bundle.js":
+/*!******************************!*\
+  !*** ./client/src/bundle.js ***!
+  \******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* {module-name} Admin Bundle
 ===================================================================================================================== */
 // Load Styles:
-__webpack_require__(/*! ./styles/bundle.scss */ "./admin/client/src/styles/bundle.scss");
+__webpack_require__(/*! ./styles/bundle.scss */ "./client/src/styles/bundle.scss");
 
 /***/ }),
 
-/***/ "./admin/client/src/styles/bundle.scss":
-/*!*********************************************!*\
-  !*** ./admin/client/src/styles/bundle.scss ***!
-  \*********************************************/
+/***/ "./client/src/styles/bundle.scss":
+/*!***************************************!*\
+  !*** ./client/src/styles/bundle.scss ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
