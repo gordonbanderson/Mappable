@@ -5,6 +5,7 @@ var bounds;
 
 function gmloaded()
 {
+	console.log('gm loaded');
     initLivequery();
 }
 
@@ -12,6 +13,8 @@ function gmloaded()
 // initialise the map
 function initMap()
 {
+	console.log('INIT MAP');
+
     var myOptions = {
         zoom: 16,
         disableDefaultUI: false,
@@ -96,12 +99,15 @@ function initMap()
             latField.val(lat);
             lonField.val(lng);
             setMarker(event.latLng, false);
-            //statusMessage('Location changed to ' + lat + ',' + lng);
+            console.log('Location changed to ' + lat + ',' + lng);
+
+			highlight_publish_button();
         });
 
         google.maps.event.addListener(map, "zoom_changed", function (e) {
             if (zoomField.length) {
                 zoomField.val(map.getZoom());
+				highlight_publish_button();
             }
         });
 
@@ -119,6 +125,12 @@ function initMap()
                 map.setCenter(marker.getPosition());
             }
         });
+
+		function highlight_publish_button()
+		{
+			console.log('Trying to highlight');
+			$('#Form_EditForm_Lat').click();
+		}
 
     })(jQuery);
 
@@ -153,6 +165,8 @@ function addGuideMarker(lat, lon)
 }
 
 
+
+
 function setMarker(location, recenter)
 {
     if (marker !== null) {
@@ -183,12 +197,26 @@ function setCoordByMarker(event)
         var lat = event.latLng.lat();
         var lng = event.latLng.lng();
         latField.val(lat);
-        lonField.val(lng);
-        setMarker(event.latLng, true);
+        //lonField.val(lng);
+
+		latField.addClass('changed');
+		lonField.addClass('changed');
+
+		setMarker(event.latLng, true);
         //this.statusMessage('Location changed to ' + lat + ',' + lng);
         if (zoomField.length) {
             zoomField.val(map.getZoom());
-        }
+			zoomField.addClass('changed');
+		}
+
+
+
+		//$('.cms-container').redraw();
+
+		console.log('#### Set coord by marker ####');
+
+		$('#Form_EditForm_Lat').click();
+
         map.setCenter(event.latLng);
     })(jQuery);
 }
@@ -279,14 +307,25 @@ function initLivequery()
             return false;
         });
 
-        $('#GoogleMap').on('match', function () {
-            alert('initalising map');
-            initMap();
-        });
-
         initMap();
     })(jQuery);
 }
+
+
+
+(function($) {
+	$.entwine(function($) {
+		/**
+		 * This previously worked with jquery in SS3, SS4 needs entwine
+		 */
+		$('#GoogleMap').entwine({
+			onmatch: function() {
+				console.log("GoogleMap showed up");
+				initMap();
+			}
+		});
+	});
+})(jQuery);
 
 
 (function ($) {
@@ -294,7 +333,7 @@ function initLivequery()
     {
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=gmloaded&key=" + mapsApiKey;
+        script.src = "//maps.googleapis.com/maps/api/js?callback=gmloaded&key=" + mapsApiKey;
         document.body.appendChild(script);
     }
 
