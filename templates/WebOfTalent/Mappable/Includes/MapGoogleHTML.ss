@@ -1,6 +1,7 @@
 <% include WebOfTalent/Mappable/Includes/GoogleJavaScript %>
-<div id="$GoogleMapID"<% if $GoogleMapKey %> data-google-map-key="$GoogleMapKey"<% end_if %><% if $GoogleMapLang %> data-google-map-lang="$GoogleMapLang" <% end_if %><% if ShowInlineMapDivStyle %> style="width:{$Width}; height: {$Height};"
-<% end_if %>class="mappable-map <% if AdditionalCssClasses %> $AdditionalCssClasses<% end_if %>"
+<% require css("weboftalent/mappable: dist/css/clientbundle.css") %>
+<div id="$GoogleMapID"<% if $GoogleMapKey %> data-google-map-key="$GoogleMapKey"<% end_if %><% if $GoogleMapLang %> data-google-map-lang="$GoogleMapLang" <% end_if %>
+	class="mappable-map <% if AdditionalCssClasses %> $AdditionalCssClasses<% end_if %>"
 data-map
 data-centre='$LatLngCentre'
 data-zoom=$Zoom

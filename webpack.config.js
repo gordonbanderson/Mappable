@@ -14,10 +14,12 @@ console.log('ENV', process.env.NODE_ENV);
 module.exports = {
     devtool: 'source-map',
     entry: {
-        adminclientbundle: path.resolve(__dirname, 'admin/client/src/bundle')
+		adminclientbundle: path.resolve(__dirname, 'admin/client/src/bundle'),
+		clientbundle: path.resolve(__dirname, 'client/src/bundle'),
+
 	},
     output: {
-        filename: 'dist/[name].js',
+        filename: 'js/[name].js',
         chunkFilename: "[id].css"
     },
     optimization: {
