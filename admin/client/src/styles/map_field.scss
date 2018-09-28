@@ -11,6 +11,10 @@
     height: 500px;
     /* width: 90%;*/
     float: none;
+
+	// @todo This is a dirty hack and needs fixed, the map icon editor field is otherwise overlaying with the map
+	margin-bottom: 220px;
+
 }
 
 .editableMapWrapper {
@@ -28,8 +32,7 @@
 
 
 #Form_EditForm_MapPinIcon_Holder {
-	border: solid blue 4px;
-	background: yellow;
 	clear: both;
-
 }
+
+
