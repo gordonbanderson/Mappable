@@ -1,4 +1,5 @@
 <% include WebOfTalent/Mappable/Includes/GoogleJavaScript %>
+<% require css("weboftalent/mappable: dist/css/clientbundle.css") %>
 SHORT CODE SV! KEY=$GoogleMapKey LL=$Latitude $Longitude
 
 <div class="streetviewcontainer">

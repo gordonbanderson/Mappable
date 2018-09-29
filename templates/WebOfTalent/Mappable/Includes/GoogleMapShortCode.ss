@@ -1,4 +1,5 @@
 <% include WebOfTalent/Mappable/GoogleJavaScript %>
+<% require css("weboftalent/mappable: dist/css/clientbundle.css") %>
 SHORT CODE! KEY=$GoogleMapKey LL=$Latitude $Longitude
 <div class="googlemapcontainer">
 <div id="$DomID" class="mappable-map googlemap" <% if $GoogleMapKey %> data-google-map-key="$GoogleMapKey"<% end_if %><% if $GoogleMapLang %> data-google-map-lang="$GoogleMapLang" <% end_if %>
