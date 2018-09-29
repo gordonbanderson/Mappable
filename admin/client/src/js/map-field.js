@@ -3,7 +3,6 @@ var marker;
 
 var bounds;
 
-var map_library_loaded = false;
 
 function gmloaded()
 {
@@ -316,6 +315,8 @@ function initLivequery()
 
 
 (function($) {
+	var map_library_loaded = false;
+
 	$.entwine(function($) {
 		/**
 		 * This previously worked with jquery in SS3, SS4 needs entwine
@@ -328,10 +329,8 @@ function initLivequery()
 			}
 		});
 	});
-})(jQuery);
 
 
-(function ($) {
     function loadGoogleMapsAPI()
     {
     	if (!map_library_loaded) {
