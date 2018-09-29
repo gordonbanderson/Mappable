@@ -6,4 +6,5 @@ var options = {
     heading: $Heading,
     domid: '$DomID'
 }
+console.log('From streetview google template.js');
 registerStreetView(options);

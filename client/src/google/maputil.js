@@ -264,6 +264,8 @@ var primeMap;
     function loadShortCodeMaps()
     {
 
+    	console.log('In loadShortCodeMaps');
+
         var scms = $('div[data-shortcode-map]');
 
         scms.each(function (index) {
@@ -477,6 +479,8 @@ var primeMap;
 
 function loadedGoogleMapsAPI()
 {
+	console.log('About to call prime map');
+
     primeMap();
 }
 
