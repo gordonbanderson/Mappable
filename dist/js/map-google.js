@@ -1,1 +1,1798 @@
-function MarkerClusterer(t,e,r){this.extend(MarkerClusterer,google.maps.OverlayView),this.map_=t,this.markers_=[],this.clusters_=[],this.sizes=[53,56,66,78,90],this.styles_=[],this.ready_=!1;var s=r||{};this.gridSize_=s.gridSize||60,this.minClusterSize_=s.minimumClusterSize||2,this.maxZoom_=s.maxZoom||null,this.styles_=s.styles||[],this.imagePath_=s.imagePath||this.MARKER_CLUSTER_IMAGE_PATH_,this.imageExtension_=s.imageExtension||this.MARKER_CLUSTER_IMAGE_EXTENSION_,this.zoomOnClick_=!0,void 0!=s.zoomOnClick&&(this.zoomOnClick_=s.zoomOnClick),this.averageCenter_=!1,void 0!=s.averageCenter&&(this.averageCenter_=s.averageCenter),this.setupStyles_(),this.setMap(t),this.prevZoom_=this.map_.getZoom();var o=this;google.maps.event.addListener(this.map_,"zoom_changed",function(){var t=o.map_.getZoom();o.prevZoom_!=t&&(o.prevZoom_=t,o.resetViewport())}),google.maps.event.addListener(this.map_,"idle",function(){o.redraw()}),e&&e.length&&this.addMarkers(e,!1)}function Cluster(t){this.markerClusterer_=t,this.map_=t.getMap(),this.gridSize_=t.getGridSize(),this.minClusterSize_=t.getMinClusterSize(),this.averageCenter_=t.isAverageCenter(),this.center_=null,this.markers_=[],this.bounds_=null,this.clusterIcon_=new ClusterIcon(this,t.getStyles(),t.getGridSize())}function ClusterIcon(t,e,r){t.getMarkerClusterer().extend(ClusterIcon,google.maps.OverlayView),this.styles_=e,this.padding_=r||0,this.cluster_=t,this.center_=null,this.map_=t.getMap(),this.div_=null,this.sums_=null,this.visible_=!1,this.setMap(this.map_)}var primeMap;function loadedGoogleMapsAPI(){primeMap()}function getGoogleMapsKey(){return $(".mappable-map").first().attr("data-google-map-key")}function getGoogleMapsLanguage(){return $(".mappable-map").first().attr("data-google-map-lang")}MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m",MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_EXTENSION_="png",MarkerClusterer.prototype.extend=function(t,e){return function(t){for(var e in t.prototype)this.prototype[e]=t.prototype[e];return this}.apply(t,[e])},MarkerClusterer.prototype.onAdd=function(){this.setReady_(!0)},MarkerClusterer.prototype.draw=function(){},MarkerClusterer.prototype.setupStyles_=function(){if(!this.styles_.length)for(var t,e=0;t=this.sizes[e];e++)this.styles_.push({url:this.imagePath_+(e+1)+"."+this.imageExtension_,height:t,width:t})},MarkerClusterer.prototype.fitMapToMarkers=function(){for(var t,e=this.getMarkers(),r=new google.maps.LatLngBounds,s=0;t=e[s];s++)r.extend(t.getPosition());this.map_.fitBounds(r)},MarkerClusterer.prototype.setStyles=function(t){this.styles_=t},MarkerClusterer.prototype.getStyles=function(){return this.styles_},MarkerClusterer.prototype.isZoomOnClick=function(){return this.zoomOnClick_},MarkerClusterer.prototype.isAverageCenter=function(){return this.averageCenter_},MarkerClusterer.prototype.getMarkers=function(){return this.markers_},MarkerClusterer.prototype.getTotalMarkers=function(){return this.markers_.length},MarkerClusterer.prototype.setMaxZoom=function(t){this.maxZoom_=t},MarkerClusterer.prototype.getMaxZoom=function(){return this.maxZoom_},MarkerClusterer.prototype.calculator_=function(t,e){for(var r=0,s=t.length,o=s;0!==o;)o=parseInt(o/10,10),r++;return{text:s,index:r=Math.min(r,e)}},MarkerClusterer.prototype.setCalculator=function(t){this.calculator_=t},MarkerClusterer.prototype.getCalculator=function(){return this.calculator_},MarkerClusterer.prototype.addMarkers=function(t,e){for(var r,s=0;r=t[s];s++)this.pushMarkerTo_(r);e||this.redraw()},MarkerClusterer.prototype.pushMarkerTo_=function(t){if(t.isAdded=!1,t.draggable){var e=this;google.maps.event.addListener(t,"dragend",function(){t.isAdded=!1,e.repaint()})}this.markers_.push(t)},MarkerClusterer.prototype.addMarker=function(t,e){this.pushMarkerTo_(t),e||this.redraw()},MarkerClusterer.prototype.removeMarker_=function(t){var e=-1;if(this.markers_.indexOf)e=this.markers_.indexOf(t);else for(var r,s=0;r=this.markers_[s];s++)if(r==t){e=s;break}return-1!=e&&(t.setMap(null),this.markers_.splice(e,1),!0)},MarkerClusterer.prototype.removeMarker=function(t,e){var r=this.removeMarker_(t);return!(e||!r)&&(this.resetViewport(),this.redraw(),!0)},MarkerClusterer.prototype.removeMarkers=function(t,e){for(var r,s=!1,o=0;r=t[o];o++){var a=this.removeMarker_(r);s=s||a}if(!e&&s)return this.resetViewport(),this.redraw(),!0},MarkerClusterer.prototype.setReady_=function(t){this.ready_||(this.ready_=t,this.createClusters_())},MarkerClusterer.prototype.getTotalClusters=function(){return this.clusters_.length},MarkerClusterer.prototype.getMap=function(){return this.map_},MarkerClusterer.prototype.setMap=function(t){this.map_=t},MarkerClusterer.prototype.getGridSize=function(){return this.gridSize_},MarkerClusterer.prototype.setGridSize=function(t){this.gridSize_=t},MarkerClusterer.prototype.getMinClusterSize=function(){return this.minClusterSize_},MarkerClusterer.prototype.setMinClusterSize=function(t){this.minClusterSize_=t},MarkerClusterer.prototype.getExtendedBounds=function(t){var e=this.getProjection(),r=new google.maps.LatLng(t.getNorthEast().lat(),t.getNorthEast().lng()),s=new google.maps.LatLng(t.getSouthWest().lat(),t.getSouthWest().lng()),o=e.fromLatLngToDivPixel(r);o.x+=this.gridSize_,o.y-=this.gridSize_;var a=e.fromLatLngToDivPixel(s);a.x-=this.gridSize_,a.y+=this.gridSize_;var i=e.fromDivPixelToLatLng(o),n=e.fromDivPixelToLatLng(a);return t.extend(i),t.extend(n),t},MarkerClusterer.prototype.isMarkerInBounds_=function(t,e){return e.contains(t.getPosition())},MarkerClusterer.prototype.clearMarkers=function(){this.resetViewport(!0),this.markers_=[]},MarkerClusterer.prototype.resetViewport=function(t){for(var e,r=0;e=this.clusters_[r];r++)e.remove();var s;for(r=0;s=this.markers_[r];r++)s.isAdded=!1,t&&s.setMap(null);this.clusters_=[]},MarkerClusterer.prototype.repaint=function(){var t=this.clusters_.slice();this.clusters_.length=0,this.resetViewport(),this.redraw(),window.setTimeout(function(){for(var e,r=0;e=t[r];r++)e.remove()},0)},MarkerClusterer.prototype.redraw=function(){this.createClusters_()},MarkerClusterer.prototype.distanceBetweenPoints_=function(t,e){if(!t||!e)return 0;var r=(e.lat()-t.lat())*Math.PI/180,s=(e.lng()-t.lng())*Math.PI/180,o=Math.sin(r/2)*Math.sin(r/2)+Math.cos(t.lat()*Math.PI/180)*Math.cos(e.lat()*Math.PI/180)*Math.sin(s/2)*Math.sin(s/2);return 6371*(2*Math.atan2(Math.sqrt(o),Math.sqrt(1-o)))},MarkerClusterer.prototype.addToClosestCluster_=function(t){for(var e,r=4e4,s=null,o=(t.getPosition(),0);e=this.clusters_[o];o++){var a=e.getCenter();if(a){var i=this.distanceBetweenPoints_(a,t.getPosition());i<r&&(r=i,s=e)}}s&&s.isMarkerInClusterBounds(t)?s.addMarker(t):((e=new Cluster(this)).addMarker(t),this.clusters_.push(e))},MarkerClusterer.prototype.createClusters_=function(){if(this.ready_)for(var t,e=new google.maps.LatLngBounds(this.map_.getBounds().getSouthWest(),this.map_.getBounds().getNorthEast()),r=this.getExtendedBounds(e),s=0;t=this.markers_[s];s++)!t.isAdded&&this.isMarkerInBounds_(t,r)&&this.addToClosestCluster_(t)},Cluster.prototype.isMarkerAlreadyAdded=function(t){if(this.markers_.indexOf)return-1!=this.markers_.indexOf(t);for(var e,r=0;e=this.markers_[r];r++)if(e==t)return!0;return!1},Cluster.prototype.addMarker=function(t){if(this.isMarkerAlreadyAdded(t))return!1;if(this.center_){if(this.averageCenter_){var e=this.markers_.length+1,r=(this.center_.lat()*(e-1)+t.getPosition().lat())/e,s=(this.center_.lng()*(e-1)+t.getPosition().lng())/e;this.center_=new google.maps.LatLng(r,s),this.calculateBounds_()}}else this.center_=t.getPosition(),this.calculateBounds_();t.isAdded=!0,this.markers_.push(t);var o=this.markers_.length;if(o<this.minClusterSize_&&t.getMap()!=this.map_&&t.setMap(this.map_),o==this.minClusterSize_)for(var a=0;a<o;a++)this.markers_[a].setMap(null);return o>=this.minClusterSize_&&t.setMap(null),this.updateIcon(),!0},Cluster.prototype.getMarkerClusterer=function(){return this.markerClusterer_},Cluster.prototype.getBounds=function(){for(var t,e=new google.maps.LatLngBounds(this.center_,this.center_),r=this.getMarkers(),s=0;t=r[s];s++)e.extend(t.getPosition());return e},Cluster.prototype.remove=function(){this.clusterIcon_.remove(),this.markers_.length=0,delete this.markers_},Cluster.prototype.getSize=function(){return this.markers_.length},Cluster.prototype.getMarkers=function(){return this.markers_},Cluster.prototype.getCenter=function(){return this.center_},Cluster.prototype.calculateBounds_=function(){var t=new google.maps.LatLngBounds(this.center_,this.center_);this.bounds_=this.markerClusterer_.getExtendedBounds(t)},Cluster.prototype.isMarkerInClusterBounds=function(t){return this.bounds_.contains(t.getPosition())},Cluster.prototype.getMap=function(){return this.map_},Cluster.prototype.updateIcon=function(){var t=this.map_.getZoom(),e=this.markerClusterer_.getMaxZoom();if(e&&t>e)for(var r,s=0;r=this.markers_[s];s++)r.setMap(this.map_);else if(this.markers_.length<this.minClusterSize_)this.clusterIcon_.hide();else{var o=this.markerClusterer_.getStyles().length,a=this.markerClusterer_.getCalculator()(this.markers_,o);this.clusterIcon_.setCenter(this.center_),this.clusterIcon_.setSums(a),this.clusterIcon_.show()}},ClusterIcon.prototype.triggerClusterClick=function(){var t=this.cluster_.getMarkerClusterer();google.maps.event.trigger(t,"clusterclick",this.cluster_),t.isZoomOnClick()&&this.map_.fitBounds(this.cluster_.getBounds())},ClusterIcon.prototype.onAdd=function(){if(this.div_=document.createElement("DIV"),this.visible_){var t=this.getPosFromLatLng_(this.center_);this.div_.style.cssText=this.createCss(t),this.div_.innerHTML=this.sums_.text}this.getPanes().overlayMouseTarget.appendChild(this.div_);var e=this;google.maps.event.addDomListener(this.div_,"click",function(){e.triggerClusterClick()})},ClusterIcon.prototype.getPosFromLatLng_=function(t){var e=this.getProjection().fromLatLngToDivPixel(t);return e.x-=parseInt(this.width_/2,10),e.y-=parseInt(this.height_/2,10),e},ClusterIcon.prototype.draw=function(){if(this.visible_){var t=this.getPosFromLatLng_(this.center_);this.div_.style.top=t.y+"px",this.div_.style.left=t.x+"px"}},ClusterIcon.prototype.hide=function(){this.div_&&(this.div_.style.display="none"),this.visible_=!1},ClusterIcon.prototype.show=function(){if(this.div_){var t=this.getPosFromLatLng_(this.center_);this.div_.style.cssText=this.createCss(t),this.div_.style.display=""}this.visible_=!0},ClusterIcon.prototype.remove=function(){this.setMap(null)},ClusterIcon.prototype.onRemove=function(){this.div_&&this.div_.parentNode&&(this.hide(),this.div_.parentNode.removeChild(this.div_),this.div_=null)},ClusterIcon.prototype.setSums=function(t){this.sums_=t,this.text_=t.text,this.index_=t.index,this.div_&&(this.div_.innerHTML=t.text),this.useStyle()},ClusterIcon.prototype.useStyle=function(){var t=Math.max(0,this.sums_.index-1);t=Math.min(this.styles_.length-1,t);var e=this.styles_[t];this.url_=e.url,this.height_=e.height,this.width_=e.width,this.textColor_=e.textColor,this.anchor_=e.anchor,this.textSize_=e.textSize,this.backgroundPosition_=e.backgroundPosition},ClusterIcon.prototype.setCenter=function(t){this.center_=t},ClusterIcon.prototype.createCss=function(t){var e=[];e.push("background-image:url("+this.url_+");");var r=this.backgroundPosition_?this.backgroundPosition_:"0 0";e.push("background-position:"+r+";"),"object"==typeof this.anchor_?("number"==typeof this.anchor_[0]&&this.anchor_[0]>0&&this.anchor_[0]<this.height_?e.push("height:"+(this.height_-this.anchor_[0])+"px; padding-top:"+this.anchor_[0]+"px;"):e.push("height:"+this.height_+"px; line-height:"+this.height_+"px;"),"number"==typeof this.anchor_[1]&&this.anchor_[1]>0&&this.anchor_[1]<this.width_?e.push("width:"+(this.width_-this.anchor_[1])+"px; padding-left:"+this.anchor_[1]+"px;"):e.push("width:"+this.width_+"px; text-align:center;")):e.push("height:"+this.height_+"px; line-height:"+this.height_+"px; width:"+this.width_+"px; text-align:center;");var s=this.textColor_?this.textColor_:"black",o=this.textSize_?this.textSize_:11;return e.push("cursor:pointer; top:"+t.y+"px; left:"+t.x+"px; color:"+s+"; position:absolute; font-size:"+o+"px; font-family:Arial,sans-serif; font-weight:bold"),e.join("")},window.MarkerClusterer=MarkerClusterer,MarkerClusterer.prototype.addMarker=MarkerClusterer.prototype.addMarker,MarkerClusterer.prototype.addMarkers=MarkerClusterer.prototype.addMarkers,MarkerClusterer.prototype.clearMarkers=MarkerClusterer.prototype.clearMarkers,MarkerClusterer.prototype.fitMapToMarkers=MarkerClusterer.prototype.fitMapToMarkers,MarkerClusterer.prototype.getCalculator=MarkerClusterer.prototype.getCalculator,MarkerClusterer.prototype.getGridSize=MarkerClusterer.prototype.getGridSize,MarkerClusterer.prototype.getExtendedBounds=MarkerClusterer.prototype.getExtendedBounds,MarkerClusterer.prototype.getMap=MarkerClusterer.prototype.getMap,MarkerClusterer.prototype.getMarkers=MarkerClusterer.prototype.getMarkers,MarkerClusterer.prototype.getMaxZoom=MarkerClusterer.prototype.getMaxZoom,MarkerClusterer.prototype.getStyles=MarkerClusterer.prototype.getStyles,MarkerClusterer.prototype.getTotalClusters=MarkerClusterer.prototype.getTotalClusters,MarkerClusterer.prototype.getTotalMarkers=MarkerClusterer.prototype.getTotalMarkers,MarkerClusterer.prototype.redraw=MarkerClusterer.prototype.redraw,MarkerClusterer.prototype.removeMarker=MarkerClusterer.prototype.removeMarker,MarkerClusterer.prototype.removeMarkers=MarkerClusterer.prototype.removeMarkers,MarkerClusterer.prototype.resetViewport=MarkerClusterer.prototype.resetViewport,MarkerClusterer.prototype.repaint=MarkerClusterer.prototype.repaint,MarkerClusterer.prototype.setCalculator=MarkerClusterer.prototype.setCalculator,MarkerClusterer.prototype.setGridSize=MarkerClusterer.prototype.setGridSize,MarkerClusterer.prototype.setMaxZoom=MarkerClusterer.prototype.setMaxZoom,MarkerClusterer.prototype.onAdd=MarkerClusterer.prototype.onAdd,MarkerClusterer.prototype.draw=MarkerClusterer.prototype.draw,Cluster.prototype.getCenter=Cluster.prototype.getCenter,Cluster.prototype.getSize=Cluster.prototype.getSize,Cluster.prototype.getMarkers=Cluster.prototype.getMarkers,ClusterIcon.prototype.onAdd=ClusterIcon.prototype.onAdd,ClusterIcon.prototype.draw=ClusterIcon.prototype.draw,ClusterIcon.prototype.onRemove=ClusterIcon.prototype.onRemove,function(t){var e=[];function r(t,r,s,o,a,i,n,l,p,u){mapId=t.getDiv().getAttribute("id");var h=new google.maps.Marker;if(h.setPosition(new google.maps.LatLng(r,s)),h.mycategory=a,i&&""!==i){var g=new google.maps.MarkerImage(i);h.setIcon(g)}return"1"!=n&&h.setMap(t),google.maps.event.addListener(h,"click",function(){l&&t.setCenter(new google.maps.LatLng(r,s),p);var a=e[mapId];a.setContent(o),a.open(t,this)}),console.log(!1===u),"1"==u?h.setVisible(!1):h.setVisible(!0),h}function s(t){var e=google.maps.MapTypeId.ROADMAP;switch(t){case"aerial":e=google.maps.MapTypeId.SATELLITE;break;case"hybrid":e=google.maps.MapTypeId.HYBRID;break;case"terrain":e=google.maps.MapTypeId.TERRAIN}return e}primeMap=function(){t("div[data-shortcode-map]").each(function(e){var r=t(this),o=r.attr("id"),a=s(r.attr("data-maptype")),i=parseFloat(r.attr("data-latitude")),n=parseFloat(r.attr("data-longitude")),l=parseInt(r.attr("data-zoom")),p=parseInt(r.attr("data-allowfullscreen")),u={center:{lat:i,lng:n},zoom:l,mapTypeId:a},h=new google.maps.Map(document.getElementById(o),u);1==p&&h.controls[google.maps.ControlPosition.TOP_RIGHT].push(FullScreenControl(h,"Full Screen","Original Size"))}),t("div[data-streetview]").each(function(e){var r=t(this),s=r.attr("id"),o=parseFloat(r.attr("data-latitude")),a=parseFloat(r.attr("data-longitude")),i=parseInt(r.attr("data-zoom")),n=parseFloat(r.attr("data-heading")),l=parseFloat(r.attr("data-pitch")),p={position:new google.maps.LatLng(o,a),pov:{heading:n,pitch:l},zoom:i},u=document.getElementById(s);new google.maps.StreetViewPanorama(u,p).setVisible(!0)}),t("div[data-map]").each(function(o){var a=t(this);mapdomid=a.attr("id");var n=new google.maps.Map(document.getElementById(mapdomid));geocoder=new google.maps.Geocoder;var l=parseInt(a.attr("data-allowfullscreen"));if(a.attr("data-mapstyles")){var p=t.parseJSON(a.attr("data-mapstyles"));n.setOptions({styles:p,fullscreenControl:l,zoomControl:!0,mapTypeControl:!0,scaleControl:!0,streetViewControl:!0,rotateControl:!0})}a.data["data-allowfullscreen"];var u=t.parseJSON(a.attr("data-mapmarkers")),h=a.attr("data-useclusterer"),g=a.attr("data-enableautocentrezoom"),d=function(t,e,s,o,a,i){t.minLat=1e6,t.minLng=1e6,t.maxLat=-1e6,t.maxLng=-1e6;for(var n=[],l=0;l<e.length;l++){var p=e[l],u=r(t,p.latitude,p.longitude,p.html,p.category,p.icon,s,o,a,i),h=parseFloat(p.latitude),g=parseFloat(p.longitude);h<t.minLat&&(t.minLat=h),h>t.maxLat&&(t.maxLat=h),g>t.maxLng&&(t.maxLng=g),g<t.minLng&&(t.minLng=g),n.push(u)}var d=[];return d.lat=(parseFloat(t.minLat)+parseFloat(t.maxLat))/2,d.lng=(parseFloat(t.minLng)+parseFloat(t.maxLng))/2,t.centreCoordinates=d,n}(n,u,h,g,a.attr("data-infowindowzoom"),a.attr("data-defaulthidemarker"));if(1==g){centre=t.parseJSON(a.attr("data-centre")),n.setCenter(new google.maps.LatLng(centre.lat,centre.lng));var c=new google.maps.LatLngBounds(new google.maps.LatLng(n.minLat,n.minLng),new google.maps.LatLng(n.maxLat,n.maxLng));n.fitBounds(c)}else{centre=t.parseJSON(a.attr("data-centre")),n.setCenter(new google.maps.LatLng(centre.lat,centre.lng));var m=parseInt(a.attr("data-zoom"));n.setZoom(m)}var _=s(a.attr("data-maptype"));if(n.setMapTypeId(_),console.log("Map type: "+_),1==h)new MarkerClusterer(n,d,{gridSize:parseInt(a.attr("data-clusterergridsize")),maxZoom:parseInt(a.attr("data-clusterermaxzoom"))});!function(t,e){for(i=0;i<e.length;i++){var r=e[i],s=[new google.maps.LatLng(r.lat1,r.lon1),new google.maps.LatLng(r.lat2,r.lon2)];new google.maps.Polyline({path:s,strokeColor:r.color,strokeWeight:4,strokeOpacity:.8}).setMap(t)}}(n,t.parseJSON(a.attr("data-lines"))),function(t,e){for(var r=0;r<e.length;r++){var s=e[r];new google.maps.KmlLayer(s,{suppressInfoWindows:!0,map:t})}}(n,t.parseJSON(a.attr("data-kmlfiles")));var C=new google.maps.InfoWindow({content:""});e[mapdomid]=C,a.trigger("mapInitialised",[n])})},window.loadGoogleMapsScript=function(){var t=getGoogleMapsKey(),e=getGoogleMapsLanguage();console.log("KEY: "+t,e);var r=document.createElement("script");r.type="text/javascript",r.src="https://maps.googleapis.com/maps/api/js?&callback=loadedGoogleMapsAPI&hl="+e+"&key="+t,document.body.appendChild(r)},window.addEventListener?window.addEventListener("load",loadGoogleMapsScript,!1):window.attachEvent&&window.attachEvent("onload",loadGoogleMapsScript)}(jQuery);
+// ==ClosureCompiler==
+// @compilation_level ADVANCED_OPTIMIZATIONS
+// @externs_url http://closure-compiler.googlecode.com/svn/trunk/contrib/externs/maps/google_maps_api_v3_3.js
+// ==/ClosureCompiler==
+
+/**
+ * @name MarkerClusterer for Google Maps v3
+ * @version version 1.0
+ * @author Luke Mahe
+ * @fileoverview
+ * The library creates and manages per-zoom-level clusters for large amounts of
+ * markers.
+ * <br/>
+ * This is a v3 implementation of the
+ * <a href="http://gmaps-utility-library-dev.googlecode.com/svn/tags/markerclusterer/"
+ * >v2 MarkerClusterer</a>.
+ */
+
+/**
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+/**
+ * A Marker Clusterer that clusters markers.
+ *
+ * @param {google.maps.Map} map The Google map to attach to.
+ * @param {Array.<google.maps.Marker>=} opt_markers Optional markers to add to
+ *   the cluster.
+ * @param {Object=} opt_options support the following options:
+ *     'gridSize': (number) The grid size of a cluster in pixels.
+ *     'maxZoom': (number) The maximum zoom level that a marker can be part of a
+ *                cluster.
+ *     'zoomOnClick': (boolean) Whether the default behaviour of clicking on a
+ *                    cluster is to zoom into it.
+ *     'averageCenter': (boolean) Wether the center of each cluster should be
+ *                      the average of all markers in the cluster.
+ *     'minimumClusterSize': (number) The minimum number of markers to be in a
+ *                           cluster before the markers are hidden and a count
+ *                           is shown.
+ *     'styles': (object) An object that has style properties:
+ *       'url': (string) The image url.
+ *       'height': (number) The image height.
+ *       'width': (number) The image width.
+ *       'anchor': (Array) The anchor position of the label text.
+ *       'textColor': (string) The text color.
+ *       'textSize': (number) The text size.
+ *       'backgroundPosition': (string) The position of the backgound x, y.
+ * @constructor
+ * @extends google.maps.OverlayView
+ */
+function MarkerClusterer(map, opt_markers, opt_options)
+{
+    // MarkerClusterer implements google.maps.OverlayView interface. We use the
+    // extend function to extend MarkerClusterer with google.maps.OverlayView
+    // because it might not always be available when the code is defined so we
+    // look for it at the last possible moment. If it doesn't exist now then
+    // there is no point going ahead :)
+    this.extend(MarkerClusterer, google.maps.OverlayView);
+    this.map_ = map;
+
+    /**
+     * @type {Array.<google.maps.Marker>}
+     * @private
+     */
+    this.markers_ = [];
+
+    /**
+     *  @type {Array.<Cluster>}
+     */
+    this.clusters_ = [];
+
+    this.sizes = [53, 56, 66, 78, 90];
+
+    /**
+     * @private
+     */
+    this.styles_ = [];
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.ready_ = false;
+
+    var options = opt_options || {};
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.gridSize_ = options['gridSize'] || 60;
+
+    /**
+     * @private
+     */
+    this.minClusterSize_ = options['minimumClusterSize'] || 2;
+
+
+    /**
+     * @type {?number}
+     * @private
+     */
+    this.maxZoom_ = options['maxZoom'] || null;
+
+    this.styles_ = options['styles'] || [];
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this.imagePath_ = options['imagePath'] ||
+            this.MARKER_CLUSTER_IMAGE_PATH_;
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this.imageExtension_ = options['imageExtension'] ||
+            this.MARKER_CLUSTER_IMAGE_EXTENSION_;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.zoomOnClick_ = true;
+
+    if (options['zoomOnClick'] != undefined) {
+        this.zoomOnClick_ = options['zoomOnClick'];
+    }
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.averageCenter_ = false;
+
+    if (options['averageCenter'] != undefined) {
+        this.averageCenter_ = options['averageCenter'];
+    }
+
+    this.setupStyles_();
+
+    this.setMap(map);
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.prevZoom_ = this.map_.getZoom();
+
+    // Add the map event listeners
+    var that = this;
+    google.maps.event.addListener(this.map_, 'zoom_changed', function () {
+        var zoom = that.map_.getZoom();
+
+        if (that.prevZoom_ != zoom) {
+            that.prevZoom_ = zoom;
+            that.resetViewport();
+        }
+    });
+
+    google.maps.event.addListener(this.map_, 'idle', function () {
+        that.redraw();
+    });
+
+    // Finally, add the markers
+    if (opt_markers && opt_markers.length) {
+        this.addMarkers(opt_markers, false);
+    }
+}
+
+
+/**
+ * The marker cluster image path.
+ *
+ * @type {string}
+ * @private
+ */
+MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ =
+        'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/' +
+        'images/m';
+
+
+/**
+ * The marker cluster image path.
+ *
+ * @type {string}
+ * @private
+ */
+MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_EXTENSION_ = 'png';
+
+
+/**
+ * Extends a objects prototype by anothers.
+ *
+ * @param {Object} obj1 The object to be extended.
+ * @param {Object} obj2 The object to extend with.
+ * @return {Object} The new extended object.
+ * @ignore
+ */
+MarkerClusterer.prototype.extend = function (obj1, obj2) {
+    return (function (object) {
+        for (var property in object.prototype) {
+            this.prototype[property] = object.prototype[property];
+        }
+        return this;
+    }).apply(obj1, [obj2]);
+};
+
+
+/**
+ * Implementaion of the interface method.
+ * @ignore
+ */
+MarkerClusterer.prototype.onAdd = function () {
+    this.setReady_(true);
+};
+
+/**
+ * Implementaion of the interface method.
+ * @ignore
+ */
+MarkerClusterer.prototype.draw = function () {};
+
+/**
+ * Sets up the styles object.
+ *
+ * @private
+ */
+MarkerClusterer.prototype.setupStyles_ = function () {
+    if (this.styles_.length) {
+        return;
+    }
+
+    for (var i = 0, size; size = this.sizes[i]; i++) {
+        this.styles_.push({
+            url: this.imagePath_ + (i + 1) + '.' + this.imageExtension_,
+            height: size,
+            width: size
+        });
+    }
+};
+
+/**
+ *  Fit the map to the bounds of the markers in the clusterer.
+ */
+MarkerClusterer.prototype.fitMapToMarkers = function () {
+    var markers = this.getMarkers();
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0, marker; marker = markers[i]; i++) {
+        bounds.extend(marker.getPosition());
+    }
+
+    this.map_.fitBounds(bounds);
+};
+
+
+/**
+ *  Sets the styles.
+ *
+ *  @param {Object} styles The style to set.
+ */
+MarkerClusterer.prototype.setStyles = function (styles) {
+    this.styles_ = styles;
+};
+
+
+/**
+ *  Gets the styles.
+ *
+ *  @return {Object} The styles object.
+ */
+MarkerClusterer.prototype.getStyles = function () {
+    return this.styles_;
+};
+
+
+/**
+ * Whether zoom on click is set.
+ *
+ * @return {boolean} True if zoomOnClick_ is set.
+ */
+MarkerClusterer.prototype.isZoomOnClick = function () {
+    return this.zoomOnClick_;
+};
+
+/**
+ * Whether average center is set.
+ *
+ * @return {boolean} True if averageCenter_ is set.
+ */
+MarkerClusterer.prototype.isAverageCenter = function () {
+    return this.averageCenter_;
+};
+
+
+/**
+ *  Returns the array of markers in the clusterer.
+ *
+ *  @return {Array.<google.maps.Marker>} The markers.
+ */
+MarkerClusterer.prototype.getMarkers = function () {
+    return this.markers_;
+};
+
+
+/**
+ *  Returns the number of markers in the clusterer
+ *
+ *  @return {Number} The number of markers.
+ */
+MarkerClusterer.prototype.getTotalMarkers = function () {
+    return this.markers_.length;
+};
+
+
+/**
+ *  Sets the max zoom for the clusterer.
+ *
+ *  @param {number} maxZoom The max zoom level.
+ */
+MarkerClusterer.prototype.setMaxZoom = function (maxZoom) {
+    this.maxZoom_ = maxZoom;
+};
+
+
+/**
+ *  Gets the max zoom for the clusterer.
+ *
+ *  @return {number} The max zoom level.
+ */
+MarkerClusterer.prototype.getMaxZoom = function () {
+    return this.maxZoom_;
+};
+
+
+/**
+ *  The function for calculating the cluster icon image.
+ *
+ *  @param {Array.<google.maps.Marker>} markers The markers in the clusterer.
+ *  @param {number} numStyles The number of styles available.
+ *  @return {Object} A object properties: 'text' (string) and 'index' (number).
+ *  @private
+ */
+MarkerClusterer.prototype.calculator_ = function (markers, numStyles) {
+    var index = 0;
+    var count = markers.length;
+    var dv = count;
+    while (dv !== 0) {
+        dv = parseInt(dv / 10, 10);
+        index++;
+    }
+
+    index = Math.min(index, numStyles);
+    return {
+        text: count,
+        index: index
+    };
+};
+
+
+/**
+ * Set the calculator function.
+ *
+ * @param {function(Array, number)} calculator The function to set as the
+ *     calculator. The function should return a object properties:
+ *     'text' (string) and 'index' (number).
+ *
+ */
+MarkerClusterer.prototype.setCalculator = function (calculator) {
+    this.calculator_ = calculator;
+};
+
+
+/**
+ * Get the calculator function.
+ *
+ * @return {function(Array, number)} the calculator function.
+ */
+MarkerClusterer.prototype.getCalculator = function () {
+    return this.calculator_;
+};
+
+
+/**
+ * Add an array of markers to the clusterer.
+ *
+ * @param {Array.<google.maps.Marker>} markers The markers to add.
+ * @param {boolean=} opt_nodraw Whether to redraw the clusters.
+ */
+MarkerClusterer.prototype.addMarkers = function (markers, opt_nodraw) {
+    for (var i = 0, marker; marker = markers[i]; i++) {
+        this.pushMarkerTo_(marker);
+    }
+    if (!opt_nodraw) {
+        this.redraw();
+    }
+};
+
+
+/**
+ * Pushes a marker to the clusterer.
+ *
+ * @param {google.maps.Marker} marker The marker to add.
+ * @private
+ */
+MarkerClusterer.prototype.pushMarkerTo_ = function (marker) {
+    marker.isAdded = false;
+    if (marker['draggable']) {
+        // If the marker is draggable add a listener so we update the clusters on
+        // the drag end.
+        var that = this;
+        google.maps.event.addListener(marker, 'dragend', function () {
+            marker.isAdded = false;
+            that.repaint();
+        });
+    }
+    this.markers_.push(marker);
+};
+
+
+/**
+ * Adds a marker to the clusterer and redraws if needed.
+ *
+ * @param {google.maps.Marker} marker The marker to add.
+ * @param {boolean=} opt_nodraw Whether to redraw the clusters.
+ */
+MarkerClusterer.prototype.addMarker = function (marker, opt_nodraw) {
+    this.pushMarkerTo_(marker);
+    if (!opt_nodraw) {
+        this.redraw();
+    }
+};
+
+
+/**
+ * Removes a marker and returns true if removed, false if not
+ *
+ * @param {google.maps.Marker} marker The marker to remove
+ * @return {boolean} Whether the marker was removed or not
+ * @private
+ */
+MarkerClusterer.prototype.removeMarker_ = function (marker) {
+    var index = -1;
+    if (this.markers_.indexOf) {
+        index = this.markers_.indexOf(marker);
+    } else {
+        for (var i = 0, m; m = this.markers_[i]; i++) {
+            if (m == marker) {
+                index = i;
+                break;
+            }
+        }
+    }
+
+    if (index == -1) {
+        // Marker is not in our list of markers.
+        return false;
+    }
+
+    marker.setMap(null);
+
+    this.markers_.splice(index, 1);
+
+    return true;
+};
+
+
+/**
+ * Remove a marker from the cluster.
+ *
+ * @param {google.maps.Marker} marker The marker to remove.
+ * @param {boolean=} opt_nodraw Optional boolean to force no redraw.
+ * @return {boolean} True if the marker was removed.
+ */
+MarkerClusterer.prototype.removeMarker = function (marker, opt_nodraw) {
+    var removed = this.removeMarker_(marker);
+
+    if (!opt_nodraw && removed) {
+        this.resetViewport();
+        this.redraw();
+        return true;
+    } else {
+        return false;
+    }
+};
+
+
+/**
+ * Removes an array of markers from the cluster.
+ *
+ * @param {Array.<google.maps.Marker>} markers The markers to remove.
+ * @param {boolean=} opt_nodraw Optional boolean to force no redraw.
+ */
+MarkerClusterer.prototype.removeMarkers = function (markers, opt_nodraw) {
+    var removed = false;
+
+    for (var i = 0, marker; marker = markers[i]; i++) {
+        var r = this.removeMarker_(marker);
+        removed = removed || r;
+    }
+
+    if (!opt_nodraw && removed) {
+        this.resetViewport();
+        this.redraw();
+        return true;
+    }
+};
+
+
+/**
+ * Sets the clusterer's ready state.
+ *
+ * @param {boolean} ready The state.
+ * @private
+ */
+MarkerClusterer.prototype.setReady_ = function (ready) {
+    if (!this.ready_) {
+        this.ready_ = ready;
+        this.createClusters_();
+    }
+};
+
+
+/**
+ * Returns the number of clusters in the clusterer.
+ *
+ * @return {number} The number of clusters.
+ */
+MarkerClusterer.prototype.getTotalClusters = function () {
+    return this.clusters_.length;
+};
+
+
+/**
+ * Returns the google map that the clusterer is associated with.
+ *
+ * @return {google.maps.Map} The map.
+ */
+MarkerClusterer.prototype.getMap = function () {
+    return this.map_;
+};
+
+
+/**
+ * Sets the google map that the clusterer is associated with.
+ *
+ * @param {google.maps.Map} map The map.
+ */
+MarkerClusterer.prototype.setMap = function (map) {
+    this.map_ = map;
+};
+
+
+/**
+ * Returns the size of the grid.
+ *
+ * @return {number} The grid size.
+ */
+MarkerClusterer.prototype.getGridSize = function () {
+    return this.gridSize_;
+};
+
+
+/**
+ * Sets the size of the grid.
+ *
+ * @param {number} size The grid size.
+ */
+MarkerClusterer.prototype.setGridSize = function (size) {
+    this.gridSize_ = size;
+};
+
+
+/**
+ * Returns the min cluster size.
+ *
+ * @return {number} The grid size.
+ */
+MarkerClusterer.prototype.getMinClusterSize = function () {
+    return this.minClusterSize_;
+};
+
+/**
+ * Sets the min cluster size.
+ *
+ * @param {number} size The grid size.
+ */
+MarkerClusterer.prototype.setMinClusterSize = function (size) {
+    this.minClusterSize_ = size;
+};
+
+
+/**
+ * Extends a bounds object by the grid size.
+ *
+ * @param {google.maps.LatLngBounds} bounds The bounds to extend.
+ * @return {google.maps.LatLngBounds} The extended bounds.
+ */
+MarkerClusterer.prototype.getExtendedBounds = function (bounds) {
+    var projection = this.getProjection();
+
+    // Turn the bounds into latlng.
+    var tr = new google.maps.LatLng(
+        bounds.getNorthEast().lat(),
+        bounds.getNorthEast().lng()
+    );
+    var bl = new google.maps.LatLng(
+        bounds.getSouthWest().lat(),
+        bounds.getSouthWest().lng()
+    );
+
+    // Convert the points to pixels and the extend out by the grid size.
+    var trPix = projection.fromLatLngToDivPixel(tr);
+    trPix.x += this.gridSize_;
+    trPix.y -= this.gridSize_;
+
+    var blPix = projection.fromLatLngToDivPixel(bl);
+    blPix.x -= this.gridSize_;
+    blPix.y += this.gridSize_;
+
+    // Convert the pixel points back to LatLng
+    var ne = projection.fromDivPixelToLatLng(trPix);
+    var sw = projection.fromDivPixelToLatLng(blPix);
+
+    // Extend the bounds to contain the new bounds.
+    bounds.extend(ne);
+    bounds.extend(sw);
+
+    return bounds;
+};
+
+
+/**
+ * Determins if a marker is contained in a bounds.
+ *
+ * @param {google.maps.Marker} marker The marker to check.
+ * @param {google.maps.LatLngBounds} bounds The bounds to check against.
+ * @return {boolean} True if the marker is in the bounds.
+ * @private
+ */
+MarkerClusterer.prototype.isMarkerInBounds_ = function (marker, bounds) {
+    return bounds.contains(marker.getPosition());
+};
+
+
+/**
+ * Clears all clusters and markers from the clusterer.
+ */
+MarkerClusterer.prototype.clearMarkers = function () {
+    this.resetViewport(true);
+
+    // Set the markers a empty array.
+    this.markers_ = [];
+};
+
+
+/**
+ * Clears all existing clusters and recreates them.
+ * @param {boolean} opt_hide To also hide the marker.
+ */
+MarkerClusterer.prototype.resetViewport = function (opt_hide) {
+    // Remove all the clusters
+    for (var i = 0, cluster; cluster = this.clusters_[i]; i++) {
+        cluster.remove();
+    }
+
+    // Reset the markers to not be added and to be invisible.
+    for (var i = 0, marker; marker = this.markers_[i]; i++) {
+        marker.isAdded = false;
+        if (opt_hide) {
+            marker.setMap(null);
+        }
+    }
+
+    this.clusters_ = [];
+};
+
+/**
+ *
+ */
+MarkerClusterer.prototype.repaint = function () {
+    var oldClusters = this.clusters_.slice();
+    this.clusters_.length = 0;
+    this.resetViewport();
+    this.redraw();
+
+    // Remove the old clusters.
+    // Do it in a timeout so the other clusters have been drawn first.
+    window.setTimeout(function () {
+        for (var i = 0, cluster; cluster = oldClusters[i]; i++) {
+            cluster.remove();
+        }
+    }, 0);
+};
+
+
+/**
+ * Redraws the clusters.
+ */
+MarkerClusterer.prototype.redraw = function () {
+    this.createClusters_();
+};
+
+
+/**
+ * Calculates the distance between two latlng locations in km.
+ * @see http://www.movable-type.co.uk/scripts/latlong.html
+ *
+ * @param {google.maps.LatLng} p1 The first lat lng point.
+ * @param {google.maps.LatLng} p2 The second lat lng point.
+ * @return {number} The distance between the two points in km.
+ * @private
+*/
+MarkerClusterer.prototype.distanceBetweenPoints_ = function (p1, p2) {
+    if (!p1 || !p2) {
+        return 0;
+    }
+
+    var R = 6371; // Radius of the Earth in km
+    var dLat = (p2.lat() - p1.lat()) * Math.PI / 180;
+    var dLon = (p2.lng() - p1.lng()) * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(p1.lat() * Math.PI / 180) * Math.cos(p2.lat() * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d;
+};
+
+
+/**
+ * Add a marker to a cluster, or creates a new cluster.
+ *
+ * @param {google.maps.Marker} marker The marker to add.
+ * @private
+ */
+MarkerClusterer.prototype.addToClosestCluster_ = function (marker) {
+    var distance = 40000; // Some large number
+    var clusterToAddTo = null;
+    var pos = marker.getPosition();
+    for (var i = 0, cluster; cluster = this.clusters_[i]; i++) {
+        var center = cluster.getCenter();
+        if (center) {
+            var d = this.distanceBetweenPoints_(center, marker.getPosition());
+            if (d < distance) {
+                distance = d;
+                clusterToAddTo = cluster;
+            }
+        }
+    }
+
+    if (clusterToAddTo && clusterToAddTo.isMarkerInClusterBounds(marker)) {
+        clusterToAddTo.addMarker(marker);
+    } else {
+        var cluster = new Cluster(this);
+        cluster.addMarker(marker);
+        this.clusters_.push(cluster);
+    }
+};
+
+
+/**
+ * Creates the clusters.
+ *
+ * @private
+ */
+MarkerClusterer.prototype.createClusters_ = function () {
+    if (!this.ready_) {
+        return;
+    }
+
+    // Get our current map view bounds.
+    // Create a new bounds object so we don't affect the map.
+    var mapBounds = new google.maps.LatLngBounds(
+        this.map_.getBounds().getSouthWest(),
+        this.map_.getBounds().getNorthEast()
+    );
+    var bounds = this.getExtendedBounds(mapBounds);
+
+    for (var i = 0, marker; marker = this.markers_[i]; i++) {
+        if (!marker.isAdded && this.isMarkerInBounds_(marker, bounds)) {
+            this.addToClosestCluster_(marker);
+        }
+    }
+};
+
+
+/**
+ * A cluster that contains markers.
+ *
+ * @param {MarkerClusterer} markerClusterer The markerclusterer that this
+ *     cluster is associated with.
+ * @constructor
+ * @ignore
+ */
+function Cluster(markerClusterer)
+{
+    this.markerClusterer_ = markerClusterer;
+    this.map_ = markerClusterer.getMap();
+    this.gridSize_ = markerClusterer.getGridSize();
+    this.minClusterSize_ = markerClusterer.getMinClusterSize();
+    this.averageCenter_ = markerClusterer.isAverageCenter();
+    this.center_ = null;
+    this.markers_ = [];
+    this.bounds_ = null;
+    this.clusterIcon_ = new ClusterIcon(
+        this,
+        markerClusterer.getStyles(),
+        markerClusterer.getGridSize()
+    );
+}
+
+/**
+ * Determins if a marker is already added to the cluster.
+ *
+ * @param {google.maps.Marker} marker The marker to check.
+ * @return {boolean} True if the marker is already added.
+ */
+Cluster.prototype.isMarkerAlreadyAdded = function (marker) {
+    if (this.markers_.indexOf) {
+        return this.markers_.indexOf(marker) != -1;
+    } else {
+        for (var i = 0, m; m = this.markers_[i]; i++) {
+            if (m == marker) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
+
+/**
+ * Add a marker the cluster.
+ *
+ * @param {google.maps.Marker} marker The marker to add.
+ * @return {boolean} True if the marker was added.
+ */
+Cluster.prototype.addMarker = function (marker) {
+    if (this.isMarkerAlreadyAdded(marker)) {
+        return false;
+    }
+
+    if (!this.center_) {
+        this.center_ = marker.getPosition();
+        this.calculateBounds_();
+    } else {
+        if (this.averageCenter_) {
+            var l = this.markers_.length + 1;
+            var lat = (this.center_.lat() * (l-1) + marker.getPosition().lat()) / l;
+            var lng = (this.center_.lng() * (l-1) + marker.getPosition().lng()) / l;
+            this.center_ = new google.maps.LatLng(lat, lng);
+            this.calculateBounds_();
+        }
+    }
+
+    marker.isAdded = true;
+    this.markers_.push(marker);
+
+    var len = this.markers_.length;
+    if (len < this.minClusterSize_ && marker.getMap() != this.map_) {
+        // Min cluster size not reached so show the marker.
+        marker.setMap(this.map_);
+    }
+
+    if (len == this.minClusterSize_) {
+        // Hide the markers that were showing.
+        for (var i = 0; i < len; i++) {
+            this.markers_[i].setMap(null);
+        }
+    }
+
+    if (len >= this.minClusterSize_) {
+        marker.setMap(null);
+    }
+
+    this.updateIcon();
+    return true;
+};
+
+
+/**
+ * Returns the marker clusterer that the cluster is associated with.
+ *
+ * @return {MarkerClusterer} The associated marker clusterer.
+ */
+Cluster.prototype.getMarkerClusterer = function () {
+    return this.markerClusterer_;
+};
+
+
+/**
+ * Returns the bounds of the cluster.
+ *
+ * @return {google.maps.LatLngBounds} the cluster bounds.
+ */
+Cluster.prototype.getBounds = function () {
+    var bounds = new google.maps.LatLngBounds(this.center_, this.center_);
+    var markers = this.getMarkers();
+    for (var i = 0, marker; marker = markers[i]; i++) {
+        bounds.extend(marker.getPosition());
+    }
+    return bounds;
+};
+
+
+/**
+ * Removes the cluster
+ */
+Cluster.prototype.remove = function () {
+    this.clusterIcon_.remove();
+    this.markers_.length = 0;
+    delete this.markers_;
+};
+
+
+/**
+ * Returns the center of the cluster.
+ *
+ * @return {number} The cluster center.
+ */
+Cluster.prototype.getSize = function () {
+    return this.markers_.length;
+};
+
+
+/**
+ * Returns the center of the cluster.
+ *
+ * @return {Array.<google.maps.Marker>} The cluster center.
+ */
+Cluster.prototype.getMarkers = function () {
+    return this.markers_;
+};
+
+
+/**
+ * Returns the center of the cluster.
+ *
+ * @return {google.maps.LatLng} The cluster center.
+ */
+Cluster.prototype.getCenter = function () {
+    return this.center_;
+};
+
+
+/**
+ * Calculated the extended bounds of the cluster with the grid.
+ *
+ * @private
+ */
+Cluster.prototype.calculateBounds_ = function () {
+    var bounds = new google.maps.LatLngBounds(this.center_, this.center_);
+    this.bounds_ = this.markerClusterer_.getExtendedBounds(bounds);
+};
+
+
+/**
+ * Determines if a marker lies in the clusters bounds.
+ *
+ * @param {google.maps.Marker} marker The marker to check.
+ * @return {boolean} True if the marker lies in the bounds.
+ */
+Cluster.prototype.isMarkerInClusterBounds = function (marker) {
+    return this.bounds_.contains(marker.getPosition());
+};
+
+
+/**
+ * Returns the map that the cluster is associated with.
+ *
+ * @return {google.maps.Map} The map.
+ */
+Cluster.prototype.getMap = function () {
+    return this.map_;
+};
+
+
+/**
+ * Updates the cluster icon
+ */
+Cluster.prototype.updateIcon = function () {
+    var zoom = this.map_.getZoom();
+    var mz = this.markerClusterer_.getMaxZoom();
+
+    if (mz && zoom > mz) {
+        // The zoom is greater than our max zoom so show all the markers in cluster.
+        for (var i = 0, marker; marker = this.markers_[i]; i++) {
+            marker.setMap(this.map_);
+        }
+        return;
+    }
+
+    if (this.markers_.length < this.minClusterSize_) {
+        // Min cluster size not yet reached.
+        this.clusterIcon_.hide();
+        return;
+    }
+
+    var numStyles = this.markerClusterer_.getStyles().length;
+    var sums = this.markerClusterer_.getCalculator()(this.markers_, numStyles);
+    this.clusterIcon_.setCenter(this.center_);
+    this.clusterIcon_.setSums(sums);
+    this.clusterIcon_.show();
+};
+
+
+/**
+ * A cluster icon
+ *
+ * @param {Cluster} cluster The cluster to be associated with.
+ * @param {Object} styles An object that has style properties:
+ *     'url': (string) The image url.
+ *     'height': (number) The image height.
+ *     'width': (number) The image width.
+ *     'anchor': (Array) The anchor position of the label text.
+ *     'textColor': (string) The text color.
+ *     'textSize': (number) The text size.
+ *     'backgroundPosition: (string) The background postition x, y.
+ * @param {number=} opt_padding Optional padding to apply to the cluster icon.
+ * @constructor
+ * @extends google.maps.OverlayView
+ * @ignore
+ */
+function ClusterIcon(cluster, styles, opt_padding)
+{
+    cluster.getMarkerClusterer().extend(ClusterIcon, google.maps.OverlayView);
+
+    this.styles_ = styles;
+    this.padding_ = opt_padding || 0;
+    this.cluster_ = cluster;
+    this.center_ = null;
+    this.map_ = cluster.getMap();
+    this.div_ = null;
+    this.sums_ = null;
+    this.visible_ = false;
+
+    this.setMap(this.map_);
+}
+
+
+/**
+ * Triggers the clusterclick event and zoom's if the option is set.
+ */
+ClusterIcon.prototype.triggerClusterClick = function () {
+    var markerClusterer = this.cluster_.getMarkerClusterer();
+
+    // Trigger the clusterclick event.
+    google.maps.event.trigger(markerClusterer, 'clusterclick', this.cluster_);
+
+    if (markerClusterer.isZoomOnClick()) {
+        // Zoom into the cluster.
+        this.map_.fitBounds(this.cluster_.getBounds());
+    }
+};
+
+
+/**
+ * Adding the cluster icon to the dom.
+ * @ignore
+ */
+ClusterIcon.prototype.onAdd = function () {
+    this.div_ = document.createElement('DIV');
+    if (this.visible_) {
+        var pos = this.getPosFromLatLng_(this.center_);
+        this.div_.style.cssText = this.createCss(pos);
+        this.div_.innerHTML = this.sums_.text;
+    }
+
+    var panes = this.getPanes();
+    panes.overlayMouseTarget.appendChild(this.div_);
+
+    var that = this;
+    google.maps.event.addDomListener(this.div_, 'click', function () {
+        that.triggerClusterClick();
+    });
+};
+
+
+/**
+ * Returns the position to place the div dending on the latlng.
+ *
+ * @param {google.maps.LatLng} latlng The position in latlng.
+ * @return {google.maps.Point} The position in pixels.
+ * @private
+ */
+ClusterIcon.prototype.getPosFromLatLng_ = function (latlng) {
+    var pos = this.getProjection().fromLatLngToDivPixel(latlng);
+    pos.x -= parseInt(this.width_ / 2, 10);
+    pos.y -= parseInt(this.height_ / 2, 10);
+    return pos;
+};
+
+
+/**
+ * Draw the icon.
+ * @ignore
+ */
+ClusterIcon.prototype.draw = function () {
+    if (this.visible_) {
+        var pos = this.getPosFromLatLng_(this.center_);
+        this.div_.style.top = pos.y + 'px';
+        this.div_.style.left = pos.x + 'px';
+    }
+};
+
+
+/**
+ * Hide the icon.
+ */
+ClusterIcon.prototype.hide = function () {
+    if (this.div_) {
+        this.div_.style.display = 'none';
+    }
+    this.visible_ = false;
+};
+
+
+/**
+ * Position and show the icon.
+ */
+ClusterIcon.prototype.show = function () {
+    if (this.div_) {
+        var pos = this.getPosFromLatLng_(this.center_);
+        this.div_.style.cssText = this.createCss(pos);
+        this.div_.style.display = '';
+    }
+    this.visible_ = true;
+};
+
+
+/**
+ * Remove the icon from the map
+ */
+ClusterIcon.prototype.remove = function () {
+    this.setMap(null);
+};
+
+
+/**
+ * Implementation of the onRemove interface.
+ * @ignore
+ */
+ClusterIcon.prototype.onRemove = function () {
+    if (this.div_ && this.div_.parentNode) {
+        this.hide();
+        this.div_.parentNode.removeChild(this.div_);
+        this.div_ = null;
+    }
+};
+
+
+/**
+ * Set the sums of the icon.
+ *
+ * @param {Object} sums The sums containing:
+ *   'text': (string) The text to display in the icon.
+ *   'index': (number) The style index of the icon.
+ */
+ClusterIcon.prototype.setSums = function (sums) {
+    this.sums_ = sums;
+    this.text_ = sums.text;
+    this.index_ = sums.index;
+    if (this.div_) {
+        this.div_.innerHTML = sums.text;
+    }
+
+    this.useStyle();
+};
+
+
+/**
+ * Sets the icon to the the styles.
+ */
+ClusterIcon.prototype.useStyle = function () {
+    var index = Math.max(0, this.sums_.index - 1);
+    index = Math.min(this.styles_.length - 1, index);
+    var style = this.styles_[index];
+    this.url_ = style['url'];
+    this.height_ = style['height'];
+    this.width_ = style['width'];
+    this.textColor_ = style['textColor'];
+    this.anchor_ = style['anchor'];
+    this.textSize_ = style['textSize'];
+    this.backgroundPosition_ = style['backgroundPosition'];
+};
+
+
+/**
+ * Sets the center of the icon.
+ *
+ * @param {google.maps.LatLng} center The latlng to set as the center.
+ */
+ClusterIcon.prototype.setCenter = function (center) {
+    this.center_ = center;
+};
+
+
+/**
+ * Create the css text based on the position of the icon.
+ *
+ * @param {google.maps.Point} pos The position.
+ * @return {string} The css style text.
+ */
+ClusterIcon.prototype.createCss = function (pos) {
+    var style = [];
+    style.push('background-image:url(' + this.url_ + ');');
+    var backgroundPosition = this.backgroundPosition_ ? this.backgroundPosition_ : '0 0';
+    style.push('background-position:' + backgroundPosition + ';');
+
+    if (typeof this.anchor_ === 'object') {
+        if (typeof this.anchor_[0] === 'number' && this.anchor_[0] > 0 &&
+                this.anchor_[0] < this.height_) {
+            style.push('height:' + (this.height_ - this.anchor_[0]) +
+                    'px; padding-top:' + this.anchor_[0] + 'px;');
+        } else {
+            style.push('height:' + this.height_ + 'px; line-height:' + this.height_ +
+                    'px;');
+        }
+        if (typeof this.anchor_[1] === 'number' && this.anchor_[1] > 0 &&
+                this.anchor_[1] < this.width_) {
+            style.push('width:' + (this.width_ - this.anchor_[1]) +
+                    'px; padding-left:' + this.anchor_[1] + 'px;');
+        } else {
+            style.push('width:' + this.width_ + 'px; text-align:center;');
+        }
+    } else {
+        style.push('height:' + this.height_ + 'px; line-height:' +
+                this.height_ + 'px; width:' + this.width_ + 'px; text-align:center;');
+    }
+
+    var txtColor = this.textColor_ ? this.textColor_ : 'black';
+    var txtSize = this.textSize_ ? this.textSize_ : 11;
+
+    style.push('cursor:pointer; top:' + pos.y + 'px; left:' +
+            pos.x + 'px; color:' + txtColor + '; position:absolute; font-size:' +
+            txtSize + 'px; font-family:Arial,sans-serif; font-weight:bold');
+    return style.join('');
+};
+
+
+// Export Symbols for Closure
+// If you are not going to compile with closure then you can remove the
+// code below.
+window['MarkerClusterer'] = MarkerClusterer;
+MarkerClusterer.prototype['addMarker'] = MarkerClusterer.prototype.addMarker;
+MarkerClusterer.prototype['addMarkers'] = MarkerClusterer.prototype.addMarkers;
+MarkerClusterer.prototype['clearMarkers'] =
+        MarkerClusterer.prototype.clearMarkers;
+MarkerClusterer.prototype['fitMapToMarkers'] =
+        MarkerClusterer.prototype.fitMapToMarkers;
+MarkerClusterer.prototype['getCalculator'] =
+        MarkerClusterer.prototype.getCalculator;
+MarkerClusterer.prototype['getGridSize'] =
+        MarkerClusterer.prototype.getGridSize;
+MarkerClusterer.prototype['getExtendedBounds'] =
+        MarkerClusterer.prototype.getExtendedBounds;
+MarkerClusterer.prototype['getMap'] = MarkerClusterer.prototype.getMap;
+MarkerClusterer.prototype['getMarkers'] = MarkerClusterer.prototype.getMarkers;
+MarkerClusterer.prototype['getMaxZoom'] = MarkerClusterer.prototype.getMaxZoom;
+MarkerClusterer.prototype['getStyles'] = MarkerClusterer.prototype.getStyles;
+MarkerClusterer.prototype['getTotalClusters'] =
+        MarkerClusterer.prototype.getTotalClusters;
+MarkerClusterer.prototype['getTotalMarkers'] =
+        MarkerClusterer.prototype.getTotalMarkers;
+MarkerClusterer.prototype['redraw'] = MarkerClusterer.prototype.redraw;
+MarkerClusterer.prototype['removeMarker'] =
+        MarkerClusterer.prototype.removeMarker;
+MarkerClusterer.prototype['removeMarkers'] =
+        MarkerClusterer.prototype.removeMarkers;
+MarkerClusterer.prototype['resetViewport'] =
+        MarkerClusterer.prototype.resetViewport;
+MarkerClusterer.prototype['repaint'] =
+        MarkerClusterer.prototype.repaint;
+MarkerClusterer.prototype['setCalculator'] =
+        MarkerClusterer.prototype.setCalculator;
+MarkerClusterer.prototype['setGridSize'] =
+        MarkerClusterer.prototype.setGridSize;
+MarkerClusterer.prototype['setMaxZoom'] =
+        MarkerClusterer.prototype.setMaxZoom;
+MarkerClusterer.prototype['onAdd'] = MarkerClusterer.prototype.onAdd;
+MarkerClusterer.prototype['draw'] = MarkerClusterer.prototype.draw;
+
+Cluster.prototype['getCenter'] = Cluster.prototype.getCenter;
+Cluster.prototype['getSize'] = Cluster.prototype.getSize;
+Cluster.prototype['getMarkers'] = Cluster.prototype.getMarkers;
+
+ClusterIcon.prototype['onAdd'] = ClusterIcon.prototype.onAdd;
+ClusterIcon.prototype['draw'] = ClusterIcon.prototype.draw;
+ClusterIcon.prototype['onRemove'] = ClusterIcon.prototype.onRemove;
+
+var primeMap;
+
+(function ($) {
+
+    // FIXME - make non global
+    var infoWindows = [];
+
+    /**
+     * Create a google map pin from data provided
+     * @param  {GoogleMap} map             Instance of a google map
+     * @param  {Number} lat                Latitude of pin
+     * @param  {Number} lng                Longitude of pin
+     * @param  {String} html               HTML for information window
+     * @param  {String} icon               URL of alternative map icon, or blank for default
+     * @param  {boolean} useClusterer      Whether or not to use clusterer
+     * @param  {boolean} enableWindowZoom  Whether or not to enable zoom on the rendered map
+     * @param  {boolean} infoWindowZoom    FIXME: To do
+     * @param  {boolean} defaultHideMarker Whether or not to hide markers initially
+     * @return {MapMarker}                 Google map pin object
+     */
+    function createMarker(
+        map,
+        lat,
+        lng,
+        html,
+        category,
+        icon,
+        useClusterer,
+        enableWindowZoom,
+        infoWindowZoom,
+        defaultHideMarker
+    ) {
+
+        mapId = map.getDiv().getAttribute('id');
+
+        var marker = new google.maps.Marker();
+        marker.setPosition(new google.maps.LatLng(lat, lng));
+        marker.mycategory = category;
+
+        if (icon && icon !== '') {
+            var image = new google.maps.MarkerImage(icon);
+            marker.setIcon(image);
+        }
+
+        if (!(useClusterer == '1')) {
+            marker.setMap(map);
+        }
+
+        google.maps.event.addListener(marker, "click", function () {
+            if (enableWindowZoom) {
+                map.setCenter(new google.maps.LatLng(lat, lng), infoWindowZoom);
+            }
+            var infoWindow = infoWindows[mapId];
+            infoWindow.setContent(html);
+            infoWindow.open(map, this);
+        });
+
+        //FIXME gmarkers[mapId].push(marker);
+        console.log(defaultHideMarker === false);
+        if (defaultHideMarker == '1') {
+            marker.setVisible(false);
+        } else {
+            marker.setVisible(true);
+        }
+
+        return marker;
+    }
+
+
+    /**
+     * Get the current latitude
+     * @return {float} Current latitude
+     */
+    function getCurrentLat()
+    {
+        return current_lat;
+    }
+
+
+    /**
+     * Get the current longitude
+     * @return {float} The current longitude
+     */
+    function getCurrentLng()
+    {
+        return current_lng;
+    }
+
+
+    /**
+     * Convert JSON point data into google map markers
+     * @param {GoogleMap} map             Google Map instance
+     * @param {array} markers            point data loaded from JSON
+     * @param {boolean} useClusterer      Whether or not to use the clusterer
+     * @param {boolean} enableWindowZoom  Whether or not zoom is enabled
+     * @param {boolean} defaultHideMarker Whether or not to hide markers
+     * * @return array of Google map markers converted from the JSON data
+     */
+    function addAllMarkers(map, markers, useClusterer, enableWindowZoom, infoWindowZoom, defaultHideMarker)
+    {
+
+        // these will be altered by adding markers
+        map.minLat = 1000000;
+        map.minLng = 1000000;
+        map.maxLat = -1000000;
+        map.maxLng = -1000000;
+
+
+        var allmarkers = [];
+        for (var i = 0; i < markers.length; i++) {
+            var markerinfo = markers[i];
+            var marker = createMarker(
+                map,
+                markerinfo.latitude,
+                markerinfo.longitude,
+                markerinfo.html,
+                markerinfo.category,
+                markerinfo.icon,
+                useClusterer,
+                enableWindowZoom,
+                infoWindowZoom,
+                defaultHideMarker
+            );
+
+            var latitude = parseFloat(markerinfo.latitude);
+            var longitude = parseFloat(markerinfo.longitude);
+
+            // update lat,lon min to lat,lon max
+            if (latitude < map.minLat) {
+                map.minLat = latitude;
+            }
+            if (latitude > map.maxLat) {
+                map.maxLat = latitude;
+            }
+
+            if (longitude > map.maxLng) {
+                map.maxLng = longitude;
+            }
+
+            if (longitude < map.minLng) {
+                map.minLng = longitude;
+            }
+
+            allmarkers.push(marker);
+        }
+
+
+        var centreCoordinates = [];
+        centreCoordinates.lat = (parseFloat(map.minLat) + parseFloat(map.maxLat)) / 2;
+        centreCoordinates.lng = (parseFloat(map.minLng) + parseFloat(map.maxLng)) / 2;
+        map.centreCoordinates = centreCoordinates;
+        return allmarkers;
+    }
+
+
+    /**
+     * Add lines to a Google map
+     * @param {googleMap} map   Google map instance
+     * @param {array} lines Line data loaded from json, lat1,lon1 to lat2,lon2
+     */
+    function addLines(map, lines)
+    {
+        for (i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            var point1 = new google.maps.LatLng(line.lat1, line.lon1);
+            var point2 = new google.maps.LatLng(line.lat2, line.lon2);
+            var points = [point1, point2];
+            var pl = new google.maps.Polyline({
+                path: points,
+                strokeColor: line.color,
+                strokeWeight: 4,
+                strokeOpacity: 0.8
+            });
+            pl.setMap(map);
+        }
+    }
+
+
+    /**
+     * Add one or more (max of 25) KML files to a Google map
+     * @param {GoogleMap} map      A Google Map instance
+     * @param {array} kmlFiles array of URLs for KML files
+     */
+    function addKmlFiles(map, kmlFiles)
+    {
+        for (var i = 0; i < kmlFiles.length; i++) {
+            var kmlFile = kmlFiles[i];
+            var kmlLayer = new google.maps.KmlLayer(kmlFile, {
+                suppressInfoWindows: true,
+                map: map
+            });
+        }
+    }
+
+
+    /**
+     * Convert a map type name (road,satellite,hybrid,terrain) to Google map types
+     * @param  String mapTypeName       generic name of the map type
+     * @return google.maps.MapTypeId    map type in Google format
+     */
+    function convertMapType(mapTypeName)
+    {
+        var result = google.maps.MapTypeId.ROADMAP;
+        switch (mapTypeName) {
+            case 'aerial':
+                result = google.maps.MapTypeId.SATELLITE;
+                break;
+            case 'hybrid':
+                result = google.maps.MapTypeId.HYBRID;
+                break;
+            case 'terrain':
+                result = google.maps.MapTypeId.TERRAIN;
+                break;
+        }
+        return result;
+    }
+
+
+    /**
+     * After the Google Maps API has been loaded init the relevant Google maps
+     */
+    function loadShortCodeStreetView()
+    {
+
+        var svs = $('div[data-streetview]');
+
+        svs.each(function (index) {
+            var svnode = $(this);
+            var svnodeid = svnode.attr('id');
+            var lat = parseFloat(svnode.attr('data-latitude'));
+            var lon = parseFloat(svnode.attr('data-longitude'));
+            var zoom = parseInt(svnode.attr('data-zoom'));
+            var heading = parseFloat(svnode.attr('data-heading'));
+            var pitch = parseFloat(svnode.attr('data-pitch'));
+
+            var location = new google.maps.LatLng(lat, lon);
+
+            var panoramaOptions = {
+                position: location,
+                pov: {
+                    heading: heading,
+                    pitch: pitch
+                },
+                zoom: zoom
+            };
+
+
+            var domNode = document.getElementById(svnodeid);
+            var pano = new google.maps.StreetViewPanorama(
+                domNode,
+                panoramaOptions
+            );
+            pano.setVisible(true);
+        });
+
+
+
+    }
+
+
+    /**
+     * After the Google Maps API has been loaded init the relevant Google maps
+     */
+    function loadShortCodeMaps()
+    {
+
+    	console.log('In loadShortCodeMaps');
+
+        var scms = $('div[data-shortcode-map]');
+
+        scms.each(function (index) {
+            var scmnode = $(this);
+            var scmnodeid = scmnode.attr('id');
+            var maptype = convertMapType(scmnode.attr('data-maptype'));
+            var lat = parseFloat(scmnode.attr('data-latitude'));
+            var lng = parseFloat(scmnode.attr('data-longitude'));
+            var zoom = parseInt(scmnode.attr('data-zoom'));
+            var allowfullscreen = parseInt(scmnode.attr('data-allowfullscreen'));
+
+            // Google Maps API has already been loaded, so init Google Map
+            var mapOptions = {
+                center: {
+                    lat: lat,
+                    lng: lng
+                },
+                zoom: zoom,
+                mapTypeId: maptype
+			};
+
+
+
+            var gmap = new google.maps.Map(
+                document.getElementById(scmnodeid),
+                mapOptions
+            );
+            if (allowfullscreen == 1) {
+                gmap.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+                    FullScreenControl(gmap, "Full Screen", "Original Size")
+                );
+            }
+        });
+
+
+    }
+
+
+    /**
+     * Callback function after the Google Maps API has been loaded - renders the maps along with
+     * associated points of interest and layers
+     */
+    primeMap = function loadedGoogleMapsAPI()
+    {
+        loadShortCodeMaps();
+        loadShortCodeStreetView();
+
+        var maps = $('div[data-map]');
+
+        maps.each(function (index) {
+            var mapnode = $(this);
+            mapdomid = mapnode.attr('id');
+            var map = new google.maps.Map(document.getElementById(mapdomid));
+
+            // initialise geocoder
+            geocoder = new google.maps.Geocoder();
+
+			var allowfullscreen = parseInt(mapnode.attr('data-allowfullscreen'));
+
+
+			// default of [] renders google maps as per normal
+            if (mapnode.attr('data-mapstyles')) {
+                var json = $.parseJSON(mapnode.attr('data-mapstyles'));
+                map.setOptions({
+                    styles: json,
+					fullscreenControl: allowfullscreen,
+					zoomControl: true,
+					mapTypeControl: true,
+					scaleControl: true,
+					streetViewControl: true,
+					rotateControl: true
+                });
+            }
+
+
+
+            if (mapnode.data['data-allowfullscreen']) {
+                //map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+               //     FullScreenControl(map, "Full Screen", "Original Size")
+               // );
+            }
+
+            var markerjson = $.parseJSON(mapnode.attr('data-mapmarkers'));
+            var useClusterer = mapnode.attr('data-useclusterer');
+            var enableAutomaticCenterZoom = mapnode.attr('data-enableautocentrezoom');
+            var infoWindowZoom = mapnode.attr('data-infowindowzoom');
+            var defaultHideMarker = mapnode.attr('data-defaulthidemarker');
+            var markers = addAllMarkers(
+                map,
+                markerjson,
+                useClusterer,
+                enableAutomaticCenterZoom,
+                infoWindowZoom,
+                defaultHideMarker
+            );
+
+            if (enableAutomaticCenterZoom == 1) {
+                centre = $.parseJSON(mapnode.attr('data-centre'));
+                map.setCenter(new google.maps.LatLng(centre.lat, centre.lng));
+
+                var bds = new google.maps.LatLngBounds(
+                    new google.maps.LatLng(map.minLat, map.minLng),
+                    new google.maps.LatLng(map.maxLat, map.maxLng)
+                );
+                map.fitBounds(bds);
+            } else {
+                centre = $.parseJSON(mapnode.attr('data-centre'));
+                map.setCenter(new google.maps.LatLng(centre.lat, centre.lng));
+                var zoom = parseInt(mapnode.attr('data-zoom'));
+                map.setZoom(zoom);
+            }
+
+            if (allowfullscreen == 1) {
+            //    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+             //       FullScreenControl(map, "Full Screen", "Original Size")
+             //   );
+            }
+
+            var googlemaptype = convertMapType(mapnode.attr('data-maptype'));
+            map.setMapTypeId(googlemaptype);
+
+            console.log('Map type: ' + googlemaptype);
+
+            if (useClusterer == 1) {
+                // ensure zoom and grid size are integers by prefixing with unary plus
+                var clustererGridSize = parseInt(mapnode.attr('data-clusterergridsize'));
+                var clustererMaxZoom = parseInt(mapnode.attr('data-clusterermaxzoom'));
+                var mcOptions = {
+                    gridSize: clustererGridSize,
+                    maxZoom: clustererMaxZoom
+				};
+                var markerCluster = new MarkerClusterer(map, markers, mcOptions);
+            }
+
+            var lines = $.parseJSON(mapnode.attr('data-lines'));
+            addLines(map, lines);
+
+            var kmlFiles = $.parseJSON(mapnode.attr('data-kmlfiles'));
+            addKmlFiles(map, kmlFiles);
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: ''
+            });
+            infoWindows[mapdomid] = infoWindow;
+
+            // trigger an event now that the map has been initialised
+            // Use this for example to add listeners to the map from another JS file
+            mapnode.trigger("mapInitialised", [map]);
+        });
+    };
+
+
+
+    function nearestPOIs()
+    {
+
+        // normally will only be one
+        var nears = $('div[data-nearest-poi]');
+
+        nears.each(function (index) {
+            var nearnode = $(this);
+            var layerID = nearnode.attr('data-layer-id');
+
+            if (geoPosition.init()) { // Geolocation Initialisation
+                geoPosition.getCurrentPosition(success_callback, error_callback, {
+                    enableHighAccuracy: true
+                });
+            } else {
+                alert('your location is not available');
+            }
+            //geoPositionSimulator.init();
+        });
+    }
+
+
+    function success_callback(p)
+    {
+        console.log(p.coords);
+        // p.latitude : latitude value
+        // p.longitude : longitude value
+        //
+        var url = window.location;
+        url = url + 'find?lat=' + p.coords.latitude + '&lng=' + p.coords.longitude;
+        window.location = url;
+    }
+
+
+    function error_callback(p)
+    {
+        alert('error)');
+    }
+
+    window.loadGoogleMapsScript = function () {
+    	var key = getGoogleMapsKey();
+    	var lang = getGoogleMapsLanguage();
+    	console.log('KEY: ' + key, lang);
+
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?' +
+            '&callback=loadedGoogleMapsAPI&hl='+lang+'&key=' + key;
+        document.body.appendChild(script);
+    };
+
+
+    window.addEventListener ?
+        window.addEventListener("load", loadGoogleMapsScript, false) :
+        window.attachEvent && window.attachEvent("onload", loadGoogleMapsScript);
+})(jQuery);
+
+
+function loadedGoogleMapsAPI()
+{
+	console.log('About to call prime map');
+
+    primeMap();
+}
+
+function getGoogleMapsKey()
+{
+	return $('.mappable-map').first().attr('data-google-map-key');
+}
+
+function getGoogleMapsLanguage()
+{
+	return $('.mappable-map').first().attr('data-google-map-lang');
+}
