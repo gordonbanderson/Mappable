@@ -6,7 +6,7 @@ use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\View\Requirements;
-use  SilverStripe\View\HTML;
+use SilverStripe\View\HTML;
 
 class LatLongField extends FieldGroup
 {
@@ -68,7 +68,7 @@ class LatLongField extends FieldGroup
         error_log('LLF T1');
         if (self::$ctr == 1) {
             // "todo Review this, may not be required.  Also class is not namespaced
-            if(!$apikey = Config::inst()->get(Mappable::class, 'service_key')){
+            if (!$apikey = Config::inst()->get(Mappable::class, 'service_key')) {
                 error_log('LLF T2');
                 //Requirements::javascript('weboftalent/mappable:javascript/mapField.js');
                 $apikey = 0;
@@ -121,9 +121,9 @@ class LatLongField extends FieldGroup
         $this->setAttribute('id', 'GoogleMap');
         
         $map = '<div class="editableMapWrapper">'.HTML::createTag(
-                'div',
-                $attributes
-            ).'</div>';
+            'div',
+            $attributes
+        ).'</div>';
 
 
 
@@ -135,7 +135,7 @@ class LatLongField extends FieldGroup
         </div>';
 
         $le = new LiteralField('locationEditor', $content);
-       $this->FieldList()->push($le);
+        $this->FieldList()->push($le);
 
         /*
          * <div id="Form_EditForm_Title_Holder" class="form-group field text">

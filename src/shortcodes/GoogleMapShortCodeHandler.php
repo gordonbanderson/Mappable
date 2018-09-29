@@ -33,7 +33,8 @@ class GoogleMapShortCodeHandler implements ShortcodeHandler
      *
      * @return string
      */
-    public static function handle_shortcode($arguments, $content, $parser, $shortcode, $extra = array()) {
+    public static function handle_shortcode($arguments, $content, $parser, $shortcode, $extra = array())
+    {
         // each of latitude and longitude are required at a bare minimum
         if (!isset($arguments['latitude'])) {
             return '';

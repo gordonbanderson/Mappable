@@ -1,5 +1,6 @@
 <?php
 namespace WebOfTalent\Mappable\Tests;
+
 use SilverStripe\Dev\SapphireTest;
 
 class LatLongFieldTest extends SapphireTest
