@@ -94,7 +94,7 @@ class MappableData extends Extension
             'markers' => "$lat,$lng",
             'zoom' => $zoom,
             'size' => "{$width}x{$height}",
-            'sensor' => 'false', //@todo: make sensor param configurable
+           // 'sensor' => 'false', //@todo: make sensor param configurable
             'maptype' => $mapType,
         );
         if ($pin) {
