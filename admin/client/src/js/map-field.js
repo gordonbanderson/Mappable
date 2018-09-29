@@ -3,6 +3,8 @@ var marker;
 
 var bounds;
 
+var map_library_loaded = false;
+
 function gmloaded()
 {
 	console.log('gm loaded');
@@ -13,7 +15,7 @@ function gmloaded()
 // initialise the map
 function initMap()
 {
-	console.log('INIT MAP');
+	console.log('INIT MAP T1');
 
     var myOptions = {
         zoom: 16,
@@ -321,6 +323,7 @@ function initLivequery()
 		$('#GoogleMap').entwine({
 			onmatch: function() {
 				console.log("GoogleMap showed up");
+				loadGoogleMapsAPI();
 				initMap();
 			}
 		});
@@ -331,10 +334,14 @@ function initLivequery()
 (function ($) {
     function loadGoogleMapsAPI()
     {
-        var script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = "//maps.googleapis.com/maps/api/js?callback=gmloaded&key=" + mapsApiKey;
-        document.body.appendChild(script);
+    	if (!map_library_loaded) {
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = "//maps.googleapis.com/maps/api/js?callback=gmloaded&key=" + mapsApiKey;
+			document.body.appendChild(script);
+			map_library_loaded = true;
+		}
+
     }
 
 
