@@ -151,7 +151,7 @@ class MapExtension extends DataExtension implements Mappable
     {
         $isOrigin = ($this->owner->Lat == 0) && ($this->owner->Lon == 0);
         $result = !$isOrigin;
-        if ($this->owner->hasExtension('MapLayerExtension')) {
+        if ($this->owner->hasExtension(MapLayerExtension::class)) {
             if ($this->owner->MapLayers()->count() > 0) {
                 $result = true;
             }
@@ -198,13 +198,5 @@ class MapExtension extends DataExtension implements Mappable
         }
 
         return $this->mapField;
-    }
-
-    /**
-     * Template helper, used to decide whether or not to use compressed assets.
-     */
-    public function UseCompressedAssets()
-    {
-        return Config::inst()->get('Mappable', 'use_compressed_assets');
     }
 }
