@@ -1,11 +1,21 @@
-// FIXME avoid global
+// @todo Put this whole script inside a wrapper
+
 var marker;
 
 var bounds;
 
+const google_maps_virginal = 0;
+const google_maps_loading = 1;
+const google_maps_loaded = 2;
+
+var map_library_loaded = google_maps_virginal;
+
+
+
 function gmloaded()
 {
 	console.log('gm loaded');
+	map_library_loaded = google_maps_loaded;
     initLivequery();
 }
 
@@ -13,7 +23,7 @@ function gmloaded()
 // initialise the map
 function initMap()
 {
-	console.log('INIT MAP');
+	console.log('INIT MAP T1');
 
     var myOptions = {
         zoom: 16,
@@ -307,6 +317,8 @@ function initLivequery()
             return false;
         });
 
+        console.log('INIT MAP (init live query)');
+
         initMap();
     })(jQuery);
 }
@@ -314,32 +326,43 @@ function initLivequery()
 
 
 (function($) {
+
 	$.entwine(function($) {
 		/**
 		 * This previously worked with jquery in SS3, SS4 needs entwine
 		 */
 		$('#GoogleMap').entwine({
 			onmatch: function() {
-				console.log("GoogleMap showed up");
-				initMap();
+				console.log("GoogleMap showed up (Entwine)");
+				loadGoogleMapsAPI()
+				if (map_library_loaded == google_maps_loaded) {
+					initMap();
+				}
 			}
 		});
 	});
-})(jQuery);
 
 
-(function ($) {
     function loadGoogleMapsAPI()
     {
-        var script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = "//maps.googleapis.com/maps/api/js?callback=gmloaded&key=" + mapsApiKey;
-        document.body.appendChild(script);
-    }
+    	console.log('loadGoogleMapsAPI T1, map library loaded = ' + map_library_loaded);
+
+    	if (map_library_loaded == google_maps_virginal) {
+			console.log('loadGoogleMapsAPI T2');
+			map_library_loaded = google_maps_loading;
+
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = "//maps.googleapis.com/maps/api/js?callback=gmloaded&key=" + mapsApiKey;
+			document.body.appendChild(script);
+		}
+		console.log('loadGoogleMapsAPI T3');
+	}
 
 
     // deal with document ready - note this only gets called once due to the way silverstripe works, until the CMS is refreshed
     $(document).ready(function () {
+    	console.log('document ready');
         loadGoogleMapsAPI();
     });
 })(jQuery);
