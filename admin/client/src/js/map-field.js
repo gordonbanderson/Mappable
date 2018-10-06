@@ -345,7 +345,11 @@ function initLivequery()
 
     function loadGoogleMapsAPI()
     {
+    	console.log('**** load google maps api ****');
     	console.log('loadGoogleMapsAPI T1, map library loaded = ' + map_library_loaded);
+
+    	var googleMapDiv = $('#GoogleMap');
+    	var mapsApiKey = googleMapDiv.attr('data-MapApiKey');
 
     	if (map_library_loaded == google_maps_virginal) {
 			console.log('loadGoogleMapsAPI T2');
