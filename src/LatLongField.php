@@ -65,25 +65,30 @@ class LatLongField extends FieldGroup
     public function FieldHolder($properties = [])
     {
         error_log('FIELD HOLDER LAT LONG FIELD');
-        error_log('LLF T1');
+        error_log('LLF T1 CTR=' . self::$ctr);
+
+        $apiKeyAttributes = [];
+
         if (self::$ctr == 1) {
             // "todo Review this, may not be required.  Also class is not namespaced
             if (!$apikey = Config::inst()->get(Mappable::class, 'service_key')) {
                 error_log('LLF T2');
                 //Requirements::javascript('weboftalent/mappable:javascript/mapField.js');
                 $apikey = 0;
+                user_error('Please define a map key');
             }
 
-            error_log('LLF T3');
+            error_log('LLF T3 - require map key');
 
-            $vars = ['MapsApiKey' => $apikey];
-            Requirements::javascriptTemplate('weboftalent/mappable:/admin/client/src/maps-api-key.ss.js', $vars);
+            // this does not work as the custom javascript is placed after the scripts, rendering it useless
+            //$vars = ['MapsApiKey' => $apikey];
+           // Requirements::javascriptTemplate('weboftalent/mappable:/admin/client/src/maps-api-key.ss.js', $vars);
+
+            $apiKeyAttributes['data-MapApiKey'] = $apikey;
         }
 
-        error_log('LLF T4');
+        error_log('LLF T4 - require map field');
 
-       // Requirements::javascript(self::RESOURCES_PATH.'/jquery-livequery/jquery.livequery.js');
-       // Requirements::javascript(self::RESOURCES_PATH.'/jquery-metadata/jquery.metadata.js');
         Requirements::javascript('weboftalent/mappable: dist/js/mapfield.js');
 
         $attributes = array(
@@ -94,6 +99,8 @@ class LatLongField extends FieldGroup
             'data-ZoomFieldName' => $this->zoomField,
             'data-UseMapBounds' => false,
         );
+
+        $attributes = array_merge($attributes, $apiKeyAttributes);
 
         Requirements::css('weboftalent/mappable: dist/css/adminclientbundle.css');
 
