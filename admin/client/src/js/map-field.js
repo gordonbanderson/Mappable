@@ -42,6 +42,11 @@ function initMap()
         var latField = $('input[name=' + gm.attr('data-latfieldname') + ']');
         var lonField = $('input[name=' + gm.attr('data-lonfieldname') + ']');
         var zoomField = $('input[name=' + gm.attr('data-zoomfieldname') + ']');
+
+
+        console.log('Zoom field: ' + zoomField);
+        console.log('Value', zoomField.val());
+
         var guidePointsAttr = gm.attr('data-GuidePoints');
 
         // if we have emtpy initial values, set them appropriately,
@@ -55,6 +60,7 @@ function initMap()
         }
 
         if (zoomField.val() === '') {
+        	console.log('Setting zoom field value T1');
             zoomField.val(2);
         }
 
@@ -65,8 +71,11 @@ function initMap()
 
         myOptions.center = new google.maps.LatLng(latField.val(), lonField.val());
         if (zoomField.length) {
+			console.log('Setting zoom field value T2 ', parseInt(zoomField.val(), 10));
             myOptions.zoom = parseInt(zoomField.val(), 10);
         }
+
+        console.log('MyOptions', myOptions);
 
         map = new google.maps.Map(document.getElementById("GoogleMap"), myOptions);
         bounds = new google.maps.LatLngBounds();
@@ -116,13 +125,23 @@ function initMap()
 
         google.maps.event.addListener(map, "zoom_changed", function (e) {
             if (zoomField.length) {
-                zoomField.val(map.getZoom());
-				highlight_publish_button();
+				console.log('Zoom changed, try to set zoom field value T3', map.getZoom());
+
+				console.log('MAP ZOOM:', map.getZoom());
+				if (!isNaN(map.getZoom())) {
+					console.log('Is a number, setting');
+					zoomField.val(map.getZoom());
+					highlight_publish_button();
+				} else {
+					console.log('Skipping setting zoom field as it is not a number');
+				}
+
             }
         });
 
         google.maps.event.trigger(map, 'resize');
-        map.setZoom(map.getZoom());
+        //map.setZoom(map.getZoom());
+		map.setZoom(4); // this may be the issue
 
         // When any tab is clicked, resize the map
         $('.ui-tabs-anchor').click(function () {
@@ -215,6 +234,7 @@ function setCoordByMarker(event)
 		setMarker(event.latLng, true);
         //this.statusMessage('Location changed to ' + lat + ',' + lng);
         if (zoomField.length) {
+			console.log('Setting zoom field value T4');
             zoomField.val(map.getZoom());
 			zoomField.addClass('changed');
 		}
