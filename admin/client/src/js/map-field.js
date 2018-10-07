@@ -14,7 +14,7 @@ var map_library_loaded = google_maps_virginal;
 
 function gmloaded()
 {
-	//console.log('gm loaded');
+	console.log('gm loaded');
 	map_library_loaded = google_maps_loaded;
     initLivequery();
 }
@@ -23,7 +23,7 @@ function gmloaded()
 // initialise the map
 function initMap()
 {
-	//console.log('INIT MAP T1');
+	console.log('INIT MAP T1');
 
     var myOptions = {
         zoom: 16,
@@ -44,8 +44,8 @@ function initMap()
         var zoomField = $('input[name=' + gm.attr('data-zoomfieldname') + ']');
 
 
-        //console.log('Zoom field: ' + zoomField);
-        //console.log('Value', zoomField.val());
+        console.log('Zoom field: ' + zoomField);
+        console.log('******************* Value', zoomField.val());
 
         var guidePointsAttr = gm.attr('data-GuidePoints');
 
@@ -60,7 +60,7 @@ function initMap()
         }
 
         if (zoomField.val() === '') {
-        	//console.log('Setting zoom field value T1');
+        	console.log('Setting zoom field value T1');
             zoomField.val(2);
         }
 
@@ -71,11 +71,13 @@ function initMap()
 
         myOptions.center = new google.maps.LatLng(latField.val(), lonField.val());
         if (zoomField.length) {
-			//console.log('Setting zoom field value T2 ', parseInt(zoomField.val(), 10));
+			console.log('Setting zoom field value T2 ', parseInt(zoomField.val(), 10));
             myOptions.zoom = parseInt(zoomField.val(), 10);
         }
 
-        //console.log('MyOptions', myOptions);
+        myOptions.zoom = 2;
+
+        console.log('MyOptions', myOptions);
 
         map = new google.maps.Map(document.getElementById("GoogleMap"), myOptions);
         bounds = new google.maps.LatLngBounds();
@@ -118,22 +120,22 @@ function initMap()
             latField.val(lat);
             lonField.val(lng);
             setMarker(event.latLng, false);
-            //console.log('Location changed to ' + lat + ',' + lng);
+            console.log('Location changed to ' + lat + ',' + lng);
 
 			highlight_publish_button();
         });
 
         google.maps.event.addListener(map, "zoom_changed", function (e) {
             if (zoomField.length) {
-				//console.log('Zoom changed, try to set zoom field value T3', map.getZoom());
+				console.log('Zoom changed, try to set zoom field value T3', map.getZoom());
 
-				//console.log('MAP ZOOM:', map.getZoom());
+				console.log('MAP ZOOM:', map.getZoom());
 				if (!isNaN(map.getZoom())) {
-					//console.log('Is a number, setting');
+					console.log('Is a number, setting');
 					zoomField.val(map.getZoom());
 					highlight_publish_button();
 				} else {
-					//console.log('Skipping setting zoom field as it is not a number');
+					console.log('Skipping setting zoom field as it is not a number');
 				}
 
             }
@@ -141,7 +143,11 @@ function initMap()
 
         google.maps.event.trigger(map, 'resize');
         //map.setZoom(map.getZoom());
-		map.setZoom(4); // this may be the issue
+		console.log('Zoom field value:', parseInt(zoomField.val()));
+
+		var zoomFromField = parseInt(zoomField.val());
+		console.log('Zoom value type: ' , typeof(zoomFromField));
+		map.setZoom(zoomFromField); // this may be the issue
 
         // When any tab is clicked, resize the map
         $('.ui-tabs-anchor').click(function () {
@@ -157,7 +163,7 @@ function initMap()
 
 		function highlight_publish_button()
 		{
-			//console.log('Trying to highlight');
+			console.log('Trying to highlight');
 			$('#Form_EditForm_Lat').click();
 		}
 
@@ -234,7 +240,7 @@ function setCoordByMarker(event)
 		setMarker(event.latLng, true);
         //this.statusMessage('Location changed to ' + lat + ',' + lng);
         if (zoomField.length) {
-			//console.log('Setting zoom field value T4');
+			console.log('Setting zoom field value T4');
             zoomField.val(map.getZoom());
 			zoomField.addClass('changed');
 		}
@@ -243,7 +249,7 @@ function setCoordByMarker(event)
 
 		//$('.cms-container').redraw();
 
-		//console.log('#### Set coord by marker ####');
+		console.log('#### Set coord by marker ####');
 
 		$('#Form_EditForm_Lat').click();
 
@@ -337,7 +343,7 @@ function initLivequery()
             return false;
         });
 
-        //console.log('INIT MAP (init live query)');
+        console.log('INIT MAP (init live query)');
 
         initMap();
     })(jQuery);
@@ -353,7 +359,7 @@ function initLivequery()
 		 */
 		$('#GoogleMap').entwine({
 			onmatch: function() {
-				//console.log("GoogleMap showed up (Entwine)");
+				console.log("GoogleMap showed up (Entwine)");
 				loadGoogleMapsAPI()
 				if (map_library_loaded == google_maps_loaded) {
 					initMap();
@@ -365,14 +371,14 @@ function initLivequery()
 
     function loadGoogleMapsAPI()
     {
-    	//console.log('**** load google maps api ****');
-    	//console.log('loadGoogleMapsAPI T1, map library loaded = ' + map_library_loaded);
+    	console.log('**** load google maps api ****');
+    	console.log('loadGoogleMapsAPI T1, map library loaded = ' + map_library_loaded);
 
     	var googleMapDiv = $('#GoogleMap');
     	var mapsApiKey = googleMapDiv.attr('data-MapApiKey');
 
     	if (map_library_loaded == google_maps_virginal) {
-			//console.log('loadGoogleMapsAPI T2');
+			console.log('loadGoogleMapsAPI T2');
 			map_library_loaded = google_maps_loading;
 
 			var script = document.createElement("script");
@@ -380,13 +386,13 @@ function initLivequery()
 			script.src = "//maps.googleapis.com/maps/api/js?callback=gmloaded&key=" + mapsApiKey;
 			document.body.appendChild(script);
 		}
-		//console.log('loadGoogleMapsAPI T3');
+		console.log('loadGoogleMapsAPI T3');
 	}
 
 
     // deal with document ready - note this only gets called once due to the way silverstripe works, until the CMS is refreshed
     $(document).ready(function () {
-    	//console.log('document ready');
+    	console.log('document ready');
         loadGoogleMapsAPI();
     });
 })(jQuery);
