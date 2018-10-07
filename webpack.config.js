@@ -30,7 +30,9 @@ module.exports = {
                 sourceMap: true, // set to true if you want JS source maps
                 uglifyOptions: {
                     compress: {
-                        drop_console: true
+                        drop_console: true,
+						warnings: false,
+						drop_debugger: true
                     },
                     output: {
                         comments: false
