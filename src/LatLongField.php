@@ -78,7 +78,7 @@ class LatLongField extends FieldGroup
                 user_error('Please define a map key');
             }
 
-            error_log('LLF T3 - require map key');
+            error_log('LLF T3 - require map key ' . $apikey);
 
             // this does not work as the custom javascript is placed after the scripts, rendering it useless
             //$vars = ['MapsApiKey' => $apikey];

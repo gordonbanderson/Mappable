@@ -1,4 +1,12 @@
 <?php
+namespace WebOfTalent\Mappable\Google;
+
+use Psr\SimpleCache\CacheInterface;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Convert;
+use SilverStripe\Core\Injector\Injector;
+use WebOfTalent\Mappable\Mappable;
+use WebOfTalent\Mappable\MappableGeocoder;
 
 class MappableGoogleGeocoder implements MappableGeocoder
 {
@@ -9,17 +17,25 @@ class MappableGoogleGeocoder implements MappableGeocoder
      */
     public function getLocations($searchString)
     {
-        $cache = SS_Cache::factory('mappablegeocoder');
+        $cache = Injector::inst()->get(CacheInterface::class . '.mappable');
+
         $cached = false;
         $cacheKey = preg_replace('/[^a-zA-Z0-9_]/', '_', $searchString);
 
         // reg_replace('/[^a-zA-Z0-9_]/', '_', $basename) . '_' . md5($file);
         $locations = null;
 
-        if (!($json = $cache->load($cacheKey))) {
+        $apikey = Config::inst()->get(Mappable::class, 'geocoding_service_key');
+        error_log('apikey=' . $apikey);
+
+        if (!($json = $cache->get($cacheKey))) {
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false" .
+                "&key=" . $apikey .
+                "&address=".
+                urlencode($searchString);
+            error_log('URL:' . $url);
             if ($json = @file_get_contents(
-                "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".
-                urlencode($searchString)
+                $url
             )) {
                 $response = Convert::json2array($json);
 
@@ -27,14 +43,15 @@ class MappableGoogleGeocoder implements MappableGeocoder
                     if ($response['status'] == 'ZERO_RESULTS') {
                         $locations = array();
                     } else {
-                        throw new Exception('Google status returned error');
+                        error_log(print_r($response, 1));
+                        throw new \Exception('Google status returned error');
                     }
                 } else {
                     $locations = $response['results'];
                 }
 
                 // save result in cache
-                $cache->save($json, $cacheKey);
+                $cache->set($cacheKey, $json);
             }
         } else {
             $cached = true;

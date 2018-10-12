@@ -5,6 +5,7 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\ViewableData;
+use WebOfTalent\Mappable\Google\MappableGoogleGeocoder;
 
 class MapAPI extends ViewableData
 {
