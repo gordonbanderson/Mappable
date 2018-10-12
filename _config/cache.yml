@@ -1,0 +1,8 @@
+---
+Name: mappable-cache
+---
+SilverStripe\Core\Injector\Injector:
+  Psr\SimpleCache\CacheInterface.mappable:
+    factory: SilverStripe\Core\Cache\CacheFactory
+    constructor:
+      namespace: "mappable"
