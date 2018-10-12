@@ -4,10 +4,11 @@
   "description": "Webpack for Mappable",
   "main": "webpack.config.js",
   "scripts": {
-    "dev": "NODE_ENV=development webpack --colors --mode development --progress  --config webpack.config.js",
-    "devdebug": "NODE_ENV=development webpack --colors --mode development --progress --verbose --display-error-details  --config webpack.config.js",
-    "prod": "NODE_ENV=production webpack --colors --mode production --progress --config webpack.config.js",
-    "watch": "NODE_ENV=development webpack --colors --watch --mode development --progress --config webpack.config.js"
+    "markerclusterer": "rm -rf client/dist/images && cp -rf client/src/google/markerclusterer/images client/dist/",
+    "dev": "npm run markerclusterer && NODE_ENV=development webpack --colors --mode development --progress  --config webpack.config.js",
+    "devdebug": "npm run markerclusterer && NODE_ENV=development webpack --colors --mode development --progress --verbose --display-error-details  --config webpack.config.js",
+    "prod": "npm run markerclusterer && NODE_ENV=production webpack --colors --mode production --progress --config webpack.config.js",
+    "watch": "npm run markerclusterer && NODE_ENV=development webpack --colors --watch --mode development --progress --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -45,6 +46,7 @@
     "webpack-concat-plugin": "^3.0.0"
   },
   "dependencies": {
+    "@google/markerclusterer": "^1.0.3",
     "bootstrap": "^4.1.3",
     "cookieconsent": "^3.1.0",
     "flexslider": "^2.7.1",
